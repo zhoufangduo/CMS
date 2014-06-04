@@ -1,0 +1,147 @@
+@CHARSET "UTF-8";
+
+HTML,BODY{
+	width: 100%;
+	height: 100%;
+	font-family: '微软雅黑';
+}
+
+.form-control{
+	font-size: 15px;
+}
+
+.input_label{
+	font-family: '微软雅黑';
+	font-size: 15px;
+	margin: 0px;
+	padding: 1px 5px;
+}
+
+.fixed_top{
+	background-color: #34495e;
+	position: fixed;
+	width: 100%;
+	height: 30px;
+}
+
+.form-horizontal {
+	text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
+	  -webkit-transition: all .2s linear;
+	     -moz-transition: all .2s linear;
+	          transition: all .2s linear;
+}
+
+.userPower{
+	border-radius:1px;
+	width:855px;
+	height:345px;
+    border: 2px solid #1ABC9C;
+	border-radius:3px;
+	OVERFLOW-Y: auto;
+	OVERFLOW: auto;
+	color: #2C3E50;
+	margin:-2px -6px;
+	background-color: white;
+}
+
+.powerTitle{
+	background-color: #1ABC9C;color: white;
+	font-weight: bold;
+	margin-top: -13px;
+	border-radius:2px;
+	width: 300px;
+	margin-left: 300px;
+}
+
+.window{
+	background-color: #2C3E50;
+	width:850px;
+	height:435px;
+	border:none;
+}
+
+.btmToolBar{
+	text-align: right;
+}
+
+.topToolBar{
+	margin-top: -42px;
+	width:100%;
+	border-top: solid 1px #BDC3C7;
+	background-color: #ECF0F1;
+	position:fixed;
+	padding: 2px 20px;
+	z-index: 10;
+}
+
+.tlabel{
+	text-align: center;
+}
+.qlabel{
+	text-align: right;
+	padding-right: 10px;
+}
+
+.table-hover tr td{	
+	white-space:nowrap;	
+	text-overflow:ellipsis;
+	overflow: hidden;
+}
+
+.ttext{
+	text-align: center;
+	padding-top: 10px;
+}
+
+.tableBar{
+	border-top: solid 1px #BDC3C7;
+	height: 35px;
+}
+
+.tableBar .title{
+	padding: 2px 20px;
+	font-weight: bold;
+	background-color:#BDC3C7;
+}
+
+.tableBar .toolBar{
+	text-align: right;
+	padding: 2px 20px;
+	background-color: #BDC3C7;
+}
+
+.toolbar2{
+	position: fixed;
+	width: 835px;
+	margin-left: -6px;
+	border-radius:3px;
+	height: 29px;
+	padding: 3px;
+}
+
+.searchBg{
+	background-color: #ECF0F1;
+}
+
+.list{
+	margin: 5px 10px;
+	padding: 3px 10px;
+	height: 30px;
+	background-color: #ECF0F1;
+	text-align: center;
+	border-radius:2px;
+}
+
+.list:HOVER {
+	color: #3498DB;
+}
+
+.btn-info{
+	height: 25px;
+	padding: 2px 12px;
+}
+
+.pageBar{
+	text-align: right;
+	margin-right: 10px;
+}

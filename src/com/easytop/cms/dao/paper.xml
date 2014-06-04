@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.paper">
+	<typeAlias alias="paper" type="com.easytop.cms.bean.Paper"/>
+	
+	<sql id="query">
+		<dynamic prepend="WHERE">
+			<isNotEmpty  property="name" prepend="AND">
+				LOWER(NAME)  LIKE LOWER('%$name$%')
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<insert id="add" parameterClass="map">
+		INSERT INTO PAPER(`NAME`,`INTRODUCE`,`TIME`,`CREATETIME`,`CREATOR`)
+		VALUES(#name#,#introduce#,#time#,NOW(),#creator#)
+	</insert>
+	
+	<select id="getTotal" parameterClass="map" resultClass="java.lang.Integer">
+		SELECT COUNT(DISTINCT P.ID) FROM PAPER P LEFT JOIN QUESTIONS S ON  P.ID = S.PAPERID
+		<include refid="query"/>
+		GROUP BY P.ID
+	</select>
+	
+	<select id="list" parameterClass="map" resultClass="paper">
+		SELECT P.`ID`,P.`NAME`,P.`INTRODUCE`,P.`TIME`,P.`CREATETIME`,P.`CREATOR`,COUNT(S.ID) AS QSTIONSTOTAL
+		FROM PAPER P LEFT JOIN QUESTIONS S ON  P.ID = S.PAPERID
+		
+		<include refid="query"/>
+		GROUP BY P.ID
+		
+		ORDER BY P.ID DESC
+		
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<delete id="deleteById" parameterClass="map">
+		DELETE FROM PAPER WHERE ID = #id#
+	</delete>
+	
+	<select id="view" parameterClass="string" resultClass="paper">
+		SELECT `ID`,`NAME`,`INTRODUCE`,`TIME`,`CREATETIME`,`CREATOR` FROM PAPER WHERE ID = #value#
+	</select>
+	
+	<update id="update" parameterClass="map">
+		UPDATE PAPER
+		<dynamic prepend="SET">
+			<isNotEmpty property="name" prepend=",">
+				NAME = #name#
+			</isNotEmpty>
+			<isNotEmpty property="introduce" prepend=",">
+				INTRODUCE = #introduce#
+			</isNotEmpty>
+			<isNotEmpty property="time" prepend=",">
+				TIME = #time#
+			</isNotEmpty>
+		</dynamic>
+		
+		WHERE  ID = #id#
+	</update>
+</sqlMap>

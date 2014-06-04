@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.class">
+	<typeAlias alias="clazz" type="com.easytop.cms.bean.Clazz"/>
+	<typeAlias alias="classLesson" type="com.easytop.cms.bean.ClassLesson"/>
+	
+	<sql id="query">
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="name" prepend="AND">
+				NAME = #name#
+			</isNotEmpty>
+			<isNotEmpty property="state" prepend="AND">
+				STATE = #state#
+			</isNotEmpty>
+			<isNotEmpty property="teacher" prepend="AND">
+				TEACHER = #teacher#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<insert id="add" parameterClass="map">
+		INSERT INTO SYS_CLASS(NAME,STATE,TEACHER,STARTDATE,ENDDATE,CONTEXT)
+			VALUES(#name#,#state#,#teacher#,#startDate#,#endDate#,#context#)
+		<selectKey resultClass="string" keyProperty="id" > 
+			SELECT @@IDENTITY AS ID
+		</selectKey> 
+	</insert>
+	
+	<insert id="addLesson"  parameterClass="classLesson">
+		INSERT INTO CLASS_LESSON(`LESSONID`,`CLASSID`) VALUES (#lessonId#,#classId#)    
+	</insert>
+	
+	<delete id="deleteLesson" parameterClass="string">
+		DELETE FROM CLASS_LESSON WHERE CLASSID = #value#
+	</delete>
+	
+	<select id="getClassLesson" parameterClass="string" resultClass="string">
+		SELECT LESSONID FROM CLASS_LESSON WHERE CLASSID = #value#
+	</select>
+	
+	<select id="list" parameterClass="map" resultClass="clazz">
+		SELECT * FROM SYS_CLASS 
+		<include refid="query"/>
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getTotal" parameterClass="map" resultClass="int">
+		SELECT COUNT(*) FROM SYS_CLASS
+		<include refid="query"/>
+	</select>
+	
+	<select id="view" parameterClass="map" resultClass="clazz">
+		SELECT * FROM SYS_CLASS WHERE ID = #id#
+	</select>
+	
+	<delete id="deleteById" parameterClass="map" >
+		DELETE FROM SYS_CLASS WHERE ID = #id#
+	</delete>
+	
+	<update id="update" parameterClass="map">
+		UPDATE SYS_CLASS
+		<dynamic prepend="SET">
+			<isNotEmpty property="name" prepend=",">
+				NAME = #name#
+			</isNotEmpty>
+			<isNotEmpty property="state" prepend=",">
+				STATE = #state#
+			</isNotEmpty>
+			<isNotEmpty property="startDate" prepend=",">
+				STARTDATE = #startDate#
+			</isNotEmpty>
+			<isNotEmpty property="endDate" prepend=",">
+				ENDDATE = #endDate#
+			</isNotEmpty>
+			<isNotEmpty property="teacher" prepend=",">
+				TEACHER = #teacher#
+			</isNotEmpty>
+			<isNotEmpty property="context" prepend=",">
+				CONTEXT = #context#
+			</isNotEmpty>
+		</dynamic>
+		
+		WHERE ID = #id#
+	</update>
+	
+</sqlMap>

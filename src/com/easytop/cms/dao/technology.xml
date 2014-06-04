@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.technlg">
+	
+	<typeAlias alias="technlg" type="com.easytop.cms.bean.Technology"/>
+	
+	<sql id="query">
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="state" prepend="AND">
+				STATE = #state#
+			</isNotEmpty>
+			<isNotEmpty property="knowledge" prepend="AND">
+				KNOWLEDGE = #knowledge#
+			</isNotEmpty>
+			<isNotEmpty property="name" prepend="AND">
+				NAME = #name#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+		
+	<insert id="add" parameterClass="map">
+		INSERT INTO TECHNOLOGY(`NAME`,`DOCFILE`,`DOCNEWFILE`,`DOCADDR`,`VIDEOFILE`,`VIDEONEWFILE`,
+				`VIDEOADDR`,`KNOWLEDGE`,`CODE`,`EXERCISE`,`TEST`,`STATE`,`ITEMS`,`PAPERS`)
+		values(#name#,#docFile#,#docNewFile#,#docAddr#,#videoFile#,#videoNewFile#,#videoAddr#,#knowledge#,
+				#code#,#exercise#,#test#,#state#,#items#,#papers#)
+	</insert>
+	
+	<select id="getTotal" parameterClass="map" resultClass="int">
+		SELECT COUNT(ID) FROM TECHNOLOGY 
+		<include refid="query"/>
+	</select>
+	
+	<select id="list" parameterClass="map" resultClass="technlg">
+		SELECT `ID`,`NAME`,`DOCFILE`,`DOCNEWFILE`,`DOCADDR`,`VIDEOFILE`,`VIDEONEWFILE`,
+		`VIDEOADDR`,`KNOWLEDGE`,`CODE`,`EXERCISE`,`TEST`,`STATE`,`ITEMS`,`PAPERS` FROM TECHNOLOGY
+		<include refid="query"/>
+		ORDER BY ID DESC
+		
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<delete id="deleteById" parameterClass="map">
+		DELETE FROM  TECHNOLOGY WHERE ID = #id#
+	</delete>
+	
+	<select id="view" parameterClass="map" resultClass="technlg">
+		SELECT `ID`,`NAME`,`DOCFILE`,`DOCNEWFILE`,`DOCADDR`,`VIDEOFILE`,`VIDEONEWFILE`,
+		`VIDEOADDR`,`KNOWLEDGE`,`CODE`,`EXERCISE`,`TEST`,`STATE`,`ITEMS`,`PAPERS` FROM TECHNOLOGY  WHERE ID = #id#
+	</select>
+	
+	<update id="update" parameterClass="map">
+		UPDATE TECHNOLOGY 
+		<dynamic prepend="SET">
+			<isNotEmpty property="name" prepend=",">
+				NAME = #name#
+			</isNotEmpty>
+			<isNotEmpty property="videoFile" prepend=",">
+				VIDEOFILE = #videoFile#
+			</isNotEmpty>
+			<isNotEmpty property="videoNewFile" prepend=",">
+				VIDEONEWFILE = #videoNewFile#
+			</isNotEmpty>
+			<isNotEmpty property="videoAddr" prepend=",">
+				VIDEOADDR = #videoAddr#
+			</isNotEmpty>
+			<isNotEmpty property="docFile" prepend=",">
+				DOCFILE = #docFile#
+			</isNotEmpty>
+			<isNotEmpty property="docNewFile" prepend=",">
+				DOCNEWFILE = #docNewFile#
+			</isNotEmpty>
+			<isNotEmpty property="docAddr" prepend=",">
+				DOCADDR = #docAddr#
+			</isNotEmpty>
+			<isNotEmpty property="knowledge" prepend=",">
+				KNOWLEDGE = #knowledge#
+			</isNotEmpty>
+			<isNotEmpty property="code" prepend=",">
+				CODE = #code#
+			</isNotEmpty>
+			<isNotEmpty property="exercise" prepend=",">
+				EXERCISE = #exercise#
+			</isNotEmpty>
+			<isNotEmpty property="test" prepend=",">
+				TEST = #test#
+			</isNotEmpty>
+			<isNotEmpty property="state" prepend=",">
+				STATE = #state#
+			</isNotEmpty>
+			<isNotEmpty property="items" prepend=",">
+				ITEMS = #items#
+			</isNotEmpty>
+			<isNotEmpty property="papers" prepend=",">
+				PAPERS = #papers#
+			</isNotEmpty>
+		</dynamic>
+		WHERE ID  = #id#
+	</update>
+	
+</sqlMap>

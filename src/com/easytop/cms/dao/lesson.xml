@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.lesson">
+	<typeAlias alias="lesson" type="com.easytop.cms.bean.Lesson"/>
+	
+	<sql id="query">
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="state" prepend="AND">
+				STATE = #state#
+			</isNotEmpty>
+			<isNotEmpty property="name" prepend="AND">
+				NAME LIKE '%$name$%'
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<insert id="add" parameterClass="map">
+		INSERT INTO LESSON(`NAME`,`TECHIDS`,`CREATETIME`,`CREATOR`,`INTRODUCE`,`TARGET`,`CONTEXT`,`ITEMS`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`)
+		VALUES(#name#,#techIds#,NOW(),#creator#,#introduce#,#target#,#context#,#items#,#itemDesc#,#objective#,#time#,#state#)
+	</insert>
+	
+	<select id="getTotal" parameterClass="map" resultClass="int">
+		SELECT COUNT(ID) FROM LESSON
+		<include refid="query"/>
+	</select>
+	
+	<select id="list" parameterClass="map" resultClass="lesson">
+		SELECT L.`ID`,count(C.ID)as total,`NAME`,`TECHIDS`,`CREATETIME`,`CREATOR`,`INTRODUCE`,
+			`TARGET`,`CONTEXT`,`ITEMS`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`
+		FROM LESSON L LEFT OUTER JOIN CLASS_LESSON C ON C.LESSONID = L.ID
+		<include refid="query"/>
+		
+		GROUP BY L.ID
+		ORDER BY ID DESC
+		
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+		
+	</select>
+	
+	<select id="view" parameterClass="map" resultClass="lesson">
+		SELECT `ID`,`NAME`,`TECHIDS`,`CREATETIME`,`CREATOR`,`INTRODUCE`,`TARGET`,`CONTEXT`,`ITEMS`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`
+		FROM LESSON WHERE ID = #id#
+	</select>
+	
+	<delete id="deleteById" parameterClass="map" >
+		DELETE FROM LESSON WHERE ID = #id#
+	</delete>
+	
+	<update id="update" parameterClass="map">
+		UPDATE LESSON
+		<dynamic prepend="SET">
+			<isNotEmpty property="name" prepend=",">
+				`NAME` = #name#
+			</isNotEmpty>
+			<isNotEmpty property="techIds" prepend=",">
+				`TECHIDS` = #techIds#
+			</isNotEmpty>
+			<isNotEmpty property="introduce" prepend=",">
+				`INTRODUCE` = #introduce#
+			</isNotEmpty>
+			<isNotEmpty property="target" prepend=",">
+				`TARGET` = #target#
+			</isNotEmpty>
+			<isNotEmpty property="context" prepend=",">
+				`CONTEXT` = #context#
+			</isNotEmpty>
+			<isNotEmpty property="items" prepend=",">
+				`ITEMS` = #items#
+			</isNotEmpty>
+			<isNotEmpty property="itemDesc" prepend=",">
+				`ITEMDESC` = #itemDesc#
+			</isNotEmpty>
+			<isNotEmpty property="objective" prepend=",">
+				`OBJECTIVE` = #objective#
+			</isNotEmpty>
+			<isNotEmpty property="state" prepend=",">
+				`STATE` = #state#
+			</isNotEmpty>
+			<isNotEmpty property="time" prepend=",">
+				`TIME` = #time#
+			</isNotEmpty>
+		</dynamic>
+	</update>
+	
+</sqlMap>

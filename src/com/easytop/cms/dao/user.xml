@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.user">
+	<typeAlias alias="user" type="com.easytop.cms.bean.User"/>
+	
+	<sql id="query">
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="username" prepend="AND">
+				USERNAME = #username#
+			</isNotEmpty>
+			<isNotEmpty property="name" prepend="AND">
+				NAME = #name#
+			</isNotEmpty>
+			<isNotEmpty property="classNo" prepend="AND">
+				CLASSNO = #classNo#
+			</isNotEmpty>
+			<isNotEmpty property="roleType" prepend="AND">
+				ROLETYPE = #roleType#
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<insert id="add" parameterClass="map">
+		INSERT INTO SYS_USER (USERNAME,PASSWORD,NAME,ADDRESS1,ADDRESS2,IDCARD,
+				SEX,BORN,QQ,EMAIL,WEIXIN,WEIBO,TEL,MOBILE,ROLETYPE,CREATETIME,STATE)
+		 VALUES (#username#,MD5(#password#),#name#,#address1#,#address2#,#idCard#,
+		 		#sex#,#born#,#qq#,#email#,#weixin#,#weibo#,#tel#,#mobile#,#roleType#,now(),'1')
+	</insert>
+	
+	<delete id="deleteById" parameterClass="map">
+		DELETE FROM SYS_USER WHERE USERNAME = #username#
+	</delete>
+	
+	<delete id="batchDelete" parameterClass="list">
+     	DELETE FROM SYS_USER WHERE USERNAME IN    
+	    <iterate conjunction="," open="(" close=")">
+	       #[]#
+	    </iterate>
+    </delete>
+	
+	<select id="view"  parameterClass="map"  resultClass="user">
+		SELECT * FROM  SYS_USER WHERE USERNAME = #username# LIMIT 1
+	</select>
+	
+	<select id="getTotal" parameterClass="map" resultClass="int">
+		SELECT COUNT(*) FROM SYS_USER 
+		<include refid="query"/>
+	</select>
+	
+	<select id="list" parameterClass="map" resultClass="user">
+		SELECT * FROM SYS_USER
+		<include refid="query"/>
+		ORDER BY ROLETYPE,CLASSNO  
+		
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="update" parameterClass="map">
+		UPDATE SYS_USER
+		<dynamic prepend="SET">
+			<isNotEmpty property="password" prepend=",">
+				PASSWORD = MD5(#password#)
+			</isNotEmpty>
+			<isNotEmpty property="name" prepend=",">
+				NAME = #name#
+			</isNotEmpty>
+			<isNotEmpty property="address1" prepend=",">
+				ADDRESS1 = #address1#
+			</isNotEmpty>
+			<isNotEmpty property="address2" prepend=",">
+				ADDRESS2 = #address2#
+			</isNotEmpty>
+			<isNotEmpty property="idCard" prepend=",">
+				IDCARD = #idCard#
+			</isNotEmpty>
+			<isNotEmpty property="sex" prepend=",">
+				SEX = #sex#
+			</isNotEmpty>
+			<isNotEmpty property="born" prepend=",">
+				BORN = #born#
+			</isNotEmpty>
+			<isNotEmpty property="qq" prepend=",">
+				QQ = #qq#
+			</isNotEmpty>
+			<isNotEmpty property="email" prepend=",">
+				EMAIL = #email#
+			</isNotEmpty>
+			<isNotEmpty property="weixin" prepend=",">
+				WEIXIN = #weixin#
+			</isNotEmpty>
+			<isNotEmpty property="weibo" prepend=",">
+				WEIBO = #weibo#
+			</isNotEmpty>
+			<isNotEmpty property="tel" prepend=",">
+				TEL = #tel#
+			</isNotEmpty>
+			<isNotEmpty property="mobile" prepend=",">
+				MOBILE = #mobile#
+			</isNotEmpty>
+			<isNotEmpty property="roleType" prepend=",">
+				ROLETYPE = #roleType#
+			</isNotEmpty>
+			<isNotEmpty property="classNo" prepend=",">
+				CLASSNO = #classNo#
+			</isNotEmpty>
+			<isNotEmpty property="state" prepend=",">
+				STATE = #state#
+			</isNotEmpty>
+		</dynamic>
+		
+		WHERE USERNAME=#username#
+	</update>
+	
+	<update id="updatePwd" parameterClass="map">
+		UPDATE SYS_USER
+		<dynamic prepend="SET">
+			<isNotEmpty property="password" prepend=",">
+				PASSWORD = MD5(#password#)
+			</isNotEmpty>
+		</dynamic>
+		WHERE USERNAME=#username# AND PASSWORD = MD5(#oldpassword#)
+	</update>
+</sqlMap>

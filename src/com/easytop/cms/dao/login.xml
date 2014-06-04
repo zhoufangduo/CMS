@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.login">
+	<typeAlias alias="loginUser" type="com.easytop.cms.bean.User"/>
+	<typeAlias alias="menu" type="com.easytop.cms.bean.Menu"/>
+	
+	<select id="login" parameterClass="map" resultClass="loginUser">
+		SELECT 	`USERNAME`, `NAME`, `IDCARD`, `SEX`, `BORN`, `QQ`, `ADDRESS1`, `ADDRESS2`, `EMAIL`,
+		`WEIXIN`, `WEIBO`, `TEL`, `MOBILE`, `CREATETIME`, `ROLETYPE`, `CLASSNO`, `STATE` 
+		FROM SYS_USER WHERE USERNAME = #username# AND PASSWORD = MD5(#password#) AND STATE = '1'
+	</select>
+	
+	<select id="userTypePower" parameterClass="string" resultClass="menu">
+		SELECT * FROM SYS_MENU WHERE ROLETYPE LIKE '%$value$%'
+	</select>
+	
+</sqlMap>

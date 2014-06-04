@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap   
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.item">
+
+	<typeAlias alias="item" type="com.easytop.cms.bean.Item"/>
+	
+	<sql id="query">
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="name" prepend="AND">
+				`NAME` = #name#
+			</isNotEmpty>
+			<isNotEmpty property="fileName" prepend="AND">
+				`FILENAME` LIKE '%$fileName$%'
+			</isNotEmpty>
+		</dynamic>
+	</sql>
+	
+	<insert id="add" parameterClass="map">
+		INSERT INTO ITEM (`NAME`,`FILENAME`,`NEWFILENAME`,`DOWNLOADADDR`,`GROUP`,`DEVTIME`,`CONTEXT`)
+			VALUES(#name#,#fileName#,#newFileName#,#downloadAddr#,#group#,#devTime#,#context#)
+	</insert>
+	
+	<select id="getTotal" parameterClass="map" resultClass="int">
+		SELECT COUNT(ID) FROM ITEM
+		<include refid="query"/>
+	</select>
+	
+	<select id="list" parameterClass="map" resultClass="item">
+		SELECT `ID`,`NAME`,`FILENAME`,`NEWFILENAME`,`DOWNLOADADDR`,`GROUP`,`DEVTIME`,`CONTEXT` FROM ITEM
+		<include refid="query"/>
+		ORDER BY ID DESC
+		
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<delete id="deleteById" parameterClass="map">
+		DELETE FROM ITEM WHERE ID = #id#
+	</delete>
+	
+</sqlMap>
