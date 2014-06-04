@@ -52,11 +52,8 @@ public class QuestionsController extends HSSFConstroler {
 		try {
 			
 			if (params.size() > 0) {
-				String answer = params.get("answer");
-				if (StringUtils.isNotEmpty(answer) && answer.endsWith(";")) {
-					answer = answer.substring(0, answer.length() -1);
-					params.put("answer", answer);
-				}
+				
+				delEndSemicolon(params);
 				
 				qstionsService.add(params);
 				
@@ -68,6 +65,21 @@ public class QuestionsController extends HSSFConstroler {
 			write(FALSE);
 		}
 	}
+
+	private void delEndSemicolon(Map<String, String> params) {
+		String answer = params.get("answer");
+		if (StringUtils.isNotEmpty(answer) && answer.endsWith(";")) {
+			answer = answer.substring(0, answer.length() -1);
+			params.put("answer", answer);
+		}
+		
+		String reply = params.get("reply");
+		if (StringUtils.isNotEmpty(reply) && reply.endsWith(";")) {
+			reply = reply.substring(0, reply.length() -1);
+			params.put("reply", reply);
+		}
+	}
+	
 
 	@RequestMapping("list")
 	public String list(final ModelMap model, @RequestParam Map<String, String> params) {
@@ -154,13 +166,10 @@ public class QuestionsController extends HSSFConstroler {
 		}
 		newParams.put("type", type);
 		
-		String answer = getValue(row, 2);
-		if (StringUtils.isNotEmpty(answer) && answer.endsWith(";")) {
-			answer = answer.substring(0, answer.length() - 1);
-		}
-		newParams.put("answer", answer);
-		
+		newParams.put("answer", getValue(row, 2));
+		newParams.put("reply", getValue(row, 3));
 		newParams.put("paperId", params.get("paperId"));
+		delEndSemicolon(newParams);
 		return newParams;
 	}
 }

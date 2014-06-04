@@ -157,6 +157,11 @@
 		<c:forEach items="${requestScope.questions}" var="qstions" varStatus="st">
 			<div style="text-align: left;">
 				${st.index + 1}. ${qstions.context}
+				<c:if test="${qstions.type != 3}">
+					<span style="margin-left: 30px;">
+						[答案: ${qstions.reply}]&nbsp;
+					</span>
+				</c:if>
 				<span style="margin-left: 20px;">
 					[<a href="javascript:deleteById('${qstions.id}')">删除</a>]&nbsp;
 				</span>
@@ -175,7 +180,7 @@
 					</c:if>
 					<c:if test="${qstions.type == 3}">
 						回答 :&nbsp; 
-						<textarea rows="1" class="anText" ></textarea>
+						<textarea rows="1" class="anText" >${qstions.reply }</textarea>
 					</c:if>
 				</div>
 				<br/>

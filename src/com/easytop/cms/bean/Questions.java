@@ -12,6 +12,8 @@ public class Questions {
 
 	private String paperId;
 
+	private String reply;
+
 	public String getId() {
 		return id;
 	}
@@ -50,6 +52,14 @@ public class Questions {
 
 	public void setPaperId(String paperId) {
 		this.paperId = paperId;
+	}
+
+	public String getReply() {
+		return reply;
+	}
+
+	public void setReply(String reply) {
+		this.reply = reply;
 	}
 
 }

@@ -6,12 +6,12 @@
 	<typeAlias alias="questions" type="com.easytop.cms.bean.Questions"/>
 	
 	<insert id="add" parameterClass="map">
-		INSERT INTO QUESTIONS(`CONTEXT`,`TYPE`,`ANSWER`,`PAPERID`)
-		VALUES(#context#,#type#,#answer#,#paperId#)
+		INSERT INTO QUESTIONS(`CONTEXT`,`TYPE`,`ANSWER`,`REPLY`,`PAPERID`)
+		VALUES(#context#,#type#,#answer#,#reply#,#paperId#)
 	</insert>
 	
 	<select id="list" parameterClass="map" resultClass="questions">
-		SELECT `ID`,`CONTEXT`,`TYPE`,`ANSWER`,`PAPERID` FROM QUESTIONS
+		SELECT `ID`,`CONTEXT`,`TYPE`,`ANSWER`,`REPLY`,`PAPERID` FROM QUESTIONS
 		ORDER BY ID DESC;
 	</select>
 	

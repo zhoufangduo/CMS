@@ -50,7 +50,8 @@
 					$("#group").append('<div class="form-group" style="text-align: left;">'+		
 					'<input type="button" value="增&nbsp;加" class="btn btn-info" onclick="toAdd()"/></div>');
 				}else{
-					$("#group").append('<div class="form-group" style="text-align: left;">直接作答即可</div>');
+					$("#group").append('<div class="form-group" style="text-align: left;">'+
+					'<textarea rows="2" name="reply" cols="10" class="form-control" placeholder="请输入参照的答案"></textarea></div>');
 				}
 				
 				total = 1;
@@ -76,6 +77,7 @@
 							return ;
 						}else{
 							var value = "";
+							var reply = "";
 							var answers =  $("[name=answer]");
 							for(var i = 0; i < length; i ++){
 								if($(answers[i]).val() == ""){
@@ -86,7 +88,13 @@
 								}
 							}
 							
-							 $("[name=answer]").val(value);
+							var checkeds = $("input:checked");
+							for(var i = 0; i < checkeds.length; i ++){
+								reply += $(checkeds[i]).parent().next().val() + ";";
+							}
+							
+							$("[name=answer]").val(value);
+							$("[name=reply]").val(reply);
 						}
 					}
 					
@@ -118,18 +126,18 @@
 			
 			total ++;
 			
-			var html = '<div class="form-group" style="text-align: left;background-color: white;border-radius:6px;">';
+			var html = '<div class="form-group" id="66" style="text-align: left;background-color: white;border-radius:6px;">';
 			if($("#type").val() == 1){
-				html += '<label class="radio" style="margin-left: 5px;width:50px;position: absolute;z-index: 10">';
+				html += '<label class="radio" style="margin-left: 5px;position: absolute;z-index: 10">';
 				html += '<input type="radio" name="reply"  data-toggle="radio"> &nbsp;</label>';
 			}
 			else if($("#type").val() == 2){
-				html += '<label class="checkbox" style="margin-left: 5px;width:50px;position: absolute;z-index: 10">';
+				html += '<label class="checkbox" style="margin-left: 5px;position: absolute;z-index: 10">';
 				html += '<input type="checkbox" name="reply"  data-toggle="checkbox">&nbsp;</label>';
 			}	
 			
 			html += '<input type="text" style="margin-left: 40px;" name="answer" class="time">';
-			html += '<span class="fui-cross"></span>删除</div>';
+			html += '&nbsp;&nbsp;<a style="cursor: pointer;" onclick="delGroup(this)">[删除]</a></div>';
 			return html; 
 			
 		}
@@ -150,6 +158,11 @@
 			}); 
 		}
 		
+		function delGroup(obj){
+			$(obj).parent().remove();
+			total --;
+		}
+		
 	</script>
 </head>
 <body>
@@ -162,7 +175,7 @@
 						<div class="form-group">问题内容</div>
 					</td>
 					<td width="35%">
-						<div class="form-group">
+						<div class="form-group" >
 							<textarea rows="2" name="context"  cols="10" class="form-control" placeholder="请输入作答的问题"></textarea>
 						</div>
 					</td>
