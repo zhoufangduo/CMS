@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.easytop.cms.bean.Questions;
+import com.easytop.cms.service.ClassService;
 import com.easytop.cms.service.PaperService;
 import com.easytop.cms.service.QuestionsService;
 import com.easytop.cms.utils.FileUtil;
@@ -33,6 +34,9 @@ public class QuestionsController extends HSSFConstroler {
 
 	@Autowired
 	private PaperService paperService;
+	
+	@Autowired
+	private ClassService classService;
 
 	public QuestionsController() {
 		super("questions/");

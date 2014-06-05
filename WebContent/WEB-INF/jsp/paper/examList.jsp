@@ -24,55 +24,21 @@
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/application.js" type="text/javascript"></script>
 	<link href="<%=request.getContextPath()%>/resource/css/all.css" rel="stylesheet">
 	<script type="text/javascript">
-		var option = {
-				opacity:20,
-				minHeight:452.5,
-				minWidth:868,
-				autoResize: true,
-				escClose: true, 
-				onClose:function(){
-					window.location.reload();
-					window.parent.menuFrame.document.location.reload();
-				}
-		};
 		
-		function close(){
-			$.modal.close(); 
-		}
-		
-		function toAdd(){
-			var url = "<%=request.getContextPath()%>/paper/toAdd?d="+new Date().getTime();
-			$('<div id="basic-modal-content"><iframe class="window"  id="addClazz" src="'+ url +'"></div>').modal(option);
-		}
-		
-		function deleteById(id, name){
-			if(window.confirm("确定删除此试卷："+ name + "?")){
-				var url = "<%=request.getContextPath()%>/paper/deleteById?id="+ id +"&d="+new Date().getTime();
-				window.location = url;
-			}
-		}
-		
-		function toUpdate(id){
-			var url = "<%=request.getContextPath()%>/paper/toView?id="+id+"&d="+new Date().getTime();
-			$('<div id="basic-modal-content"><iframe class="window"  id="addClazz" src="'+ url +'"></div>').modal(option);
-		}
-		
-		function toQuestions(id, name){
-			window.location = "<%=request.getContextPath()%>/questions/list?paperId="+id;
+		function toExamList(id){
+			window.location = "<%=request.getContextPath()%>/questions/examList?paperId="+id;
 		}
 		
 	</script>
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/paper/list" class="form-horizontal" method="post">
+	<form action="<%=request.getContextPath()%>/paper/examList" class="form-horizontal" method="post">
 		<table style="width: 100%; height: 100%;">
 			<tr class="tableBar">
 				<td colspan="2" class="title">
 					<span class="fui-play"></span>&nbsp;试卷管理查询
 				</td>
 				<td colspan="4"  class="toolBar">
-					<input type="button" class="btn btn-sm btn-info" value="添&nbsp;加" onclick="toAdd()">
-					&nbsp;&nbsp;
 					<input type="submit" class="btn btn-sm btn-info" value="查&nbsp;询" >
 				</td>
 			</tr>
@@ -102,7 +68,7 @@
                <th class="tlabel" width="12%">考试时长</th>
                <th class="tlabel" width="10%" >试题个数</th>
                <th class="tlabel" width="18%">创建时间</th>
-               <th class="tlabel" width="10%">创建人</th>
+               <th class="tlabel" width="10%">考试得分</th>
                <th class="tlabel" width="22%">操作</th>
              </tr>
           </thead>
@@ -129,16 +95,11 @@
               	 	<td class="tlabel" title="${paper.createTime}">
               	 		${paper.createTime}
               	 	</td>
-              	 	<td class="tlabel" title="${paper.creator}">
-              	 		${paper.creator}
+              	 	<td class="tlabel" title="">
+              	 		
               	 	</td>
               	 	<td class="tlabel">
-              	 		<a href="javascript:deleteById('${paper.id}','${paper.name}')"><span class="fui-cross"></span>&nbsp;删除</a>
-              	 		&nbsp;
-				            <a href="javascript:toUpdate('${paper.id}')"><span class="fui-new"></span>&nbsp;查看</a>
-				        &nbsp;
-				         <a href="javascript:toQuestions('${paper.id}','${paper.name}')"><span class="fui-new"></span>&nbsp;试题</a>
-				        &nbsp;
+				         <a href="javascript:toExamList('${paper.id}')"><span class="fui-new"></span>&nbsp;前往考试</a>
               	 	</td>
           		</tr>
           	</c:forEach>

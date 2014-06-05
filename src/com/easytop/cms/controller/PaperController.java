@@ -103,6 +103,18 @@ public class PaperController extends BaseController {
 
 		return getContext(LIST);
 	}
+	
+	@RequestMapping("examList")
+	public String examList(final ModelMap model, @RequestParam Map<String, String> params) {
+
+		model.addAttribute("page", new Page(paperService.getTotal(params), params));
+
+		List<Paper> papers = paperService.list(params);
+
+		model.addAttribute("papers", papers);
+
+		return getContext("examList");
+	}
 
 	@RequestMapping("deleteById")
 	public String deleteById(final ModelMap model,@RequestParam Map<String, String> params) {

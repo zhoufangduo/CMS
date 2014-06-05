@@ -38,31 +38,12 @@
 			rules:{
 				"name":{
 					required: true
-				},
-				"exercise":{
-					required: true
-				},
-				"videoAddr":{
-					required: false,
-					url: true
-				},
-				"docAddr": {
-					required: false,
-					url: true
 				}
 			},
 			messages:{
-				"name": "课时名称不能为空!",
-				"exercise":"练习内容不能为空!"
+				"name": "课时名称不能为空!"
 			},
 			submitHandler: function(form) {
-				
-				var itemVal = setVal($("[name=items]").filter(':checkbox'));
-				var paperVal = setVal($("[name=papers]").filter(':checkbox'));
-				
-				$("[name=papers]").val(paperVal);
-				$("[name=items]").val(itemVal);
-				
 				$(form).ajaxSubmit({
 					dataType	: "json",
 					type        : "POST",
@@ -80,209 +61,54 @@
 		});
 	});
 	
-	function selectAll(name){
-		$("[name="+name+"]").filter(':checkbox').checkbox('check');
-	}
-	
-	function disSelectAll(name){
-		$("[name="+name+"]").filter(':checkbox').checkbox('uncheck');
-	}
-	
-	function setVal(array){
-		
-		var val = "";
-		
-		for(var i = 0; i < array.length; i ++){
-			val += $(array[i]).val() + ";";
-		}
-		
-		return val;
-	}
-	
 </script>
 </head>
 <body>
 	<form id="addUserForm" action="<%=request.getContextPath()%>/technology/add" method="post">
-		<div class="tabs">
-			<ul id="navTab" class="nav nav-tabs" style="font-weight: bold;">
-				<li class="active"><a  href="#tab1" data-toggle="tab">课时信息</a></li>
-				<li><a href="#tab2" data-toggle="tab">相关的实战项目</a></li>
-				<li><a href="#tab3" data-toggle="tab">相关的考试内容</a></li>
-				<li>
-					<input style="margin-left: 300px;height:30px;padding: 3px 20px;margin-top: 3px;position: absolute;" 
-					type="submit" class="btn btn-primary" value="保&nbsp;&nbsp;存">
-				</li>
-			</ul>
-			<div id="navTabContent" class="tab-content">
-				<div class="tab-pane fade in active" id="tab1">
-					<div class="tile" style="border-radius: 1px;">
-						<table style="width: 100%; height: 100%;" border="0">
-							<tr>
-								<td width="12%" class="input_label">
-									<div class="form-group">名称</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<input type="text" class="form-control" name="name" placeholder="请输入课时名称" />
-									</div>
-								</td>
-								<td width="3"></td>
-								<td width="15%" class="input_label">
-									<div class="form-group">练习</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<input type="text" class="form-control" name="exercise" placeholder="请输入课时的练习题目" />
-									 </div>
-								</td>
-							</tr>
-							<tr title="视频">
-								<td width="12%" class="input_label">
-									<div class="form-group">视频文件</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<input type="file" name="videoFile" placeholder="请选择上传的视频文件" />
-									</div>
-								</td>
-								<td width="3"></td>
-								<td width="15%" class="input_label">
-									<div class="form-group">其他下载地址</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<input type="text" class="form-control" name="videoAddr" placeholder="请输入其他下载视频的地址"/>
-									</div>
-								</td>
-							</tr>
-							<tr title="文档">
-								<td width="12%" class="input_label">
-									<div class="form-group">相关的文档</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<input type="file" name="docFile" placeholder="请输入身份证号码" />
-									</div>
-								</td>
-								<td width="3"></td>
-								<td width="15%" class="input_label">
-									<div class="form-group">其他下载地址</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<input type="text" class="form-control" name="docAddr" placeholder="请输入其他下载文档的地址" />
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td width="12%" class="input_label">
-									<div class="form-group">知识点</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<textarea rows="2"  name="knowledge" class="form-control"></textarea>
-									</div>
-								</td>
-								<td width="3"></td>
-								<td width="15%" class="input_label">
-									<div class="form-group">经典代码片段</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<textarea rows="2" cols="29" class="form-control"  name="code" ></textarea>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td width="12%" class="input_label">
-									<div class="form-group">测验</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<input type="text" class="form-control" name="test" placeholder="请输入测验的内容" />
-									</div>
-								</td>
-								<td width="3"></td>
-								<td width="15%" class="input_label">
-									<div class="form-group">状态</div>
-								</td>
-								<td width="35%">
-									<div class="form-group">
-										<select id="state" name="state" class="select-block">
-											<option value="1">初始</option>
-											<option value="2">使用中</option>
-											<option value="3">冻结</option>
-										</select>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="5">
-									<br/>
-									<input id="next" type="submit" style="padding:10px 50px;" 
-									class="btn btn-primary" value="保&nbsp;&nbsp;存">
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div  class="tab-pane fade" id="tab2">
-					<div class="tile" style="width: 100%;height:395px;border-radius:1px;">
-						<div class="powerTitle">
-							所有的实战项目
+		<input type="hidden" name="creator" value="${user.name}">
+		<div class="tile" style="border-radius: 1px;">
+			<table style="width: 100%; height: 100%;" border="0">
+				<tr>
+					<td width="12%" class="input_label">
+						<div class="form-group">名称</div>
+					</td>
+					<td width="35%">
+						<div class="form-group">
+							<input type="text" class="form-control" name="name" placeholder="请输入课时名称" />
 						</div>
-						<div class="userPower">
-							<table border="0">
-								<c:forEach items="${requestScope.items}" var="item" varStatus="status" >
-									<td style="padding: 5px 10px;">
-										<label class="checkbox" for="checkbox1">
-								             <input type="checkbox" name="items" value = "${item.id}" data-toggle="checkbox"/>
-								             	${item.name}
-								        </label>
-									</td>
-									<c:if test="${status.count % 5 ==0}">
-										<tr/>
-									</c:if>
-								</c:forEach>
-							</table>
+					</td>
+					<td width="3"></td>
+					<td width="15%" class="input_label">
+						<div class="form-group">状态</div>
+					</td>
+					<td width="35%">
+						<div class="form-group">
+							<select id="state" name="state" class="select-block">
+								<option value="1">初始</option>
+								<option value="2">使用中</option>
+								<option value="3">冻结</option>
+							</select>
 						</div>
-						<div class="toolbar2">
-							<input type="button" value="全 &nbsp;选"  class="btn btn-primary" 
-								style="height: 25px;font-size: 15px;padding: 0px 15px;" onclick="selectAll('items')">
-							<input type="button" value="全不选"  class="btn btn-primary"
-								 style="height: 25px;font-size: 15px;padding: 0px 15px;" onclick="disSelectAll('items')">
+					</td>
+				</tr>
+				<tr>
+					<td width="12%" class="input_label">
+						<div class="form-group">描述</div>
+					</td>
+					<td width="35%" colspan="4">
+						<div class="form-group">
+							<textarea rows="5" style="width: 90%"  name="context" class="form-control"></textarea>
 						</div>
-					</div>
-				</div>
-				<div class="tab-pane fade" id="tab3">
-					<div class="tile" style="width: 100%;height:395px;border-radius:1px;">
-						<div class="powerTitle">
-							所有的试卷
-						</div>
-						<div class="userPower">
-							<table border="0">
-								<c:forEach items="${requestScope.papers}" var="paper" varStatus="status" >
-									<td style="padding: 5px 10px;">
-										<label class="checkbox" for="checkbox1">
-								             <input type="checkbox" name="papers" value = "${paper.id}" data-toggle="checkbox"/>
-								             	${paper.name}
-								        </label>
-									</td>
-									<c:if test="${status.count % 5 ==0}">
-										<tr/>
-									</c:if>
-								</c:forEach>
-							</table>
-						</div>
-						<div class="toolbar2">
-							<input type="button" value="全 &nbsp;选"  class="btn btn-primary" 
-								style="height: 25px;font-size: 15px;padding: 0px 15px;" onclick="selectAll('papers')">
-							<input type="button" value="全不选"  class="btn btn-primary"
-								 style="height: 25px;font-size: 15px;padding: 0px 15px;" onclick="disSelectAll('papers')">
-						</div>
-					</div>
-				</div>
-			</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="5">
+						<br/>
+						<input id="next" type="submit" style="padding:10px 50px;" 
+						class="btn btn-primary" value="保&nbsp;&nbsp;存">
+					</td>
+				</tr>
+			</table>
 		</div>
 	</form>
 </body>

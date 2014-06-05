@@ -3,7 +3,6 @@ package com.easytop.cms.controller;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
@@ -43,37 +42,18 @@ public class TechnologyController extends BaseController {
 	
 	@RequestMapping("toAdd")
 	public String toAdd(final ModelMap model, @RequestParam Map<String, String> params){
-		model.addAttribute("items", itemService.list(params));
-		model.addAttribute("papers", paperService.list(params));
+		model.addAttribute("technologies", technologyService.list(params));
 		return getContext(ADD);
 	}
 	
 	@RequestMapping("add")
-	public void add(final ModelMap model, @RequestParam Map<String, String> params,
-			@RequestParam("videoFile") Object  object,@RequestParam("docFile") Object  object2,
-			HttpServletRequest request, HttpServletResponse response){
+	public void add(@RequestParam Map<String, String> params, HttpServletResponse response){
 			
-			this.setWebContext(request, response);
+		this.setWebContext(request, response);
 		
 		try {
 			
 			if (params.size() > 0) {
-				
-				uploadVideo(params, object);
-				uploadDocFile(params, object2);
-				
-				String items = params.get("items");
-				if (StringUtils.isNotEmpty(items) && items.endsWith(";")) {
-					items = items.substring(0, items.length() - 1);
-					params.put("items", items);
-				}
-				
-				String papers = params.get("papers");
-				if (StringUtils.isNotEmpty(papers) && papers.endsWith(";")) {
-					papers = papers.substring(0, papers.length() - 1);
-					params.put("papers", papers);
-				}
-				
 				technologyService.add(params);
 				write(TRUE);
 			}
@@ -85,30 +65,13 @@ public class TechnologyController extends BaseController {
 	}
 	
 	@RequestMapping("update")
-	public void update(final ModelMap model, @RequestParam Map<String, String> params,
-			@RequestParam("videoFile") Object  object,@RequestParam("docFile") Object  object2,
-			HttpServletRequest request, HttpServletResponse response){
+	public void update(@RequestParam Map<String, String> params, HttpServletResponse response){
 		
 		this.setWebContext(request, response);
 		
 		try {
 			
 			if (params.size() > 0) {
-				
-				uploadVideo(params, object);
-				uploadDocFile(params, object2);
-				
-				String items = params.get("items");
-				if (StringUtils.isNotEmpty(items) && items.endsWith(";")) {
-					items = items.substring(0, items.length() - 1);
-					params.put("items", items);
-				}
-				
-				String papers = params.get("papers");
-				if (StringUtils.isNotEmpty(papers) && papers.endsWith(";")) {
-					papers = papers.substring(0, papers.length() - 1);
-					params.put("papers", papers);
-				}
 				
 				technologyService.update(params);
 				write(TRUE);
@@ -153,11 +116,6 @@ public class TechnologyController extends BaseController {
 		}
 	}
 	
-	@RequestMapping("editCode")
-	public String editCode(){
-		return getContext("codeEdit");
-	}
-	
 	@RequestMapping("list")
 	public String list(final ModelMap model,@RequestParam Map<String, String> params){
 		
@@ -191,7 +149,6 @@ public class TechnologyController extends BaseController {
 	@RequestMapping("toView")
 	public String toView(final ModelMap model, @RequestParam Map<String, String> params){
 		
-		toAdd(model, params);
 		Technology technology = technologyService.view(params);
 		model.addAttribute("technology", technology);
 		
@@ -217,6 +174,12 @@ public class TechnologyController extends BaseController {
 		params.remove("state");
 		
 		return list(model, params);
+	}
+	
+	@RequestMapping("manage")
+	public String manage(final ModelMap model, @RequestParam Map<String, String> params){
+		
+		return getContext("manage");
 	}
 	
 }

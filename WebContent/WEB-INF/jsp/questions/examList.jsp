@@ -93,7 +93,7 @@
 		}
 	
 		function toBack(){
-			window.location = "<%=request.getContextPath()%>/paper/list";
+			window.location = "<%=request.getContextPath()%>/paper/examList";
 		}
 		
 	</script>
@@ -106,6 +106,7 @@
 					<span class="fui-play"></span>&nbsp;考试卷模版
 				</td>
 				<td class="toolBar" colspan="2">
+					<input type="button" class="btn btn-sm btn-info" value="开&nbsp;始" onclick="">
 					&nbsp;&nbsp;
 					<input type="button" class="btn btn-sm btn-info" value="返&nbsp;回" onclick="toBack()">
 				</td>
@@ -114,9 +115,15 @@
 				<th colspan="3"><h6  align="center">${paper.name}考试卷</h6></th>
 			</tr>
 			<tr>
-				<th class="rowTex">考员姓名:<input type="text" class="qtsText"/></th>
-				<th class="rowTex">班级:<input type="text" class="qtsText"/></th>
-				<th class="rowTex">考试时长:&nbsp;${paper.time}</th>
+				<th class="rowTex">考员姓名:<input type="text" class="qtsText" value="${sessionScope.user.name}"/></th>
+				<th class="rowTex">班级:<input type="text" class="qtsText" value="${sessionScope.user.className}"/></th>
+				<th class="rowTex">考试时长:&nbsp;
+				<span id="time">
+					<c:choose>
+						<c:when test="${paper.time == '00:00:00'}">不限</c:when>
+						<c:otherwise>${paper.time}</c:otherwise>
+					</c:choose>
+				</span></th>
 			</tr>
 		</thead>
 	</table>

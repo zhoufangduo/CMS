@@ -1,6 +1,6 @@
 package com.easytop.cms.bean;
 
-public class User { 
+public class User {
 
 	private String username;
 
@@ -37,6 +37,8 @@ public class User {
 	private String roleType;
 
 	private String classNo;
+
+	private String className;
 
 	public String getUsername() {
 		return username;
@@ -180,6 +182,14 @@ public class User {
 
 	public void setClassNo(String classNo) {
 		this.classNo = classNo;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 }

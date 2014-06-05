@@ -272,14 +272,14 @@
               	 		<c:choose>
               	 			<c:when test="${user.username == sessionScope.user.username}">
               	 				&nbsp;
-			                   		<a href="javascript:toView('${user.username}',true)"><span class="fui-new"></span>详情</a>
+			                   		<a href="javascript:toView('${user.username}',true)"><span class="fui-eye"></span>&nbsp;详情</a>
 			                	&nbsp;
               	 			</c:when>
               	 			<c:otherwise>
-              	 				<a href="javascript:deleteById('${user.username}')"><span class="fui-cross"></span>删除</a>
+              	 				<a href="javascript:deleteById('${user.username}')"><span class="fui-cross"></span>&nbsp;删除</a>
 					            <c:if test="${user.state == 1}">
 				                  	&nbsp;
-				                    <a href="javascript:toView('${user.username}',false)"><span class="fui-new"></span>修改</a>
+				                    <a href="javascript:toView('${user.username}',false)"><span class="fui-new"></span>&nbsp;修改</a>
 					            </c:if>
               	 			</c:otherwise>
               	 		</c:choose>

@@ -11,9 +11,6 @@
 			<isNotEmpty property="state" prepend="AND">
 				STATE = #state#
 			</isNotEmpty>
-			<isNotEmpty property="knowledge" prepend="AND">
-				KNOWLEDGE = #knowledge#
-			</isNotEmpty>
 			<isNotEmpty property="name" prepend="AND">
 				NAME = #name#
 			</isNotEmpty>
@@ -21,10 +18,8 @@
 	</sql>
 		
 	<insert id="add" parameterClass="map">
-		INSERT INTO TECHNOLOGY(`NAME`,`DOCFILE`,`DOCNEWFILE`,`DOCADDR`,`VIDEOFILE`,`VIDEONEWFILE`,
-				`VIDEOADDR`,`KNOWLEDGE`,`CODE`,`EXERCISE`,`TEST`,`STATE`,`ITEMS`,`PAPERS`)
-		values(#name#,#docFile#,#docNewFile#,#docAddr#,#videoFile#,#videoNewFile#,#videoAddr#,#knowledge#,
-				#code#,#exercise#,#test#,#state#,#items#,#papers#)
+		INSERT INTO TECHNOLOGY(`NAME`,`STATE`,`CREATETIME`,`CREATOR`,`CONTEXT`)
+		values(#name#,#state#,NOW(),#creator#,#context#)
 	</insert>
 	
 	<select id="getTotal" parameterClass="map" resultClass="int">
@@ -33,8 +28,7 @@
 	</select>
 	
 	<select id="list" parameterClass="map" resultClass="technlg">
-		SELECT `ID`,`NAME`,`DOCFILE`,`DOCNEWFILE`,`DOCADDR`,`VIDEOFILE`,`VIDEONEWFILE`,
-		`VIDEOADDR`,`KNOWLEDGE`,`CODE`,`EXERCISE`,`TEST`,`STATE`,`ITEMS`,`PAPERS` FROM TECHNOLOGY
+		SELECT `ID`,`NAME`,`STATE`,`CREATETIME`,`CREATOR`,`CONTEXT` FROM TECHNOLOGY
 		<include refid="query"/>
 		ORDER BY ID DESC
 		
@@ -50,8 +44,7 @@
 	</delete>
 	
 	<select id="view" parameterClass="map" resultClass="technlg">
-		SELECT `ID`,`NAME`,`DOCFILE`,`DOCNEWFILE`,`DOCADDR`,`VIDEOFILE`,`VIDEONEWFILE`,
-		`VIDEOADDR`,`KNOWLEDGE`,`CODE`,`EXERCISE`,`TEST`,`STATE`,`ITEMS`,`PAPERS` FROM TECHNOLOGY  WHERE ID = #id#
+		SELECT `ID`,`NAME`,`STATE`,`CREATETIME`,`CREATOR`,`CONTEXT` FROM TECHNOLOGY  WHERE ID = #id#
 	</select>
 	
 	<update id="update" parameterClass="map">
@@ -60,47 +53,13 @@
 			<isNotEmpty property="name" prepend=",">
 				NAME = #name#
 			</isNotEmpty>
-			<isNotEmpty property="videoFile" prepend=",">
-				VIDEOFILE = #videoFile#
-			</isNotEmpty>
-			<isNotEmpty property="videoNewFile" prepend=",">
-				VIDEONEWFILE = #videoNewFile#
-			</isNotEmpty>
-			<isNotEmpty property="videoAddr" prepend=",">
-				VIDEOADDR = #videoAddr#
-			</isNotEmpty>
-			<isNotEmpty property="docFile" prepend=",">
-				DOCFILE = #docFile#
-			</isNotEmpty>
-			<isNotEmpty property="docNewFile" prepend=",">
-				DOCNEWFILE = #docNewFile#
-			</isNotEmpty>
-			<isNotEmpty property="docAddr" prepend=",">
-				DOCADDR = #docAddr#
-			</isNotEmpty>
-			<isNotEmpty property="knowledge" prepend=",">
-				KNOWLEDGE = #knowledge#
-			</isNotEmpty>
-			<isNotEmpty property="code" prepend=",">
-				CODE = #code#
-			</isNotEmpty>
-			<isNotEmpty property="exercise" prepend=",">
-				EXERCISE = #exercise#
-			</isNotEmpty>
-			<isNotEmpty property="test" prepend=",">
-				TEST = #test#
-			</isNotEmpty>
 			<isNotEmpty property="state" prepend=",">
 				STATE = #state#
 			</isNotEmpty>
-			<isNotEmpty property="items" prepend=",">
-				ITEMS = #items#
-			</isNotEmpty>
-			<isNotEmpty property="papers" prepend=",">
-				PAPERS = #papers#
+			<isNotEmpty property="context" prepend=",">
+				CONTEXT = #context#
 			</isNotEmpty>
 		</dynamic>
 		WHERE ID  = #id#
 	</update>
-	
 </sqlMap>

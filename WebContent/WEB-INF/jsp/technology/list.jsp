@@ -64,15 +64,19 @@
 			}
 		}
 		
-		function toDelete(id, name, video, doc){
+		function toDelete(id, name){
 			if(window.confirm("你确定需要删除此课时:"+name+"?")){
-				window.location = "<%=request.getContextPath()%>/technology/deleteById?id="+id+"&video="+video+"&doc="+doc;
+				window.location = "<%=request.getContextPath()%>/technology/deleteById?id="+id;
 			}
 		}
 		
 		function toView(id){
 			var url = "<%=request.getContextPath()%>/technology/toView?id="+id+"&d="+new Date().getTime();
 			$('<div id="basic-modal-content"><iframe class="window" style="width:872px;"  id="addClazz" src="'+ url +'"></div>').modal(option);
+		}
+		
+		function toManager(id){
+			window.location = "<%=request.getContextPath()%>/technology/manage?id="+id;
 		}
 	</script>
 </head>
@@ -94,13 +98,7 @@
 					课时名称
 				</td>
 				<td width="20%" >
-					<input type="text" class="form-control" name="name" placeholder="请输入查询的班级名称" value="${param.name}" />
-				</td>
-				<td width="10%" class="qlabel">
-					相关知识点
-				</td>
-				<td width="20%" >
-					<input type="text" class="form-control" name="knowledge" placeholder="请输入查询的班级名称" value="${param.name}" />
+					<input type="text" class="form-control" name="name" placeholder="请输入查询的课时名称" value="${param.name}" />
 				</td>
 				<td width="10%" class="qlabel">
 					状态
@@ -113,6 +111,8 @@
 						<option value="3" <c:if test="${param.state == '3'}">selected="selected"</c:if>>冻结</option>
 					</select>
 				</td>
+				<td></td>
+				<td></td>
 			</tr>
 	    </table>
 	    <br/>
@@ -125,13 +125,11 @@
 	         	 	</label>
                 </th>
                 <th class="tlabel" width="12%">名称</th>
-                <th class="tlabel" width="12%">相关视频</th>
-                <th class="tlabel" width="12%">相关的文档</th>
-                <th class="tlabel" width="12%">知识点</th>
-                <th class="tlabel" width="15%">练习</th>
-                <th class="tlabel" width="14%">测试</th>
+                <th class="tlabel" width="10%">创建者</th>
+                <th class="tlabel" width="15%">创建时间</th>
+                <th class="tlabel">描述</th>
                 <th class="tlabel" width="6%">状态</th>
-                <th class="tlabel" >操作</th>
+                <th class="tlabel" width="15%">操作</th>
              </tr>
             </thead>
             <tbody>
@@ -143,25 +141,9 @@
 			          		  </label>
 		                </td>
             			<td class="tlabel" title="${tech.name}">${tech.name}</td>
-            			<td class="tlabel">
-            				<c:if test="${tech.videoFile != null && tech.videoFile != ''}">
-            					<a href="<%=request.getContextPath()%>/technology/download?newFileName=${tech.videoNewFile}&fileName=${tech.videoFile}">下载视频</a>&nbsp;
-            				</c:if>
-            				<c:if test="${tech.videoAddr != null && tech.videoAddr != ''}">
-            					<a href="${tech.videoAddr}" title="${tech.videoAddr}">跳转至下载</a>&nbsp;
-            				</c:if>
-            			</td>
-            			<td class="tlabel">
-            				<c:if test="${tech.docFile != null && tech.docFile != ''}">
-            					<a href="<%=request.getContextPath()%>/technology/download?newFileName=${tech.docNewFile}&fileName=${tech.docFile}">下载文档</a>&nbsp;
-            				</c:if>
-            				<c:if test="${tech.docAddr != null && tech.docAddr != ''}">
-            					<a href="${tech.docAddr}" title="${tech.docAddr}">跳转至下载</a>&nbsp;
-            				</c:if>
-            			</td>
-            			<td class="tlabel" title="${tech.knowledge}">${tech.knowledge}</td>
-            			<td class="tlabel" title="${tech.exercise}">${tech.exercise}</td>
-            			<td class="tlabel" title="${tech.test}">${tech.test}</td>
+            			<td class="tlabel" title="${tech.creator}">${tech.creator}</td>
+            			<td class="tlabel" title="${tech.createTime}">${tech.createTime}</td>
+            			<td class="tlabel" title="${tech.context}">${tech.context}</td>
             			<td class="tlabel">
             				<c:if test="${tech.state == '1'}">
             					初始
@@ -175,27 +157,33 @@
             			</td>
             			<td class="tlabel">
             				<c:if test="${tech.state == '1'}">
-	           					<a href="javascript:toDelete('${tech.id}','${tech.name}',
-	           					'${tech.videoNewFile}','${tech.docNewFile}')">删除 </a>
+	           					<a href="javascript:toDelete('${tech.id}','${tech.name}')">
+	           					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;
 	           					
-	           					<a href="javascript:toView('${tech.id}')">查看 </a>
+	           					<a href="javascript:toView('${tech.id}')">
+	           					<span class="fui-new"></span>&nbsp;查看 </a>&nbsp;
 	           					
-	           					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=2">激活 </a>
+	           					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=2">
+	           					<span class="fui-play"></span>&nbsp;激活 </a>&nbsp;
+	           					
             				</c:if>
             				<c:if test="${tech.state == '2'}">
-            					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=3">冻结</a>
+            					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=3">
+            					<span class="fui-lock"></span>&nbsp;冻结</a>&nbsp;
             				</c:if>
             				<c:if test="${tech.state == '3'}">
-            					<a href="javascript:toDelete('${tech.id}','${tech.name}',
-	           					'${tech.videoNewFile}','${tech.docNewFile}')">删除 </a>
+            					<a href="javascript:toDelete('${tech.id}','${tech.name}')">
+            					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;
 	           					
-            					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=2">激活 </a>
+            					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=2">
+            					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;
             				</c:if>
+            				<a href="javascript:toManager(${tech.id}')"><span class="fui-gear"></span>&nbsp;管理</a>
             			</td>
             		</tr>
             	</c:forEach>
             	<tr>
-	           		<td colspan="9">
+	           		<td colspan="7">
 	           			<div class="pageBar">
 		        	 		<e:page page="${page}" formId="queryForm"></e:page>
 		       			 </div>

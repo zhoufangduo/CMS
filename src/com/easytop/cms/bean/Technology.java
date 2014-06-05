@@ -6,31 +6,21 @@ public class Technology {
 
 	private String name;
 
-	private String videoFile;
+	private String creator;
 
-	private String videoNewFile;
-
-	private String videoAddr;
-
-	private String docFile;
-
-	private String docNewFile;
-
-	private String docAddr;
-
-	private String knowledge;
-
-	private String code;
-
-	private String exercise;
-
-	private String test;
+	private String createTime;
 
 	private String state;
 
-	private String items;
+	private String context;
 
-	private String papers;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -40,68 +30,20 @@ public class Technology {
 		this.name = name;
 	}
 
-	public String getVideoFile() {
-		return videoFile;
+	public String getCreator() {
+		return creator;
 	}
 
-	public void setVideoFile(String videoFile) {
-		this.videoFile = videoFile;
+	public void setCreator(String creator) {
+		this.creator = creator;
 	}
 
-	public String getVideoAddr() {
-		return videoAddr;
+	public String getCreateTime() {
+		return createTime;
 	}
 
-	public void setVideoAddr(String videoAddr) {
-		this.videoAddr = videoAddr;
-	}
-
-	public String getDocFile() {
-		return docFile;
-	}
-
-	public void setDocFile(String docFile) {
-		this.docFile = docFile;
-	}
-
-	public String getDocAddr() {
-		return docAddr;
-	}
-
-	public void setDocAddr(String docAddr) {
-		this.docAddr = docAddr;
-	}
-
-	public String getKnowledge() {
-		return knowledge;
-	}
-
-	public void setKnowledge(String knowledge) {
-		this.knowledge = knowledge;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getExercise() {
-		return exercise;
-	}
-
-	public void setExercise(String exercise) {
-		this.exercise = exercise;
-	}
-
-	public String getTest() {
-		return test;
-	}
-
-	public void setTest(String test) {
-		this.test = test;
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 
 	public String getState() {
@@ -112,44 +54,12 @@ public class Technology {
 		this.state = state;
 	}
 
-	public String getId() {
-		return id;
+	public String getContext() {
+		return context;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getItems() {
-		return items;
-	}
-
-	public void setItems(String items) {
-		this.items = items;
-	}
-
-	public String getPapers() {
-		return papers;
-	}
-
-	public void setPapers(String papers) {
-		this.papers = papers;
-	}
-
-	public String getDocNewFile() {
-		return docNewFile;
-	}
-
-	public void setDocNewFile(String docNewFile) {
-		this.docNewFile = docNewFile;
-	}
-
-	public String getVideoNewFile() {
-		return videoNewFile;
-	}
-
-	public void setVideoNewFile(String videoNewFile) {
-		this.videoNewFile = videoNewFile;
+	public void setContext(String context) {
+		this.context = context;
 	}
 
 }

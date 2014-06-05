@@ -143,18 +143,25 @@
           			</td>
           			<td class="tlabel">
           				<c:if test="${lesson.state == '1'}">
-          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=2">激活</a>&nbsp;
-          					<a href="javascript:deleteById('${lesson.id}','${lesson.name}')">删除</a>&nbsp;
+          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=2">
+          					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;
+          					
+          					<a href="javascript:deleteById('${lesson.id}','${lesson.name}')">
+          					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;
           				</c:if>
           				<c:if test="${lesson.state == '2'}">
-          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=3">冻结</a>&nbsp;
+          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=3">
+          					<span class="fui-lock"></span>&nbsp;冻结</a>&nbsp;
           				</c:if>
           				<c:if test="${lesson.state == '3'}">
-          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=2">激活</a>&nbsp;
-          					<a href="javascript:deleteById('${lesson.id}','${lesson.name}')">删除</a>&nbsp;
+          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=2">
+          					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;
+          					
+          					<a href="javascript:deleteById('${lesson.id}','${lesson.name}')">
+          					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;
           				</c:if>
-          				<a href="javascript:view('${lesson.id}')">查看</a>
-          				<a href="javascript:viewTech('${lesson.id}')">课时</a>
+          				<a href="javascript:view('${lesson.id}')"><span class="fui-new"></span>&nbsp;查看</a>
+          				<a href="javascript:viewTech('${lesson.id}')"><span class="fui-list"></span>&nbsp;课时</a>
           			</td>
           		</tr>
           	</c:forEach>

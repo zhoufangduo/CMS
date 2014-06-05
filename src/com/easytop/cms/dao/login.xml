@@ -7,9 +7,10 @@
 	<typeAlias alias="menu" type="com.easytop.cms.bean.Menu"/>
 	
 	<select id="login" parameterClass="map" resultClass="loginUser">
-		SELECT 	`USERNAME`, `NAME`, `IDCARD`, `SEX`, `BORN`, `QQ`, `ADDRESS1`, `ADDRESS2`, `EMAIL`,
-		`WEIXIN`, `WEIBO`, `TEL`, `MOBILE`, `CREATETIME`, `ROLETYPE`, `CLASSNO`, `STATE` 
-		FROM SYS_USER WHERE USERNAME = #username# AND PASSWORD = MD5(#password#) AND STATE = '1'
+		SELECT 	U.`USERNAME`, U.`NAME`, U.`IDCARD`, U.`SEX`, U.`BORN`, U.`QQ`, U.`ADDRESS1`, U.`ADDRESS2`, U.`EMAIL`,
+		U.`WEIXIN`, U.`WEIBO`, U.`TEL`, U.`MOBILE`, U.`CREATETIME`, U.`ROLETYPE`, U.`CLASSNO`, C.`NAME` className, U.`STATE` 
+		FROM SYS_USER U  LEFT OUTER JOIN SYS_CLASS  C ON C.`ID` = U.`CLASSNO`
+		WHERE U.USERNAME = #username# AND U.PASSWORD = MD5(#password#) AND U.STATE = '1'
 	</select>
 	
 	<select id="userTypePower" parameterClass="string" resultClass="menu">

@@ -151,9 +151,9 @@
               	 		${clazz.endDate}
               	 	</td>
               	 	<td class="tlabel">
-              	 		<a href="javascript:deleteById('${clazz.id}','${clazz.name}')"><span class="fui-cross"></span>删除</a>
+              	 		<a href="javascript:deleteById('${clazz.id}','${clazz.name}')"><span class="fui-cross"></span>&nbsp;删除</a>
               	 		&nbsp;
-				            <a href="javascript:toView('${clazz.id}')"><span class="fui-new"></span>查看</a>
+				            <a href="javascript:toView('${clazz.id}')"><span class="fui-new"></span>&nbsp;查看</a>
 				        &nbsp;
               	 	</td>
           		</tr>
