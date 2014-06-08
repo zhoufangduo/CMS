@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.template">
+	<typeAlias alias="template" type="com.easytop.cms.bean.Template"/>
+	
+	<insert id="add" parameterClass="map">
+		INSERT INTO TECH_TEMPLATE(`NAME`, `TYPE`,`CREATETIME`,`CREATOR`,`CONTEXT`)
+		 VALUES(#name#, #type#, NOW(), #creator#, #context#)
+	</insert>
+	
+	<select id="getTotal" parameterClass="map" resultClass="int">
+		SELECT COUNT(ID) FROM TECH_TEMPLATE
+	</select>
+	
+	<select id="list" parameterClass="map" resultClass="template">
+		SELECT * FROM TECH_TEMPLATE ORDER BY ID 
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<delete id="deleteById" parameterClass="map">
+		DELETE FROM TECH_TEMPLATE WHERE ID = #id#
+	</delete>
+	
+</sqlMap>

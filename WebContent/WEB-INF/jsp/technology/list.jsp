@@ -78,6 +78,10 @@
 		function toManager(id){
 			window.location = "<%=request.getContextPath()%>/technology/manage?id="+id;
 		}
+		
+		function toTemplates(){
+			window.location = "<%=request.getContextPath()%>/template/list";
+		}
 	</script>
 </head>
 <body>
@@ -88,9 +92,11 @@
 					<span class="fui-play"></span>&nbsp;课时查询
 				</td>
 				<td colspan="4"  class="toolBar">
+					<input type="submit" class="btn btn-sm btn-info" value="查&nbsp;询" >
+					&nbsp;&nbsp;
 					<input type="button" class="btn btn-sm btn-info" value="添&nbsp;加" onclick="toAdd()">
 					&nbsp;&nbsp;
-					<input type="submit" class="btn btn-sm btn-info" value="查&nbsp;询" >
+					<input type="button" class="btn btn-sm btn-info" value="模版管理" onclick="toTemplates()">
 				</td>
 			</tr>
 			<tr class="searchBg">
@@ -178,7 +184,7 @@
             					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=2">
             					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;
             				</c:if>
-            				<a href="javascript:toManager(${tech.id}')"><span class="fui-gear"></span>&nbsp;管理</a>
+            				<a href="javascript:toManager('${tech.id}')"><span class="fui-gear"></span>&nbsp;管理</a>
             			</td>
             		</tr>
             	</c:forEach>

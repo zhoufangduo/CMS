@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,10 +11,10 @@
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-radio.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-checkbox.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-switch.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-select.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-checkbox.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-radio.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.tagsinput.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.placeholder.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.stacktable.js" type="text/javascript"></script>
@@ -28,10 +27,9 @@
 <link href="<%=request.getContextPath()%>/resource/css/all.css" rel="stylesheet">
 <script type="text/javascript">
 	$(function(){
+		$("#type").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
 		
-		$("#state").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
-		
-		var validator = $("#addTechForm").validate({
+		var validator = $("#addTemplForm").validate({
 			success:success,
 			ignore: "",
 			errorPlacement: showErrorTab,
@@ -44,27 +42,37 @@
 				"name": "课时名称不能为空!"
 			},
 			submitHandler: function(form) {
+				
+				var types = $("[name=type]").filter("input:checked");
+				var values = "";
+				for(var i = 0; i < types.length; i ++){
+					values += $(types[i]).val() + ";";
+				}
+				
+				values = values.substr(0, values.length - 1);
+				$("[name=type]").val(values);
+				
+				
 				$(form).ajaxSubmit({
 					dataType	: "json",
 					type        : "POST",
 					cache       : false,
 					success		: function(data){								
 						if(data.result){
-							alert("添加课时成功!");
+							alert("添加模版成功!");
 							window.parent.parent.parent.mainFrame.close();
 						}else{
-							alert("添加课时失败，请联系管理员");
+							alert("添加模版失败，请联系管理员");
 						}
 					}
 				});
 			}
 		});
 	});
-	
 </script>
 </head>
 <body>
-	<form id="addTechForm" action="<%=request.getContextPath()%>/technology/add" method="post">
+	<form id="addTemplForm" action="<%=request.getContextPath()%>/template/add" method="post">
 		<input type="hidden" name="creator" value="${user.name}">
 		<div class="tile" style="border-radius: 1px;">
 			<table style="width: 100%; height: 100%;" border="0">
@@ -74,30 +82,50 @@
 					</td>
 					<td width="35%">
 						<div class="form-group">
-							<input type="text" class="form-control" name="name" placeholder="请输入课时名称" />
+							<input type="text" class="form-control" name="name" placeholder="请输入模版名称" />
 						</div>
 					</td>
 					<td width="3"></td>
 					<td width="15%" class="input_label">
-						<div class="form-group">状态</div>
+						<div class="form-group">描述</div>
 					</td>
-					<td width="35%">
+					<td width="35%" >
 						<div class="form-group">
-							<select id="state" name="state" class="select-block">
-								<option value="1">初始</option>
-								<option value="2">使用中</option>
-								<option value="3">冻结</option>
-							</select>
+							<textarea rows="1" style="width: 90%"  name="context" class="form-control"></textarea>
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td width="12%" class="input_label">
-						<div class="form-group">描述</div>
+					<td width="15%" class="input_label">
+						<div class="form-group">类型</div>
 					</td>
-					<td width="35%" colspan="4">
-						<div class="form-group">
-							<textarea rows="5" style="width: 90%"  name="context" class="form-control"></textarea>
+					<td width="35%" colspan="4" style="text-align: left;">
+						<div class="form-group" style="border-radius:6px;background-color: white;">
+							 <div style="padding: 5px 20px;width: 150px;float: left;" title="基本">
+								<label class="checkbox"><input type="checkbox" name="type" value="1" data-toggle="checkbox">Office(Word)</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="2" data-toggle="checkbox">Office(Excel)</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="3" data-toggle="checkbox">Office(PPT)</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="4" data-toggle="checkbox">图片</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="5" data-toggle="checkbox">视频</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="6" data-toggle="checkbox">超链接</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="7" data-toggle="checkbox">Html文件</label>
+							</div>
+							<div style="padding: 5px 10px;margin-left: 200px;width: 150px;" title="专业">
+								<label class="checkbox"><input type="checkbox" name="type" value="8" data-toggle="checkbox">实战项目</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="9" data-toggle="checkbox">组内讨论</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="10" data-toggle="checkbox">考试</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="11" data-toggle="checkbox">练习</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="12" data-toggle="checkbox">测验</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="13" data-toggle="checkbox">面试</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="14" data-toggle="checkbox">常用软件讲解</label>
+							</div>
+							<div style="padding: 5px 10px;position:absolute;width: 150px;margin-top: -251px;margin-left: 370px;" title="专业">
+								<label class="checkbox"><input type="checkbox" name="type" value="15" data-toggle="checkbox">经典代码讲解</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="16" data-toggle="checkbox">Java文件</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="17" data-toggle="checkbox">压缩包</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="18" data-toggle="checkbox">文本</label>
+								<label class="checkbox"><input type="checkbox" name="type" value="19" data-toggle="checkbox">文件</label>
+							</div>
 						</div>
 					</td>
 				</tr>
