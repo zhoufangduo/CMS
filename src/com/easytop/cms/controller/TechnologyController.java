@@ -83,7 +83,7 @@ public class TechnologyController extends BaseController {
 		
 	}
 
-	private void uploadDocFile(Map<String, String> params, Object object) {
+	protected void uploadDocFile(Map<String, String> params, Object object) {
 		
 		CommonsMultipartFile file = null;
 		
@@ -100,7 +100,7 @@ public class TechnologyController extends BaseController {
 		
 	}
 
-	private void uploadVideo(Map<String, String> params, Object object) {
+	protected void uploadVideo(Map<String, String> params, Object object) {
 		
 		CommonsMultipartFile file = null;
 		
@@ -174,12 +174,6 @@ public class TechnologyController extends BaseController {
 		params.remove("state");
 		
 		return list(model, params);
-	}
-	
-	@RequestMapping("manage")
-	public String manage(final ModelMap model, @RequestParam Map<String, String> params){
-		
-		return getContext("manage");
 	}
 	
 }

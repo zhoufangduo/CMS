@@ -14,7 +14,6 @@
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-select.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.tagsinput.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.placeholder.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.stacktable.js" type="text/javascript"></script>
@@ -90,7 +89,7 @@
             		<tr>
             			<td class="tlabel">
             				<img alt="" src="" id="img${st.index + 1}"
-            				width="30" height="30" title="鼠标移动到上边会变大" >
+            				width="30" height="30" />
             				
             			</td>
             			<td class="tlabel">${st.index + 1}</td>
@@ -100,7 +99,7 @@
             					<script>
             					if("${templ.type}".split(";").length  > 1){
             						setImg($("#img${st.index + 1}"),"<%=request.getContextPath()%>","0");
-            						$("#type${st.index + 1}").html("自定义");
+            						setTypes($("#type${st.index + 1}"),"${templ.type}");
             					}else{
             						setImg($("#img${st.index + 1}"),"<%=request.getContextPath()%>","${templ.type}");
 	            					setType($("#type${st.index + 1}"),"${templ.type}");

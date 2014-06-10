@@ -1,6 +1,6 @@
 
 var config = {
-		"0":{type:"all",img:"0.png"},
+		"0":{type:"自定义",img:"0.png"},
 		"1":{type:"Word",img:"1.png"},
 		"2":{type:"Excel",img:"2.png"},
 		"3":{type:"PPT",img:"3.png"},
@@ -24,9 +24,20 @@ var config = {
 
 function setImg(ele,ctxpath,index){
 	$(ele).attr("src",ctxpath + "/resource/images/templ/" + config[index].img) ;
+	$(ele).attr("title", config[index].type);
 }
 
 function setType(ele,index){
 	$(ele).html(config[index].type);
+	$(ele).attr("title", config[index].type);
 }
 
+function setTypes(ele,indexs){
+	var types = indexs.split(";");
+	var html = "";
+	for(var i = 0;  i < types.length; i ++ ){
+		html += config[types[i]].type + "  ";
+	}
+	$(ele).attr("title", html);
+	$(ele).html(html);
+}

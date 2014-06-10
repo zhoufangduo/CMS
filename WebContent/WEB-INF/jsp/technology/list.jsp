@@ -76,7 +76,7 @@
 		}
 		
 		function toManager(id){
-			window.location = "<%=request.getContextPath()%>/technology/manage?id="+id;
+			window.location = "<%=request.getContextPath()%>/context/list?id="+id;
 		}
 		
 		function toTemplates(){
