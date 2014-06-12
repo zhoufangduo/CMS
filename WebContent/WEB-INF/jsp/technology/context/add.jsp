@@ -6,6 +6,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="<%=request.getContextPath()%>/resource/flat-ui/bootstrap/css/bootstrap.css" rel="stylesheet">
 	<link href="<%=request.getContextPath()%>/resource/flat-ui/css/flat-ui.css" rel="stylesheet"> 
+	<link href="<%=request.getContextPath()%>/resource/flat-ui/bootstrap/css/prettify.css" rel="stylesheet"> 
+	<script type="text/javascript" src="<%=request.getContextPath()%>/resource/flat-ui/bootstrap/js/google-code-prettify/prettify.js"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/html5shiv.js"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery-1.8.3.min.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/validate/jquery.form.js" type="text/javascript"></script>
@@ -68,18 +70,37 @@
 			$(".row-fluid").fadeOut("slow");
 			$("#context").fadeIn("slow");
 			$(".form-group").hide();
-			$("#"+type).fadeIn("slow");
-			CKEDITOR.replace( 'editor' + type, {
-				fullPage: true,
-				allowedContent: true,
-				extraPlugins: 'wysiwygarea'
-			});
+			if(type.split(";").length > 1){
+				var array = type.split(";");
+				for(var i = 0; i < array.length; i ++){
+					$("#" + array[i]).fadeIn("slow");
+					setCEEditor(array[i]);
+				}
+			}else{
+				$("#"+type).fadeIn("slow");
+				setCEEditor(type);
+			}
 		}
 		
 		function toBack(){
 			$(".row-fluid").fadeIn("slow");
 			$("#context").fadeOut("slow");
 		}
+		
+		
+		function setCEEditor(type){
+			if(config[type].showType == "text"){
+				CKEDITOR.replace( 'editor' + type, {
+					fullPage: true,
+					allowedContent: true,
+					extraPlugins: 'wysiwygarea'
+				});
+			}
+		}
+		
+		$(function(){
+			$("#state").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
+		});
 		
 	</script>
 </head>
@@ -110,6 +131,7 @@
 	   <form action="" method="POST">
 	   	   <input type="button" value="返&nbsp;回" class="btn btn-sm btn-info" 
 	   	   style="margin:15px 10px;"  onclick="toBack()">
+	   	   
 	   	   <div style="text-align: center;">
 			   <div id="1" class="form-group">
 			   		<input type="file" name="fileName">
@@ -133,34 +155,80 @@
 			   		<input type="file" name="fileName">
 			   </div>
 			   <div id="8" class="form-group">
-			   		<select></select>
+			   		<select id="" class="select-block"></select>
+			   		<textarea rows="" cols="" >
+			   		
+			   		</textarea>
 			   </div>
 			   <div id="9" class="form-group">
-			   		<textarea rows="" cols=""  id="editor9"><h2>讨论的内容：</h2></textarea>
+			   		<textarea rows="" cols=""  id="editor9">
+				   		<h3>讨论的内容：</h3>
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+						<h3>结论:</h3>
+					</textarea>
 			   </div>
 			   <div id="10" class="form-group">
 			   		<select></select>
 			   </div>
 			   <div id="11" class="form-group">
-			   		<textarea rows="" cols="" id="editor11" ></textarea>
+			   		<textarea rows="" cols="" id="editor11" >
+			   			<h3>练习的内容：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+			   		</textarea>
 			   </div>
 			   <div id="12" class="form-group">
-			   		<textarea rows="" cols="" id="editor12"  ></textarea>
+			   		<textarea rows="" cols="" id="editor12">
+			   			<h3>测试的内容介绍：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+						<h3>测试环境：</h3>
+						<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+						<h3>测试数据：</h3>
+						<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+						<h3>测试结果：</h3>
+			   		</textarea>
 			   </div>
 			   <div id="13" class="form-group">
-			   		<textarea rows="" cols="" id="editor13" ></textarea>
+			   		<textarea rows="" cols="" id="editor13" >
+			   			<h3>面试的内容：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+						<h3>面试的公司地址：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+						<h3>面试的人员：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+						<h3>面试的结果：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+			   		</textarea>
 			   </div>
 			   <div id="14" class="form-group">
-			   		<textarea rows="" cols="" id="editor14" ></textarea>
+			   		<textarea rows="" cols="" id="editor14" >
+			   			<h3>软件的介绍：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+						<h3>&nbsp;</h3>
+						<h3>软件下载地址：</h3>
+			   			<h3>&nbsp;&nbsp; <a href="http://www.hao123.com" target="_blank">http://www.hao123.com</a></h3>
+						<h3>&nbsp;</h3>
+			   		</textarea>
 			   </div>
 			   <div id="15" class="form-group">
-			   		<textarea rows="" cols="" id="editor15"></textarea>
+			   		<textarea rows="" cols="" id="editor15">
+			   			<h3>代码的片段：</h3>
+			   			<h3>&nbsp;&nbsp;</h3>
+			   		</textarea>
 			   </div>
 			   <div id="16" class="form-group">
-			   		<textarea rows="" cols="" id="editor16"></textarea>
+			   		<input type="file" name="fileName">
 			   </div>
 			   <div id="17" class="form-group">
-			   		<textarea rows="" cols="" id="editor17"></textarea>
+			   		<input type="file" name="fileName">
 			   </div>
 			   <div id="18" class="form-group">
 			   		<textarea rows="" cols="" id="editor18"></textarea>
