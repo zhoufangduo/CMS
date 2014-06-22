@@ -78,7 +78,6 @@
 				$("#mainFrame").css("margin-left","0px");
 				$('#bar').html('<span class="fui-arrow-left" style="cursor: pointer;" onclick="hideMenu()"></span>');
 			}
-		
 		</script>
 	</head>
 	<menus:menu/>

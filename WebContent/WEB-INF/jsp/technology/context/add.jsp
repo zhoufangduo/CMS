@@ -14,6 +14,7 @@
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-select.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.tagsinput.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.placeholder.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.stacktable.js" type="text/javascript"></script>
@@ -38,13 +39,6 @@
 			height: 100%;
 		}
 		
-		li{
-			list-style: none;
-			border: solid 1px;
-			margin: 0px;
-			float: left;
-			margin: 30px 10px;
-		}
 		
 		.thumbnails{
 			cursor: pointer;
@@ -55,36 +49,48 @@
 			width: 90px;
 			height: 90px;
 			border: solid 1 red;
+			list-style: none;
+			float: left;
+			margin: 30px 10px;
 		}
 		
 		.thumbnail:HOVER {
 			border: solid 2px #3498DB;
 		} 
-		.form-group{
+		
+		form{
 			display: none;
-			text-align: center;
 		}
+		
 	</style>
 	<script type="text/javascript">
 		function toAdd(type, id){
-			$(".row-fluid").fadeOut("slow");
-			$("#context").fadeIn("slow");
-			$(".form-group").hide();
-			if(type.split(";").length > 1){
-				var array = type.split(";");
-				for(var i = 0; i < array.length; i ++){
-					$("#" + array[i]).fadeIn("slow");
-					setCEEditor(array[i]);
-				}
+			init();
+			if(config[type].showType == "file"){
+				$("#"+config[type].showType).fadeIn("slow");
+				$("#fileType").html("(文件类型:" + config[type].fileType+")");
 			}else{
 				$("#"+type).fadeIn("slow");
-				setCEEditor(type);
+				if(config[type].showType == "select"){
+					$("#context").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
+				}
 			}
+			
+			$("[name=tempId]").val(id);
+			
+			setCEEditor(type);
+		}
+		
+		function init(){
+			$(".row-fluid").fadeOut("slow");
+			$("#formContext").fadeIn("slow");
 		}
 		
 		function toBack(){
 			$(".row-fluid").fadeIn("slow");
-			$("#context").fadeOut("slow");
+			$("#formContext").fadeOut("slow");
+			$("form").hide();
+			$("#filePath").html("");
 		}
 		
 		
@@ -98,9 +104,9 @@
 			}
 		}
 		
-		$(function(){
-			$("#state").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
-		});
+		function selectFileType(obj){
+			$("#filePath").html("&nbsp;&nbsp;"+$(obj).val());
+		}
 		
 	</script>
 </head>
@@ -118,126 +124,418 @@
 	            </div>
 	        </li>
 			<script type="text/javascript">
-				if("${templ.type}".split(";").length  > 1){
-					setImg($("#img${st.index + 1}"),"<%=request.getContextPath()%>","0");
-				}else{
-					setImg($("#img${st.index + 1}"),"<%=request.getContextPath()%>","${templ.type}");
-				} 
+				setImg($("#img${st.index + 1}"),"<%=request.getContextPath()%>","${templ.type}");
 			</script>
 		</c:forEach>
      </ul>
    </div>
-   <div id="context" style="display: none;">
-	   <form action="" method="POST">
-	   	   <input type="button" value="返&nbsp;回" class="btn btn-sm btn-info" 
-	   	   style="margin:15px 10px;"  onclick="toBack()">
-	   	   
-	   	   <div style="text-align: center;">
-			   <div id="1" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="2" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="3" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="4" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="5" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="6" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="7" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="8" class="form-group">
-			   		<select id="" class="select-block"></select>
-			   		<textarea rows="" cols="" >
-			   		
-			   		</textarea>
-			   </div>
-			   <div id="9" class="form-group">
-			   		<textarea rows="" cols=""  id="editor9">
-				   		<h3>讨论的内容：</h3>
-						<p>&nbsp;</p>
-						<p>&nbsp;</p>
-						<h3>结论:</h3>
-					</textarea>
-			   </div>
-			   <div id="10" class="form-group">
-			   		<select></select>
-			   </div>
-			   <div id="11" class="form-group">
-			   		<textarea rows="" cols="" id="editor11" >
-			   			<h3>练习的内容：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-			   		</textarea>
-			   </div>
-			   <div id="12" class="form-group">
-			   		<textarea rows="" cols="" id="editor12">
-			   			<h3>测试的内容介绍：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-						<h3>测试环境：</h3>
-						<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-						<h3>测试数据：</h3>
-						<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-						<h3>测试结果：</h3>
-			   		</textarea>
-			   </div>
-			   <div id="13" class="form-group">
-			   		<textarea rows="" cols="" id="editor13" >
-			   			<h3>面试的内容：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-						<h3>面试的公司地址：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-						<h3>面试的人员：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-						<h3>面试的结果：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-			   		</textarea>
-			   </div>
-			   <div id="14" class="form-group">
-			   		<textarea rows="" cols="" id="editor14" >
-			   			<h3>软件的介绍：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-						<h3>&nbsp;</h3>
-						<h3>软件下载地址：</h3>
-			   			<h3>&nbsp;&nbsp; <a href="http://www.hao123.com" target="_blank">http://www.hao123.com</a></h3>
-						<h3>&nbsp;</h3>
-			   		</textarea>
-			   </div>
-			   <div id="15" class="form-group">
-			   		<textarea rows="" cols="" id="editor15">
-			   			<h3>代码的片段：</h3>
-			   			<h3>&nbsp;&nbsp;</h3>
-			   		</textarea>
-			   </div>
-			   <div id="16" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="17" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-			   <div id="18" class="form-group">
-			   		<textarea rows="" cols="" id="editor18"></textarea>
-			   </div>
-			   <div id="19" class="form-group">
-			   		<input type="file" name="fileName">
-			   </div>
-		  </div>
-	   </form>
+   
+   <div id="formContext" style="display: none;"  class="tile" style="border-radius: 1px;">
+   		
+	   	<form id="file" action="<%=request.getContextPath()%>/context/add" method="POST" enctype="multipart/form-data" >
+	   	   <input type="hidden" name="techId" value="${param.techId}">
+	   	   <input type="hidden" name="tempId" value="">
+		   <table style="width: 100%; height: 100%;" border="0">
+	   	   	   <tr>
+		   	   		<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+					<td>
+						<div class="form-group">
+							<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+						</div>
+					</td>
+	   	   		</tr>
+	   	   		<tr>
+	   	   			<td width="12%" class="input_label"><div class="form-group">文件</div></td>
+	   	   			<td style="text-align: left;">
+		   	   			<div class="form-group">
+		   	   				<input type="button" class="btn btn-sm btn-success" value="上传文件" 
+		   	   				onclick="$('#fileName').click()" >
+		   	   				<span id="fileType"></span>
+		   	   				
+			   	   			<input type="file" id="fileName" name="fileName" style="display: none;" 
+			   	   				onchange="selectFileType(this)">
+			   	   			<span id="filePath"></span>
+		   	   			</div>
+	   	   			</td>
+	   	   		</tr>
+	   	   		<tr>
+	   	   			<td colspan="2">
+	   	   					<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   	   			   	&nbsp;&nbsp;&nbsp;
+	   	   	   			    <input type="button" value="返&nbsp;回" class="btn btn-default"
+	   	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+	   	   	   		</td>
+	   	   		</tr>
+	   	   	</table>
+	   	</form>		
+	   	
+	   	<form id="6" action="<%=request.getContextPath()%>/context/add" method="POST" >
+	   	   <input type="hidden" name="techId" value="${param.techId}">
+	   	   <input type="hidden" name="tempId" value="">
+	   	   <input type="file" name="fileName" style="display: none;"/>
+		   <table style="width: 100%; height: 100%;" border="0">   	  
+	   		 <tr>
+	   	   		<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+   	   		 </tr> 		
+		   	 <tr>
+		   	   	<td width="12%" class="input_label">
+		   	   		<div class="form-group">超链接URL地址</div>
+		   	   	</td>
+		   	   	<td>
+   	   				<div class="form-group">
+					   	<input type="text" class="form-control" name="context" id="linkURL">
+					 </div>
+   	   			</td>
+		   	</tr>
+		   	<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+		 </table>
+   	 </form>
+   	 
+	 <form id="8" action="<%=request.getContextPath()%>/context/add" method="POST" >
+	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">   
+		   <tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>	   
+		    <tr>
+	   	   		<td colspan="2">
+   	   				<div class="form-group">
+				   		<textarea rows="" cols="" id="editor8" name="context">
+				   			<h3>项目的需求：</h3><p>&nbsp;</p><p>&nbsp;</p>
+							<h3>需求评估:</h3><p>&nbsp;</p><p>&nbsp;</p>
+							<h3>开发周期:</h3><p>&nbsp;</p><p>&nbsp;</p>
+							<h3>开发环境:</h3>
+				   		</textarea>
+				   </div>
+	   	   		</td>
+   	   		 </tr>
+   	   		 <tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
+   	 
+   	 <form id="9" action="<%=request.getContextPath()%>/context/add" method="POST" >
+   	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>	    	 
+   	   		<tr>
+   	   			<td colspan="2">
+   	   				<div class="form-group">
+				   		<textarea rows="" cols=""  id="editor9" name="context">
+					   		<h3>讨论的内容：</h3>
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+							<h3>结论:</h3>
+						</textarea>
+				   </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
+   	 
+   	 <form id="10" action="<%=request.getContextPath()%>/context/add" method="POST" >
+   	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>	
+   	   		<tr>
+   	   			<td width="8%" class="input_label"><div class="form-group">考试卷</div></td>
+   	   			<td>
+   	   				<div class="form-group" style="width: 400px;">
+				   		<select id="context" class="select-block"  name="context">
+				   			<c:forEach items="${papers}" var="paper">
+				   				<option value="${paper.id}">${paper.name}</option>
+				   			</c:forEach>
+				   		</select>
+				     </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	 	</table>
+   	 </form>
+   	 
+   	 <form id="11" action="<%=request.getContextPath()%>/context/add" method="POST" >
+   	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+   	   				 <div class="form-group">
+				   		<textarea rows="" cols="" id="editor11" name="context">
+				   			<h3>练习的内容：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+				   		</textarea>
+				    </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
+   	 
+   	 <form id="12" action="<%=request.getContextPath()%>/context/add" method="POST" >
+   	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+   	   				<div class="form-group">
+				   		<textarea rows="" cols="" id="editor12"  name="context">
+				   			<h3>测试的内容介绍：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+							<h3>测试环境：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+							<h3>测试数据：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+							<h3>测试结果：</h3>
+				   		</textarea>
+				   </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
+   	 
+   	 <form id="13" action="<%=request.getContextPath()%>/context/add" method="POST" >
+   	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+   	   				<div class="form-group">
+				   		<textarea rows="" cols="" id="editor13"  name="context">
+				   			<h3>面试的内容：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+							<h3>面试的公司地址：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+							<h3>面试的人员：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+							<h3>面试的结果：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+				   		</textarea>
+				   </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
+	 
+	 <form id="14" action="<%=request.getContextPath()%>/context/add" method="POST" >
+	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>	
+   	   		<tr>
+   	   			<td colspan="2">
+   	   				 <div  class="form-group">
+				   		<textarea rows="" cols="" id="editor14"  name="context">
+				   			<h3>软件的介绍：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+							<h3>软件下载地址：</h3><h3>&nbsp;&nbsp; 
+				   			<a href="http://www.hao123.com" target="_blank">http://www.hao123.com</a></h3>
+							<h3>&nbsp;</h3>
+				   		</textarea>
+				   </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
+   	 
+   	 <form id="15" action="<%=request.getContextPath()%>/context/add" method="POST" >
+   	 	<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	   	<input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>	
+   	   		<tr>
+   	   			<td colspan="2">
+   	   				 <div  class="form-group">
+				   		<textarea rows="" cols="" id="editor15"  name="context">
+				   			<h3>代码的片段：</h3><h3>&nbsp;&nbsp;</h3>
+				   		</textarea>
+				    </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px;  width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
+	 
+	<form id="18" action="<%=request.getContextPath()%>/context/add" method="POST" >
+		<input type="hidden" name="techId" value="${param.techId}">
+	   	<input type="hidden" name="tempId" value="">
+	    <input type="file" name="fileName" style="display: none;"/>
+		<table style="width: 100%; height: 100%;" border="0">  
+			<tr>
+		   	   	<td width="8%" class="input_label"><div class="form-group">名称</div></td>
+				<td>
+					<div class="form-group">
+						<input type="text" class="form-control" name="name" placeholder="请输入名称" />
+					</div>
+				</td>
+	   	   	</tr>	
+   	   		<tr>
+   	   			<td colspan="2">
+		   	   		<div class="form-group">
+				   		<textarea rows="" cols="" id="editor18"  name="context"></textarea>
+				   </div>
+   	   			</td>
+   	   		</tr>
+   	   		<tr>
+   	   			<td colspan="2">
+	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
+	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+ 	   	   			   
+ 	   	   			&nbsp;&nbsp;&nbsp;
+ 	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
+ 	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+   	   	   		</td>
+	   	   	</tr>
+   	   	</table>
+   	 </form>
    </div>
 </body>
 </html>

@@ -11,4 +11,5 @@
 	<sqlMap resource="com/easytop/cms/dao/questions.xml"/>
 	<sqlMap resource="com/easytop/cms/dao/lesson.xml"/>
 	<sqlMap resource="com/easytop/cms/dao/template.xml"/>
+	<sqlMap resource="com/easytop/cms/dao/context.xml"/>
 </sqlMapConfig>

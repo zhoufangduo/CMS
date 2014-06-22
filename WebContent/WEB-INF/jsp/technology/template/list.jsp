@@ -24,15 +24,15 @@
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resource/script/template.js"></script>
 	<script type="text/javascript">
 		var option = {
-				opacity:20,
-				minHeight:452.5,
-				minWidth:868,
-				escClose: true, 
-				autoResize: true,
-				onClose:function(){
-					window.location.reload();
-					window.parent.menuFrame.document.location.reload();
-				}
+			opacity:20,
+			minHeight:452.5,
+			minWidth:868,
+			escClose: true, 
+			autoResize: true,
+			onClose:function(){
+				window.location.reload();
+				window.parent.menuFrame.document.location.reload();
+			}
 		};
 		
 		
@@ -97,13 +97,8 @@
             			<td class="tlabel">
             				<span id="type${st.index + 1}">
             					<script>
-            					if("${templ.type}".split(";").length  > 1){
-            						setImg($("#img${st.index + 1}"),"<%=request.getContextPath()%>","0");
-            						setTypes($("#type${st.index + 1}"),"${templ.type}");
-            					}else{
             						setImg($("#img${st.index + 1}"),"<%=request.getContextPath()%>","${templ.type}");
 	            					setType($("#type${st.index + 1}"),"${templ.type}");
-            					}
             					</script>
             				</span>
             			</td>

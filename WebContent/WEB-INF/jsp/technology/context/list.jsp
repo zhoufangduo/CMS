@@ -41,7 +41,7 @@
 		}
 		
 		function toAdd(){
-			var url = "<%=request.getContextPath()%>/context/toAdd?d="+new Date().getTime();
+			var url = "<%=request.getContextPath()%>/context/toAdd?techId=${param.id}&d="+new Date().getTime();
 			$('<div id="basic-modal-content"><iframe class="window" style="width:828px;"  id="addClazz" src="'+ url +'"></div>').modal(option);
 		}
 		
@@ -68,6 +68,30 @@
 				
 			</tr>
 	    </table>
+	    <br/>
+		<table class="table table-hover" border="0" style="table-layout: fixed;overflow: hidden;">
+            <thead>
+              <tr>
+                <th class="tlabel" width="8%">序列</th>
+                <th class="tlabel">名称</th>
+                <th class="tlabel">类型</th>
+                <th class="tlabel">创建者</th>
+                <th class="tlabel">创建时间</th>
+                <th class="tlabel">操作</th>
+             </tr>
+            </thead>
+            <tbody>
+            	<c:forEach items="${requestScope.contexts}" var="context" varStatus="st">
+            		<tr>
+            			<td class="tlabel">${st.index + 1}</td>
+            			<td class="tlabel">${context.name}</td>
+            			<td class="tlabel">${context.tempName}</td>
+            			<td class="tlabel">${context.creator}</td>
+            			<td class="tlabel">${context.createTime}</td>
+            		</tr>
+            	</c:forEach>
+            </tbody>
+        </table>
 	</form>
 </body>
 </html>

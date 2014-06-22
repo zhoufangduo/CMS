@@ -12,7 +12,7 @@
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-radio.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-checkbox.js" type="text/javascript"></script>
+<script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-radio.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-switch.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-select.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.tagsinput.js" type="text/javascript"></script>
@@ -27,7 +27,7 @@
 <link href="<%=request.getContextPath()%>/resource/css/all.css" rel="stylesheet">
 <script type="text/javascript">
 	$(function(){
-		$("#type").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
+		///$("#type").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
 		
 		var validator = $("#addTemplForm").validate({
 			success:success,
@@ -101,30 +101,31 @@
 					</td>
 					<td width="35%" colspan="4" style="text-align: left;">
 						<div class="form-group" style="border-radius:6px;background-color: white;">
-							 <div style="padding: 5px 20px;width: 150px;float: left;" title="基本">
-								<label class="checkbox"><input type="checkbox" name="type" value="1" data-toggle="checkbox">Office(Word)</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="2" data-toggle="checkbox">Office(Excel)</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="3" data-toggle="checkbox">Office(PPT)</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="4" data-toggle="checkbox">图片</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="5" data-toggle="checkbox">视频</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="6" data-toggle="checkbox">超链接</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="7" data-toggle="checkbox">Html文件</label>
+							 <div style="padding: 5px 20px;width: 180px;float: left;" title="基本">
+								<label class="radio"><input type="radio" name="type" value="1" data-toggle="radio">Office(Word)</label>
+								<label class="radio"><input type="radio" name="type" value="2" data-toggle="radio">Office(Excel)</label>
+								<label class="radio"><input type="radio" name="type" value="3" data-toggle="radio">Office(PPT)</label>
+								<label class="radio"><input type="radio" name="type" value="4" data-toggle="radio">图片</label>
+								<label class="radio"><input type="radio" name="type" value="5" data-toggle="radio">视频</label>
+								<label class="radio"><input type="radio" name="type" value="6" data-toggle="radio">超链接</label>
+								<label class="radio"><input type="radio" name="type" value="7" data-toggle="radio">Html文件</label>
 							</div>
-							<div style="padding: 5px 10px;margin-left: 200px;width: 150px;" title="专业">
-								<label class="checkbox"><input type="checkbox" name="type" value="8" data-toggle="checkbox">实战项目</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="9" data-toggle="checkbox">组内讨论</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="10" data-toggle="checkbox">考试</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="11" data-toggle="checkbox">练习</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="12" data-toggle="checkbox">测验</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="13" data-toggle="checkbox">面试</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="14" data-toggle="checkbox">常用软件讲解</label>
+							<div style="padding: 5px 10px;margin-left: 200px;width: 180px;" title="专业">
+								<label class="radio"><input type="radio" name="type" value="8" data-toggle="radio">实战项目</label>
+								<label class="radio"><input type="radio" name="type" value="9" data-toggle="radio">组内讨论</label>
+								<label class="radio"><input type="radio" name="type" value="10" data-toggle="radio">考试</label>
+								<label class="radio"><input type="radio" name="type" value="11" data-toggle="radio">练习</label>
+								<label class="radio"><input type="radio" name="type" value="12" data-toggle="radio">测验</label>
+								<label class="radio"><input type="radio" name="type" value="13" data-toggle="radio">面试</label>
+								<label class="radio"><input type="radio" name="type" value="14" data-toggle="radio">常用软件讲解</label>
 							</div>
-							<div style="padding: 5px 10px;position:absolute;width: 150px;margin-top: -251px;margin-left: 370px;" title="专业">
-								<label class="checkbox"><input type="checkbox" name="type" value="15" data-toggle="checkbox">经典代码讲解</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="16" data-toggle="checkbox">Java文件</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="17" data-toggle="checkbox">压缩包</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="18" data-toggle="checkbox">文本</label>
-								<label class="checkbox"><input type="checkbox" name="type" value="19" data-toggle="checkbox">文件</label>
+							<div style="padding: 5px 10px;position:absolute;width: 180px;margin-top: -251px;margin-left: 370px;" title="专业">
+								<label class="radio"><input type="radio" name="type" value="15" data-toggle="radio">经典代码讲解</label>
+								<label class="radio"><input type="radio" name="type" value="16" data-toggle="radio">Java文件</label>
+								<label class="radio"><input type="radio" name="type" value="17" data-toggle="radio">压缩包</label>
+								<label class="radio"><input type="radio" name="type" value="18" data-toggle="radio">文本</label>
+								<label class="radio"><input type="radio" name="type" value="19" data-toggle="radio">文件</label>
+								<label class="radio"><input type="radio" name="type" value="20" data-toggle="radio">PDF文件</label>
 							</div>
 						</div>
 					</td>

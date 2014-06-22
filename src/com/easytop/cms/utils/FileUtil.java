@@ -131,4 +131,8 @@ public abstract class FileUtil {
 		
 		writeToResponse(response, newFileName, newFile);
 	}
+
+	public static String getUploadNewFile(String originalFilename) {
+		return DateUtil.getFileNameTime() + getFileType(originalFilename);
+	}
 }
