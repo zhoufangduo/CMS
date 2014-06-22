@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap  PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"  "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="easytop.cms.context">
+
+	<typeAlias alias="context" type="com.easytop.cms.bean.Context"/>
+
+	<insert id="add" parameterClass="map">
+		INSERT INTO TECH_CONTEXT(`TECHID`, `TEMPID`, `NAME`, `CONTEXT`, `CREATETIME`, `CREATOR`)
+		 VALUES(#techId#, #tempId#, #name#, #context#, NOW(), #creator#)
+	</insert>
+	
+	<select id="list" parameterClass="map" resultClass="context">
+		SELECT C.`ID`, C.`TECHID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`, C.`CREATETIME`, C.`CREATOR`,
+		T.`TYPE`, T.`NAME` AS TEMPNAME FROM TECH_CONTEXT C  LEFT OUTER JOIN TECH_TEMPLATE T ON C.`TEMPID` = T.`ID`
+		WHERE `TECHID` = #id#
+	</select>
+	
+</sqlMap>
