@@ -88,6 +88,7 @@
             			<td class="tlabel">${context.tempName}</td>
             			<td class="tlabel">${context.creator}</td>
             			<td class="tlabel">${context.createTime}</td>
+            			<td class="tlabel">删除</td>
             		</tr>
             	</c:forEach>
             </tbody>

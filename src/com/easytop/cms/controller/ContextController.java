@@ -68,6 +68,8 @@ public class ContextController extends BaseController {
 		
 		this.setWebContext(request, response);
 		
+		String result  = "true";
+		
 		try {
 			
 			if (uploadFile instanceof MultipartFile ) {
@@ -83,13 +85,12 @@ public class ContextController extends BaseController {
 			
 			ctxtService.add(params);
 			
-			
-			
 		} catch (Exception e) {
 			logger.warn(e.getMessage(), e);
+			result = "false";
 		}
 		
-		write("{\"result\":\"0\"}");
+		write("{\"result\":\""+result+"\"}");
 	}
 
 }

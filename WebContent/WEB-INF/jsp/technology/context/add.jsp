@@ -108,6 +108,37 @@
 			$("#filePath").html("&nbsp;&nbsp;"+$(obj).val());
 		}
 		
+		$(function(){
+			var validator = $("form").validate({
+				success:success,
+				ignore: "",
+				errorPlacement: showErrorTab,
+				rules:{
+					"name":{
+						required: true
+					}
+				},
+				messages:{
+					"name": "名称不能为空!"
+				},
+				submitHandler: function(form) {
+					$(form).ajaxSubmit({
+						dataType	: "json",
+						type        : "POST",
+						cache       : false,
+						success		: function(data){								
+							if(data.result){
+								alert("添加课时内容成功!");
+								window.parent.parent.parent.mainFrame.close();
+							}else{
+								alert("添加课时内容失败，请联系管理员!");
+							}
+						}
+					});
+				}
+			});
+		});
+		
 	</script>
 </head>
 <body>
