@@ -45,19 +45,35 @@
 			$('<div id="basic-modal-content"><iframe class="window" style="width:828px;"  id="addClazz" src="'+ url +'"></div>').modal(option);
 		}
 		
+		function deleteById(id){
+			if(window.confirm("你确定删除内容?")){
+				var url = "<%=request.getContextPath()%>/context/deleteById?id=" + id + "&techId=${param.id}";
+				window.location = url;
+			}
+		}
+		
 		function toBack(){
 			window.location = "<%=request.getContextPath()%>/technology/list";
 		}
+		
+		function toPlay(){
+			window.location = "<%=request.getContextPath()%>/context/play";
+		}
+		
 	</script>
 </head>
 <body>
-	<form action="<%=request.getContextPath()%>/technology/list" class="form-horizontal"  method="post">
+	<form action="" class="form-horizontal"  method="post">
 		<table style="width: 100%; height: 100%;">
 			<tr class="tableBar">
 				<td colspan="2" class="title">
 					<span class="fui-play"></span>&nbsp;课时内容列表
 				</td>
 				<td colspan="4"  class="toolBar">
+					<c:if test="${contexts.size() > 0 }">
+						&nbsp;&nbsp;
+						<input type="button" class="btn btn-sm btn-info" value="开&nbsp;课" onclick="toPlay()">
+					</c:if>
 					&nbsp;&nbsp;
 					<input type="button" class="btn btn-sm btn-info" value="添&nbsp;加" onclick="toAdd()">
 					&nbsp;&nbsp;
@@ -88,7 +104,11 @@
             			<td class="tlabel">${context.tempName}</td>
             			<td class="tlabel">${context.creator}</td>
             			<td class="tlabel">${context.createTime}</td>
-            			<td class="tlabel">删除</td>
+            			<td class="tlabel">
+            				<a href="javascript:deleteById('${context.id}')">删除</a>
+            				<a href="">开课</a>
+            				<a href="">修改</a>
+            			</td>
             		</tr>
             	</c:forEach>
             </tbody>

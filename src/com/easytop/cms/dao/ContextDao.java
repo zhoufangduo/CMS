@@ -19,4 +19,8 @@ public class ContextDao extends BaseDaoSupport{
 		return list("easytop.cms.context.list", params);
 	}
 
+	public void deleteById(Map<String, String> params) {
+		deleteById("easytop.cms.context.deleteById", params);
+	}
+
 }

@@ -112,7 +112,7 @@
 			var validator = $("form").validate({
 				success:success,
 				ignore: "",
-				errorPlacement: showErrorTab,
+				errorPlacement: showErrorPlacement,
 				rules:{
 					"name":{
 						required: true
@@ -535,7 +535,7 @@
    	   	</table>
    	 </form>
 	 
-	<form id="18" action="<%=request.getContextPath()%>/context/add" method="POST" >
+	<form id="17" action="<%=request.getContextPath()%>/context/add" method="POST" >
 		<input type="hidden" name="techId" value="${param.techId}">
 	   	<input type="hidden" name="tempId" value="">
 	    <input type="file" name="fileName" style="display: none;"/>

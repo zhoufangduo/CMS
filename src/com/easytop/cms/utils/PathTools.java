@@ -39,4 +39,12 @@ public abstract class PathTools {
 	public static String getTemplatePath(String fileName) {
 		return getResoucePath(fileName);
 	}
+
+	public static String getTempFilePath(String resource) {
+		
+		File file =  new File(getCurrentPath() + "/temp/");
+		
+		return getFilePath(resource, file);
+	}
+	
 }

@@ -5,14 +5,18 @@
 	<typeAlias alias="context" type="com.easytop.cms.bean.Context"/>
 
 	<insert id="add" parameterClass="map">
-		INSERT INTO TECH_CONTEXT(`TECHID`, `TEMPID`, `NAME`, `CONTEXT`, `CREATETIME`, `CREATOR`)
-		 VALUES(#techId#, #tempId#, #name#, #context#, NOW(), #creator#)
+		INSERT INTO TECH_CONTEXT(`TECHID`, `TEMPID`, `NAME`, `CONTEXT`,`SOURCE`, `CREATETIME`, `CREATOR`)
+		 VALUES(#techId#, #tempId#, #name#, #context#,#source#, NOW(), #creator#)
 	</insert>
 	
 	<select id="list" parameterClass="map" resultClass="context">
-		SELECT C.`ID`, C.`TECHID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`, C.`CREATETIME`, C.`CREATOR`,
+		SELECT C.`ID`, C.`TECHID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`, C.`CREATETIME`, C.`CREATOR`,
 		T.`TYPE`, T.`NAME` AS TEMPNAME FROM TECH_CONTEXT C  LEFT OUTER JOIN TECH_TEMPLATE T ON C.`TEMPID` = T.`ID`
 		WHERE `TECHID` = #id#
 	</select>
+	
+	<delete id="deleteById" parameterClass="map">
+		DELETE FROM TECH_CONTEXT WHERE ID = #id#
+	</delete>
 	
 </sqlMap>

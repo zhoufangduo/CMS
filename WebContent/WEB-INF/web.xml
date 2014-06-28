@@ -21,6 +21,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<!-- 连接转换office的监听器 -->
+    <listener>
+       <listener-class>com.easytop.cms.web.listener.AppListener</listener-class>
+    </listener>
 
 
 	<!-- 字符集 过滤器 -->

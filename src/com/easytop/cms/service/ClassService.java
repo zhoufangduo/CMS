@@ -7,12 +7,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.easytop.cms.bean.ClassLesson;
 import com.easytop.cms.bean.Clazz;
 import com.easytop.cms.dao.ClassDao;
 
 @Service
+@Transactional
 public class ClassService {
 
 	@Autowired

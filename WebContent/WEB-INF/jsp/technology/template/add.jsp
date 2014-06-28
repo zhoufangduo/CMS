@@ -122,10 +122,9 @@
 							<div style="padding: 5px 10px;position:absolute;width: 180px;margin-top: -251px;margin-left: 370px;" title="专业">
 								<label class="radio"><input type="radio" name="type" value="15" data-toggle="radio">经典代码讲解</label>
 								<label class="radio"><input type="radio" name="type" value="16" data-toggle="radio">Java文件</label>
-								<label class="radio"><input type="radio" name="type" value="17" data-toggle="radio">压缩包</label>
-								<label class="radio"><input type="radio" name="type" value="18" data-toggle="radio">文本</label>
-								<label class="radio"><input type="radio" name="type" value="19" data-toggle="radio">文件</label>
-								<label class="radio"><input type="radio" name="type" value="20" data-toggle="radio">PDF文件</label>
+								<label class="radio"><input type="radio" name="type" value="17" data-toggle="radio">普通文本</label>
+								<label class="radio"><input type="radio" name="type" value="18" data-toggle="radio">其他的文件</label>
+								<label class="radio"><input type="radio" name="type" value="19" data-toggle="radio">PDF文件</label>
 							</div>
 						</div>
 					</td>

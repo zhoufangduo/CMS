@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.easytop.cms.bean.Menu;
 import com.easytop.cms.bean.User;
 import com.easytop.cms.dao.LoginDao;
 
 @Service
+@Transactional
 public class LoginServcie {
 
 	@Autowired

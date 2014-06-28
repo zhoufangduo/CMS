@@ -12,6 +12,8 @@ public class Context {
 
 	private String context;
 
+	private String source;
+
 	private String createTime;
 
 	private String creator;
@@ -90,6 +92,14 @@ public class Context {
 
 	public void setTempName(String tempName) {
 		this.tempName = tempName;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 }

@@ -114,8 +114,7 @@ public abstract class FileUtil {
 
 	public static String writeTechFile(MultipartFile file, String fileName) {
 	
-		File  newFile = new File(PathTools.getTechPath(
-				System.currentTimeMillis()  + getFileType(fileName)));
+		File  newFile = new File(PathTools.getTechPath(DateUtil.getFileNameTime()  + getFileType(fileName)));
 		
 		return transerToFile(file, newFile);
 	}
@@ -132,7 +131,4 @@ public abstract class FileUtil {
 		writeToResponse(response, newFileName, newFile);
 	}
 
-	public static String getUploadNewFile(String originalFilename) {
-		return DateUtil.getFileNameTime() + getFileType(originalFilename);
-	}
 }

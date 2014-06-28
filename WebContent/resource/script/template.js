@@ -16,10 +16,9 @@ var config = {
 		"14":{type:"常用软件讲解", img:"14.jpg", showType:"text",fileType:"text"},
 		"15":{type:"经典代码讲解", img:"15.jpg", showType:"text",fileType:"text"},
 		"16":{type:"Java文件", img:"16.png", showType:"file",fileType:"java"},
-		"17":{type:"压缩包", img:"17.png", showType:"file",fileType:"zip"},
-		"18":{type:"文本", img:"18.png", showType:"text",fileType:"text"},
-		"19":{type:"文件", img:"19.png", showType:"file",fileType:"all"},
-		"20":{type:"PDF文件", img:"20.png", showType:"file",fileType:"pdf"}
+		"17":{type:"文本", img:"17.png", showType:"text",fileType:"text"},
+		"18":{type:"文件", img:"18.png", showType:"file",fileType:"all"},
+		"19":{type:"PDF文件", img:"19.png", showType:"file",fileType:"pdf"}
 };
 
 function setImg(ele,ctxpath,index){

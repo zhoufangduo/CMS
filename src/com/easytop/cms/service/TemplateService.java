@@ -5,11 +5,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.easytop.cms.bean.Template;
 import com.easytop.cms.dao.TemplateDao;
 
 @Service
+@Transactional
 public class TemplateService {
 	
 	@Autowired

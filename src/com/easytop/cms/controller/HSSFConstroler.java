@@ -30,7 +30,7 @@ public class HSSFConstroler extends BaseController {
 	
 	protected String getValue(HSSFRow row, int cellnum) {
 		
-		HSSFCell cell = row.getCell((short) cellnum);
+		HSSFCell cell = row.getCell(cellnum);
 		if (cell != null) {
 			return cell.toString();
 		}
