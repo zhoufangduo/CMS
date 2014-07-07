@@ -21,7 +21,6 @@
 	<select id="getTotal" parameterClass="map" resultClass="java.lang.Integer">
 		SELECT COUNT(DISTINCT P.ID) FROM PAPER P LEFT JOIN QUESTIONS S ON  P.ID = S.PAPERID
 		<include refid="query"/>
-		GROUP BY P.ID
 	</select>
 	
 	<select id="list" parameterClass="map" resultClass="paper">

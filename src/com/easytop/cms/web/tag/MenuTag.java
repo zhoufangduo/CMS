@@ -124,8 +124,11 @@ public class MenuTag extends TagSupport {
 	}
 
 	private void addWindowFunction(StringBuffer buffer) {
-		buffer.append("<script type='text/javascript'>\n");
-		buffer.append("function forward(leftUrl,mainUrl){$('#mainFrame').attr('src',mainUrl);$('#menuFrame').attr('src',leftUrl);}\n");
+		buffer.append("<script type=\"text/javascript\">\n");
+		buffer.append("function forward(leftUrl,mainUrl){$('#mainFrame').attr('src',mainUrl);\n");
+		buffer.append("if(leftUrl == '' || leftUrl == 'null' || leftUrl == null){hideMenu();\n"); 
+		buffer.append("$('#menuFrame').attr('src','../resource/blank_menu.jsp');}\n");
+		buffer.append("else{$('#menuFrame').attr('src',leftUrl);}}");
 		buffer.append("\n</script>\n");
 	}
 

@@ -41,13 +41,13 @@
 		}
 		
 		function toAdd(){
-			var url = "<%=request.getContextPath()%>/context/toAdd?techId=${param.id}&d="+new Date().getTime();
+			var url = "<%=request.getContextPath()%>/context/toAdd?techId=${param.techId}&d="+new Date().getTime();
 			$('<div id="basic-modal-content"><iframe class="window" style="width:828px;"  id="addClazz" src="'+ url +'"></div>').modal(option);
 		}
 		
 		function deleteById(id){
 			if(window.confirm("你确定删除内容?")){
-				var url = "<%=request.getContextPath()%>/context/deleteById?id=" + id + "&techId=${param.id}";
+				var url = "<%=request.getContextPath()%>/context/deleteById?techId=${param.techId}&id=" + id ;
 				window.location = url;
 			}
 		}
@@ -57,7 +57,19 @@
 		}
 		
 		function toPlay(){
-			window.location = "<%=request.getContextPath()%>/context/play";
+			parent.showMenu();
+			parent.menuFrame.location = "<%=request.getContextPath()%>/context/menu?techId=${param.techId}";
+			window.location = "<%=request.getContextPath()%>/context/play?techId=${param.id}";
+		}
+		
+		function playAccept(id){
+			parent.showMenu();
+			parent.menuFrame.location = "<%=request.getContextPath()%>/context/menu?techId=${param.techId}&id="+id;
+			window.location = "<%=request.getContextPath()%>/context/play?id="+id;
+		}
+		
+		function downloadFile(fileName,id){
+			window.location ="<%=request.getContextPath()%>/context/downloadFile?fileName="+fileName+"&id="+id;
 		}
 		
 	</script>
@@ -105,8 +117,11 @@
             			<td class="tlabel">${context.creator}</td>
             			<td class="tlabel">${context.createTime}</td>
             			<td class="tlabel">
-            				<a href="javascript:deleteById('${context.id}')">删除</a>
-            				<a href="">开课</a>
+            				<a href="javascript:deleteById('${context.id}')">删除</a>&nbsp;
+            				<a href="javascript:playAccept('${context.id}')">开课</a>&nbsp;
+            				<c:if test="${context.source != null && context.source != ''}">
+            					<a href="javascript:downloadFile('${context.source}','${context.id}')">下载源文件</a>&nbsp;
+            				</c:if>
             				<a href="">修改</a>
             			</td>
             		</tr>

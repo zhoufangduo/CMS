@@ -12,11 +12,26 @@
 	<select id="list" parameterClass="map" resultClass="context">
 		SELECT C.`ID`, C.`TECHID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`, C.`CREATETIME`, C.`CREATOR`,
 		T.`TYPE`, T.`NAME` AS TEMPNAME FROM TECH_CONTEXT C  LEFT OUTER JOIN TECH_TEMPLATE T ON C.`TEMPID` = T.`ID`
-		WHERE `TECHID` = #id#
+		WHERE `TECHID` = #techId#
 	</select>
 	
 	<delete id="deleteById" parameterClass="map">
 		DELETE FROM TECH_CONTEXT WHERE ID = #id#
 	</delete>
+	
+	<select id="viewByTechId" parameterClass="map" resultClass="context">
+		SELECT C.`ID`, C.`TECHID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`, C.`CREATETIME`, C.`CREATOR`,
+		T.`TYPE`, T.`NAME` AS TEMPNAME FROM TECH_CONTEXT C  LEFT OUTER JOIN TECH_TEMPLATE T ON C.`TEMPID` = T.`ID`
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="id" prepend="AND">
+				C.ID = #id#
+			</isNotEmpty>
+			<isNotEmpty property="techId" prepend="AND">
+				C.TECHID = #techId# 
+			</isNotEmpty>
+		</dynamic>
+		
+		LIMIT 1;
+	</select>
 	
 </sqlMap>

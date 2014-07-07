@@ -145,27 +145,3 @@ HTML,BODY{
 	text-align: right;
 	margin-right: 10px;
 }
-   
-HTML,BODY,iframe::-webkit-scrollbar {
-     width:10px;
-     height:10px;
-}
-HTML,BODY,iframe::-webkit-scrollbar-button    {
-     background-color:#FF7677;
-}
-HTML,BODY,iframe::-webkit-scrollbar-track     {
-     background:#FF66D5;
-}
-HTML,BODY,iframe::-webkit-scrollbar-track-piece {
-     background:url(http://www.lyblog.net/wp/wp-content/themes/mine/img/stripes_tiny_08.png);
-}
-HTML,BODY,iframe::-webkit-scrollbar-thumb{
-     background:#FFA711;
-     border-radius:4px;
-}
-HTML,BODY,iframe::-webkit-scrollbar-corner {
-     background:#82AFFF;
-}
-HTML,BODY,iframe::-webkit-scrollbar-resizer  {
-     background:#FF0BEE;
-}

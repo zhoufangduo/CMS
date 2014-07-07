@@ -94,24 +94,35 @@ public class PaperController extends BaseController {
 
 	@RequestMapping("list")
 	public String list(final ModelMap model, @RequestParam Map<String, String> params) {
+		
+		try {
 
-		model.addAttribute("page", new Page(paperService.getTotal(params), params));
-
-		List<Paper> papers = paperService.list(params);
-
-		model.addAttribute("papers", papers);
+			model.addAttribute("page", new Page(paperService.getTotal(params), params));
+	
+			List<Paper> papers = paperService.list(params);
+	
+			model.addAttribute("papers", papers);
+		
+		} catch (Exception e) {
+			logger.warn(e.getMessage(), e);
+		}
 
 		return getContext(LIST);
 	}
 	
 	@RequestMapping("examList")
 	public String examList(final ModelMap model, @RequestParam Map<String, String> params) {
-
-		model.addAttribute("page", new Page(paperService.getTotal(params), params));
-
-		List<Paper> papers = paperService.list(params);
-
-		model.addAttribute("papers", papers);
+		
+		try {
+			
+			model.addAttribute("page", new Page(paperService.getTotal(params), params));
+			
+			List<Paper> papers = paperService.list(params);
+			
+			model.addAttribute("papers", papers);
+		} catch (Exception e) {
+			logger.warn(e.getMessage(), e);
+		}
 
 		return getContext("examList");
 	}

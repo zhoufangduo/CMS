@@ -1,6 +1,7 @@
 package com.easytop.cms.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,6 @@ import com.easytop.cms.service.TemplateService;
 import com.easytop.cms.utils.FileUtil;
 import com.easytop.cms.utils.PathTools;
 import com.easytop.cms.utils.PropertyUtil;
-import com.easytop.cms.utils.converter.HtmlConverterUtils;
 import com.easytop.cms.utils.converter.OfficeConverterUtils;
 
 @Controller
@@ -84,13 +84,24 @@ public class ContextController extends BaseController {
 				
 				String fileName = FileUtil.writeTechFile(file, file.getOriginalFilename());
 				
-				String context = converterHtml(request, fileName);
+				boolean converType = getConverType(FileUtil.getFileFormat(fileName));
 				
-				params.put("context", context);
-				params.put("source", fileName);
+				if (converType) {
+					
+					String context = converterPdf(request, fileName);
+					
+					params.put("context", context);
+					
+					params.put("source", file.getOriginalFilename());
+				}else {
+					
+					params.put("context", fileName);
+					params.put("source", file.getOriginalFilename());
+				}
 			}
 			
 			params.put("creator", getUser().getName());
+			
 			ctxtService.add(params);
 			
 		} catch (Exception e) {
@@ -101,43 +112,95 @@ public class ContextController extends BaseController {
 		write("{\"result\":\""+result+"\"}");
 	}
 
-	private String converterHtml(HttpServletRequest request, String fileName) {
-		File target = converterPdf(request, fileName);
+	private boolean getConverType(String type) {
 		
-		String targetDir = PathTools.getTechPath(fileName) + File.separator;
+		String converFormat = PropertyUtil.get("converFormat");
 		
-		HtmlConverterUtils.converter(target.getPath(), targetDir);
+		if (converFormat.equals(type)) {
+			return false;
+		}
 		
-		return targetDir;
+		String [] types = PropertyUtil.get("converFile").split(",");
+		for(String configType : types){
+			
+			if (configType.equals(type)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
-	private File converterPdf(HttpServletRequest request, String fileName) {
+	private String converterPdf(HttpServletRequest request, String fileName) {
 		File  source = new File(PathTools.getTechPath(fileName));
 		File  target = new File(PathTools.getTechPath(fileName + PropertyUtil.get("converFormat")));
 		OfficeConverterUtils.converter(request, source, target);
-		return target;
+		return target.getName();
 	}
 	
 	@RequestMapping("play")
 	public String play(final ModelMap model, @RequestParam Map<String, String> params){
 		
-		List<Context> contexts = ctxtService.list(params);
+		Context context = ctxtService.viewByTechId(params);
 		
-		model.addAttribute("contexts", contexts);
+		model.addAttribute("context", context);
 		
-		return getContext("play");
+		String suffix = FileUtil.getFileFormat(context.getSource());
+		
+		if (context != null && getConverType(suffix)) {
+			
+			return getContext("play");
+		}
+		else if ("5".equals(context.getType())) {
+			return getContext("media");
+		}
+		else if ("18".equals(context.getType())) {
+			return getContext("all");
+		}
+		
+		if ("10".equals(context.getType())) {
+			model.addAttribute("papers", paperService.list(params));
+		}
+		
+		return getContext("html");
+		
 	}
+	
+	@RequestMapping("menu")
+	public String toMenu(final ModelMap model, @RequestParam Map<String, String> params){
+		
+		list(model, params);
+		
+		return getContext("menu");
+	}
+	
 	
 	@RequestMapping("downloadFile")
 	public void downloadFile(@RequestParam Map<String, String> params,
-			HttpServletRequest request, HttpServletResponse response){
+			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+		
+		Context context = ctxtService.viewByTechId(params);
 		
 		String fileName = params.get("fileName");
-		if (StringUtils.isNotEmpty(fileName)) {
+		
+		try {
 			
-			FileUtil.downloadTechFile(response, fileName, fileName);
+			if (StringUtils.isNotEmpty(fileName)) {
+				
+				String newFileName = context.getSource();
+				if (StringUtils.isNotEmpty(newFileName)) {
+					newFileName = new String(newFileName.getBytes("UTF-8"), "ISO-8859-1");
+				}else {
+					newFileName = fileName;
+				}
+				
+				FileUtil.downloadTechPDFFile(response, fileName, newFileName);
+			}
+			
+		} catch (Exception e) {
+			logger.warn(e.getMessage(), e);
 		}
-
+		
 	}
 	
 	@RequestMapping("deleteById")
@@ -147,7 +210,6 @@ public class ContextController extends BaseController {
 		if (StringUtils.isNotEmpty(id)) {
 			
 			ctxtService.deleteById(params);
-			
 		}
 		
 		return list(model, params);

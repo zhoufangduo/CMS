@@ -76,7 +76,7 @@
 		}
 		
 		function toManager(id){
-			window.location = "<%=request.getContextPath()%>/context/list?id="+id;
+			window.location = "<%=request.getContextPath()%>/context/list?techId="+id;
 		}
 		
 		function toTemplates(){
@@ -176,6 +176,7 @@
             				<c:if test="${tech.state == '2'}">
             					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=3">
             					<span class="fui-lock"></span>&nbsp;冻结</a>&nbsp;
+            					<a href="javascript:toManager('${tech.id}')"><span class="fui-gear"></span>&nbsp;管理</a>
             				</c:if>
             				<c:if test="${tech.state == '3'}">
             					<a href="javascript:toDelete('${tech.id}','${tech.name}')">
@@ -184,7 +185,6 @@
             					<a href="<%=request.getContextPath()%>/technology/setState?id=${tech.id}&state=2">
             					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;
             				</c:if>
-            				<a href="javascript:toManager('${tech.id}')"><span class="fui-gear"></span>&nbsp;管理</a>
             			</td>
             		</tr>
             	</c:forEach>

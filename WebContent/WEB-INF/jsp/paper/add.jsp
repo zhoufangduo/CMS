@@ -33,20 +33,52 @@
     		border: 2px solid #BDC3C7;
     		text-align: center;
 		}
+		
+		.timeErr{
+    		border: 2px solid red;
+    		width: 60px;
+			height: 35px;
+			border-radius:6px;
+			text-align: center;
+		}
+		
+		.timeSucc{
+    		border: 2px solid #2ECC71;
+    		width: 60px;
+			height: 35px;
+			border-radius:6px;
+			text-align: center;
+		}
+		
 	</style>
 		<script type="text/javascript">
 		$(function(){
 			var validator = $("#addPaperForm").validate({
 				success:success,
 				ignore: "",
-				errorPlacement: showErrorTab,
+				errorPlacement: showErrorPlacement,
 				rules:{
 					"name":{
 						required:true
+					},
+					"hour":{
+						required:false,
+						number:true
+					},
+					"minute":{
+						required:false,
+						number:true
+					},
+					"second":{
+						required:false,
+						number:true
 					}
 				},
 				messages:{
-					"name": "考试卷名称不能为空!"
+					"name": "考试卷名称不能为空!",
+					"hour": "小时，只能为数字",
+					"minute": "分钟，只能为数字",
+					"second": "秒钟，只能为数字"
 				},
 				submitHandler: function(form) {
 					$(form).ajaxSubmit({

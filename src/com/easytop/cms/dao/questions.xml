@@ -12,6 +12,7 @@
 	
 	<select id="list" parameterClass="map" resultClass="questions">
 		SELECT `ID`,`CONTEXT`,`TYPE`,`ANSWER`,`REPLY`,`PAPERID` FROM QUESTIONS
+		WHERE `PAPERID` = #paperId#
 		ORDER BY ID DESC;
 	</select>
 	

@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public abstract class FileUtil {
 	
+	private final static String NOT_FIND_FILE = "not_fond_file.ppt.pdf"; 
+	
 	public static String writeItemFile(MultipartFile file, String fileName) {
 		
 		File  newFile = new File(PathTools.getItemPath(System.currentTimeMillis() 
@@ -47,6 +49,18 @@ public abstract class FileUtil {
 		
 		return "";
 	}
+	
+	public static String getFileFormat(String fileName){
+		if (fileName != null) {
+			int beginIndex = fileName.lastIndexOf(".");
+			if (beginIndex > 0) {
+				return fileName.substring(beginIndex + 1);
+			}
+		}
+		
+		return "";
+	}
+	
 
 	public static void deleteItemFile(String newFileName) {
 		File file = new File(PathTools.getItemPath(newFileName));
@@ -75,7 +89,19 @@ public abstract class FileUtil {
 		File newFile = new File(PathTools.getTechPath(newFileName)); 
 		writeToResponse(response, fileName, newFile);
 	}
-
+	
+	public static void downloadTechPDFFile(HttpServletResponse response,
+			String newFileName, String fileName) {
+	
+		File newFile = new File(PathTools.getTechPath(newFileName));
+		
+		if (!newFile.exists()) {
+			newFile = new File(PathTools.getResoucePath(NOT_FIND_FILE));
+		}
+		
+		writeToResponse(response, fileName, newFile);
+	}
+	
 
 	private static void writeToResponse(HttpServletResponse response,
 			String fileName, File newFile) {

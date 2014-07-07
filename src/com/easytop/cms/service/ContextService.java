@@ -29,5 +29,10 @@ public class ContextService {
 	public void deleteById(Map<String, String> params) {
 		ctxDao.deleteById(params);
 	}
+
+	public Context viewByTechId(Map<String, String> params) {
+	
+		return ctxDao.viewByTechId(params);
+	}
 	
 }

@@ -78,19 +78,24 @@
 				$("#mainFrame").css("margin-left","0px");
 				$('#bar').html('<span class="fui-arrow-left" style="cursor: pointer;" onclick="hideMenu()"></span>');
 			}
+			
+			$(function(){
+				hideMenu();
+			});
+			
 		</script>
 	</head>
 	<menus:menu/>
 <body >
 	<table class="table">
 		<tr>
-			<td width="17%" height="99%" id="menu" style="display: none;">
+			<td width="17%" height="99%" id="menu">
 				<iframe class="menuFrame" name="menuFrame" id="menuFrame" src="" width="100%" height="100%">
 		
 				</iframe>
 			</td>
 			<td width="83%" height="99%" id="main">
-				<div id="bar" class="bar" align="center" style="display: none;">
+				<div id="bar" class="bar" align="center">
 					<span class="fui-arrow-left" style="cursor: pointer;" onclick="hideMenu()"></span>
 				</div>
 				<iframe class="mainFrame" name="mainFrame" id="mainFrame" src="">

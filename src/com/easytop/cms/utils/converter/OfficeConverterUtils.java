@@ -11,9 +11,15 @@ public class OfficeConverterUtils  {
 	
 	public static void converter(final HttpServletRequest request, final File source, final File target) {
 		
-		OfficeManager officeManager = getOfficeManager(request);
-		OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
-		converter.convert(source,target);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				OfficeManager officeManager = getOfficeManager(request);
+				OfficeDocumentConverter converter = new OfficeDocumentConverter(officeManager);
+				converter.convert(source,target);
+			}
+			
+		}).start();
 	}
 	
 	public static void converter(final HttpServletRequest request, final String source, final String target) {

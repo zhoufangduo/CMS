@@ -23,4 +23,9 @@ public class ContextDao extends BaseDaoSupport{
 		deleteById("easytop.cms.context.deleteById", params);
 	}
 
+	public Context viewByTechId(Map<String, String> params) {
+		
+		return getById("easytop.cms.context.viewByTechId", params);
+	}
+
 }

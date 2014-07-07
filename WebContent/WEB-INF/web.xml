@@ -17,6 +17,10 @@
 		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
 
+	<!-- 启动Office文件PDF的服务器监听器 -->
+	<listener>
+    	<listener-class>com.easytop.cms.web.listener.AppListener</listener-class>
+  	</listener>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -83,6 +87,21 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- Session 安全验证 过滤器-->
+	<filter>
+		<filter-name>SafetyFilter</filter-name>
+		<filter-class>com.easytop.cms.web.SafetyFilter</filter-class>
+		<init-param>
+			<param-name>resource</param-name>
+			<param-value>/resource/,/login/</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>SafetyFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+	
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

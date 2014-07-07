@@ -96,6 +96,51 @@
 			window.location = "<%=request.getContextPath()%>/paper/examList";
 		}
 		
+		var endDate ;
+		var intervalId;
+		function toStart(){
+			var times = "${paper.time}".split(":");
+			if(times.length == 3){
+				var now = new Date();
+				var hours = now.getHours() + parseInt(times[0]);
+			    var minutes = now.getMinutes() + parseInt(times[1]);
+			    var seconds = now.getSeconds()+ parseInt(times[2]);
+			    var year = now.getFullYear();
+			    var month = now.getMonth() ;
+			    var day = now.getDate();
+			    
+			    endDate= new Date(year,month,day,hours,minutes,seconds);
+			    intervalId = window.setInterval(loop, 1000);
+			}
+		}
+		
+		function loop(){
+			var now = new Date();
+		   	var resSeconds = (endDate.getTime()) - (now.getTime());
+		    var resDate = new Date(resSeconds);
+		    
+		    $("#time").html((resDate.getHours()-8) + ":" + resDate.getMinutes() + ":" + resDate.getSeconds());
+		    
+		    if(parseDate(now) >= parseDate(endDate)){
+		    	window.clearInterval(intervalId);
+		    	$("#time").html("00:00:00");
+		    	alert("交卷");
+		    }
+		}
+		
+		function parseDate(date){
+			var dateStr = "";
+			var hours = date.getHours();
+		    var minutes = date.getMinutes() ;
+		    var seconds = date.getSeconds();
+		    var year = date.getFullYear();
+		    var month = date.getMonth() + 1;
+		    var day = date.getDate();
+			
+		    dateStr = year + "-" + month +"-"+ day + " "+ hours + ":" + minutes + ":" + seconds;
+		    return dateStr;
+		}
+		
 	</script>
 </head>
 <body>
@@ -106,7 +151,7 @@
 					<span class="fui-play"></span>&nbsp;考试卷模版
 				</td>
 				<td class="toolBar" colspan="2">
-					<input type="button" class="btn btn-sm btn-info" value="开&nbsp;始" onclick="">
+					<input type="button" class="btn btn-sm btn-info" value="开&nbsp;始" onclick="toStart()">
 					&nbsp;&nbsp;
 					<input type="button" class="btn btn-sm btn-info" value="返&nbsp;回" onclick="toBack()">
 				</td>
@@ -117,7 +162,7 @@
 			<tr>
 				<th class="rowTex">考员姓名:<input type="text" class="qtsText" value="${sessionScope.user.name}"/></th>
 				<th class="rowTex">班级:<input type="text" class="qtsText" value="${sessionScope.user.className}"/></th>
-				<th class="rowTex">考试时长:&nbsp;
+				<th class="rowTex">考试剩余时长:&nbsp;
 				<span id="time">
 					<c:choose>
 						<c:when test="${paper.time == '00:00:00'}">不限</c:when>

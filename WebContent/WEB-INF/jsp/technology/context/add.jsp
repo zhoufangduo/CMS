@@ -98,8 +98,7 @@
 			if(config[type].showType == "text"){
 				CKEDITOR.replace( 'editor' + type, {
 					fullPage: true,
-					allowedContent: true,
-					extraPlugins: 'wysiwygarea'
+					allowedContent: true
 				});
 			}
 		}
@@ -109,7 +108,14 @@
 		}
 		
 		$(function(){
-			var validator = $("form").validate({
+			var forms = $("form");
+			for(var i = 0; i < forms.length; i ++){
+				bindForm($(forms[i]));
+			}
+		});
+		
+		function bindForm(bindForm){
+			var validator = $(bindForm).validate({
 				success:success,
 				ignore: "",
 				errorPlacement: showErrorPlacement,
@@ -122,6 +128,12 @@
 					"name": "名称不能为空!"
 				},
 				submitHandler: function(form) {
+					
+		            for (instance in CKEDITOR.instances){
+		                CKEDITOR.instances[instance].updateElement();
+		            }
+		            
+		            
 					$(form).ajaxSubmit({
 						dataType	: "json",
 						type        : "POST",
@@ -137,7 +149,7 @@
 					});
 				}
 			});
-		});
+		}
 		
 	</script>
 </head>
@@ -254,10 +266,10 @@
 	   	   		<td colspan="2">
    	   				<div class="form-group">
 				   		<textarea rows="" cols="" id="editor8" name="context">
-				   			<h3>项目的需求：</h3><p>&nbsp;</p><p>&nbsp;</p>
-							<h3>需求评估:</h3><p>&nbsp;</p><p>&nbsp;</p>
-							<h3>开发周期:</h3><p>&nbsp;</p><p>&nbsp;</p>
-							<h3>开发环境:</h3>
+				   			<p><strong>项目的需求：</strong></p><p/>
+							<p><strong>需求评估:</strong></p><p/>
+							<p><strong>开发周期:</strong></p><p/>
+							<p><strong>开发环境:</strong></p><p/>
 				   		</textarea>
 				   </div>
 	   	   		</td>
@@ -292,10 +304,10 @@
    	   			<td colspan="2">
    	   				<div class="form-group">
 				   		<textarea rows="" cols=""  id="editor9" name="context">
-					   		<h3>讨论的内容：</h3>
+					   		<p><strong>讨论的内容：<strong></strong>
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
-							<h3>结论:</h3>
+							<p><strong>结论:</strong></p>
 						</textarea>
 				   </div>
    	   			</td>
@@ -368,7 +380,7 @@
    	   			<td colspan="2">
    	   				 <div class="form-group">
 				   		<textarea rows="" cols="" id="editor11" name="context">
-				   			<h3>练习的内容：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+				   			<p><strong>练习的内容：</strong></p>&nbsp;&nbsp;
 				   		</textarea>
 				    </div>
    	   			</td>
@@ -403,10 +415,10 @@
    	   			<td colspan="2">
    	   				<div class="form-group">
 				   		<textarea rows="" cols="" id="editor12"  name="context">
-				   			<h3>测试的内容介绍：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
-							<h3>测试环境：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
-							<h3>测试数据：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
-							<h3>测试结果：</h3>
+				   			<p><strong>测试的内容介绍：</strong></p>&nbsp;&nbsp;
+							<p><strong>测试环境：<p><strong>&nbsp;&nbsp;
+							<p><strong>测试数据：<p><strong>&nbsp;&nbsp;
+							<p><strong>测试结果：<p><strong>
 				   		</textarea>
 				   </div>
    	   			</td>
@@ -441,10 +453,10 @@
    	   			<td colspan="2">
    	   				<div class="form-group">
 				   		<textarea rows="" cols="" id="editor13"  name="context">
-				   			<h3>面试的内容：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
-							<h3>面试的公司地址：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
-							<h3>面试的人员：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
-							<h3>面试的结果：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
+				   			<p><strong>面试的内容：</strong></p>&nbsp;&nbsp;
+							<p><strong>面试的公司地址：</strong></p>&nbsp;&nbsp;
+							<p><strong>面试的人员：</strong></p>&nbsp;&nbsp;
+							<p><strong>面试的结果：</strong></p>&nbsp;&nbsp;
 				   		</textarea>
 				   </div>
    	   			</td>
@@ -479,10 +491,8 @@
    	   			<td colspan="2">
    	   				 <div  class="form-group">
 				   		<textarea rows="" cols="" id="editor14"  name="context">
-				   			<h3>软件的介绍：</h3><h3>&nbsp;&nbsp;</h3><h3>&nbsp;</h3>
-							<h3>软件下载地址：</h3><h3>&nbsp;&nbsp; 
-				   			<a href="http://www.hao123.com" target="_blank">http://www.hao123.com</a></h3>
-							<h3>&nbsp;</h3>
+				   			<p><strong>软件的介绍：</strong><p/>&nbsp;&nbsp; 
+							<p><strong>软件下载地址：</strong><p/>&nbsp;&nbsp; 
 				   		</textarea>
 				   </div>
    	   			</td>
@@ -517,7 +527,7 @@
    	   			<td colspan="2">
    	   				 <div  class="form-group">
 				   		<textarea rows="" cols="" id="editor15"  name="context">
-				   			<h3>代码的片段：</h3><h3>&nbsp;&nbsp;</h3>
+				   			<strong><p>代码的片段：</strong></p>&nbsp;&nbsp;
 				   		</textarea>
 				    </div>
    	   			</td>
@@ -551,7 +561,7 @@
    	   		<tr>
    	   			<td colspan="2">
 		   	   		<div class="form-group">
-				   		<textarea rows="" cols="" id="editor18"  name="context"></textarea>
+				   		<textarea rows="" cols="" id="editor17" name="context"></textarea>
 				   </div>
    	   			</td>
    	   		</tr>
