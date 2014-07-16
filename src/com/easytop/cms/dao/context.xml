@@ -5,33 +5,55 @@
 	<typeAlias alias="context" type="com.easytop.cms.bean.Context"/>
 
 	<insert id="add" parameterClass="map">
-		INSERT INTO TECH_CONTEXT(`TECHID`, `TEMPID`, `NAME`, `CONTEXT`,`SOURCE`, `CREATETIME`, `CREATOR`)
-		 VALUES(#techId#, #tempId#, #name#, #context#,#source#, NOW(), #creator#)
+		INSERT INTO LESSON_CONTEXT(`LESSONID`, `TEMPID`, `NAME`, `CONTEXT`,`SOURCE`,`NEWFILENAME`, `CREATETIME`, `CREATOR`)
+		 VALUES(#lessonId#, #tempId#, #name#, #context#,#source#,#newFileName#, NOW(), #creator#)
 	</insert>
 	
 	<select id="list" parameterClass="map" resultClass="context">
-		SELECT C.`ID`, C.`TECHID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`, C.`CREATETIME`, C.`CREATOR`,
-		T.`TYPE`, T.`NAME` AS TEMPNAME FROM TECH_CONTEXT C  LEFT OUTER JOIN TECH_TEMPLATE T ON C.`TEMPID` = T.`ID`
-		WHERE `TECHID` = #techId#
+		SELECT C.`ID`, C.`LESSONID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`,C.`NEWFILENAME`, C.`CREATETIME`, C.`CREATOR`,C.`HIDDEN`,
+		T.`TYPE`, T.`NAME` AS TEMPNAME FROM LESSON_CONTEXT C  LEFT OUTER JOIN LESSON_TEMPLATE T ON C.`TEMPID` = T.`ID`
+		WHERE `LESSONID` = #lessonId#
 	</select>
 	
 	<delete id="deleteById" parameterClass="map">
-		DELETE FROM TECH_CONTEXT WHERE ID = #id#
+		DELETE FROM LESSON_CONTEXT WHERE ID = #id#
 	</delete>
 	
 	<select id="viewByTechId" parameterClass="map" resultClass="context">
-		SELECT C.`ID`, C.`TECHID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`, C.`CREATETIME`, C.`CREATOR`,
-		T.`TYPE`, T.`NAME` AS TEMPNAME FROM TECH_CONTEXT C  LEFT OUTER JOIN TECH_TEMPLATE T ON C.`TEMPID` = T.`ID`
+		SELECT C.`ID`, C.`LESSONID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`,C.`NEWFILENAME`, C.`CREATETIME`, C.`CREATOR`,C.`HIDDEN`,
+		T.`TYPE`, T.`NAME` AS TEMPNAME FROM LESSON_CONTEXT C  LEFT OUTER JOIN LESSON_TEMPLATE T ON C.`TEMPID` = T.`ID` 
 		<dynamic prepend="WHERE">
 			<isNotEmpty property="id" prepend="AND">
 				C.ID = #id#
 			</isNotEmpty>
 			<isNotEmpty property="techId" prepend="AND">
-				C.TECHID = #techId# 
+				C.LESSONID = #lessonId# 
 			</isNotEmpty>
 		</dynamic>
-		
 		LIMIT 1;
 	</select>
+	
+	<update id="update" parameterClass="map">
+		UPDATE LESSON_CONTEXT
+		<dynamic prepend="SET">
+			<isNotEmpty property="name" prepend=",">
+				`NAME` = #name#
+			</isNotEmpty>
+			<isNotEmpty property="context" prepend=",">
+				`CONTEXT` = #context#
+			</isNotEmpty>
+			<isNotEmpty property="source" prepend=",">
+				`SOURCE` = #source#
+			</isNotEmpty>
+			<isNotEmpty property="newFileName" prepend=",">
+				`NEWFILENAME` = #newFileName#
+			</isNotEmpty>
+			<isNotEmpty property="hidden" prepend=",">
+				`HIDDEN` = #hidden#
+			</isNotEmpty>
+		</dynamic>
+		WHERE ID = #id#
+		
+	</update>
 	
 </sqlMap>

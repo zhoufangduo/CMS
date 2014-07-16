@@ -83,6 +83,12 @@
 				hideMenu();
 			});
 			
+			function heart(){
+				$.post("",function(){
+					
+				});
+			}
+			
 		</script>
 	</head>
 	<menus:menu/>

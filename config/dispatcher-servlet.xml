@@ -37,8 +37,6 @@
 		</property>
 	</bean>
 
-
-
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
 		<property name="messageConverters">
 			<ref bean="mappingJacksonHttpMessageConverter" />
@@ -47,8 +45,7 @@
 
 	<mvc:resources location="/resource/" mapping="/resource/**" />
 
-	<bean id="mappingJacksonHttpMessageConverter"
-		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
 
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">

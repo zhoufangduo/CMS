@@ -23,4 +23,12 @@ public class QuestionsDao  extends BaseDaoSupport{
 		deleteById("easytop.cms.questions.deleteById", params);
 	}
 
+	public void addUserAnswer(List<Map<String, String>> list) {
+		insert("easytop.cms.questions.batchAdd", list);
+	}
+
+	public void addUserScoreTotal(Map<String, String> params) {
+		insert("easytop.cms.questions.addAnswerTotal", params);
+	}
+
 }

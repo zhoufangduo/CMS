@@ -93,7 +93,7 @@
 		<filter-class>com.easytop.cms.web.SafetyFilter</filter-class>
 		<init-param>
 			<param-name>resource</param-name>
-			<param-value>/resource/,/login/</param-value>
+			<param-value>/resource/,/login/,/index.jsp</param-value>
 		</init-param>
 	</filter>
 	

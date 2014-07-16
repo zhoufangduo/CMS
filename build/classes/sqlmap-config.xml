@@ -5,7 +5,6 @@
 	<sqlMap resource="com/easytop/cms/dao/login.xml"/>
 	<sqlMap resource="com/easytop/cms/dao/user.xml"/>
 	<sqlMap resource="com/easytop/cms/dao/class.xml"/>
-	<sqlMap resource="com/easytop/cms/dao/technology.xml"/>
 	<sqlMap resource="com/easytop/cms/dao/item.xml"/>
 	<sqlMap resource="com/easytop/cms/dao/paper.xml"/>
 	<sqlMap resource="com/easytop/cms/dao/questions.xml"/>

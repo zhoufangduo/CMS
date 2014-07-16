@@ -34,4 +34,8 @@ public class LessonDao extends BaseDaoSupport {
 	public void update(Map<String, String> params) {
 		update("easytop.cms.lesson.update", params);
 	}
+
+	public void updateState(Map<String, String> params) {
+		update("easytop.cms.lesson.updateState", params);
+	}
 }

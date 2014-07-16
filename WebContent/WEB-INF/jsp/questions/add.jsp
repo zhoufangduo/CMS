@@ -64,10 +64,16 @@
 				rules:{
 					"context":{
 						required:true
+					},
+					"score":{
+						required:true,
+						number:true,
+						min:1
 					}
 				},
 				messages:{
-					"context": "作答的问题不能为空!"
+					"context": "作答的问题不能为空!",
+					"score":{required:"作答得分不能为空",number:"分数只能为数字",min:"最少分数为1分"}
 				},
 				submitHandler: function(form) {
 					if($("#type").val() != 3){
@@ -177,6 +183,16 @@
 					<td width="35%">
 						<div class="form-group" >
 							<textarea rows="2" name="context"  cols="10" class="form-control" placeholder="请输入作答的问题"></textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="10%" class="input_label">
+						<div class="form-group">分数</div>
+					</td>
+					<td width="35%">
+						<div class="form-group" style="text-align: left;">
+							<input type="text" name="score"  class="form-control"  placeholder="请输入作答的问题">
 						</div>
 					</td>
 				</tr>

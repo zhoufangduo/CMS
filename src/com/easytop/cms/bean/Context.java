@@ -12,6 +12,8 @@ public class Context {
 
 	private String context;
 
+	private String newFileName;
+
 	private String source;
 
 	private String createTime;
@@ -21,6 +23,8 @@ public class Context {
 	private String type;
 
 	private String tempName;
+
+	private String hidden;
 
 	public String getId() {
 		return id;
@@ -100,6 +104,22 @@ public class Context {
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public String getNewFileName() {
+		return newFileName;
+	}
+
+	public void setNewFileName(String newFileName) {
+		this.newFileName = newFileName;
+	}
+
+	public String getHidden() {
+		return hidden;
+	}
+
+	public void setHidden(String hidden) {
+		this.hidden = hidden;
 	}
 
 }

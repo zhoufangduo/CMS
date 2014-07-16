@@ -17,8 +17,8 @@
 	</sql>
 	
 	<insert id="add" parameterClass="map">
-		INSERT INTO LESSON(`NAME`,`TECHIDS`,`CREATETIME`,`CREATOR`,`INTRODUCE`,`TARGET`,`CONTEXT`,`ITEMS`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`)
-		VALUES(#name#,#techIds#,NOW(),#creator#,#introduce#,#target#,#context#,#items#,#itemDesc#,#objective#,#time#,#state#)
+		INSERT INTO LESSON(`NAME`,`CREATETIME`,`CREATOR`,`INTRODUCE`,`TARGET`,`CONTEXT`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`)
+		VALUES(#name#,NOW(),#creator#,#introduce#,#target#,#context#,#itemDesc#,#objective#,#time#,#state#)
 	</insert>
 	
 	<select id="getTotal" parameterClass="map" resultClass="int">
@@ -27,8 +27,8 @@
 	</select>
 	
 	<select id="list" parameterClass="map" resultClass="lesson">
-		SELECT L.`ID`,count(C.ID)as total,`NAME`,`TECHIDS`,`CREATETIME`,`CREATOR`,`INTRODUCE`,
-			`TARGET`,`CONTEXT`,`ITEMS`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`
+		SELECT L.`ID`,count(C.ID)as total,`NAME`,`CREATETIME`,`CREATOR`,`INTRODUCE`,
+			`TARGET`,`CONTEXT`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`
 		FROM LESSON L LEFT OUTER JOIN CLASS_LESSON C ON C.LESSONID = L.ID
 		<include refid="query"/>
 		
@@ -44,7 +44,7 @@
 	</select>
 	
 	<select id="view" parameterClass="map" resultClass="lesson">
-		SELECT `ID`,`NAME`,`TECHIDS`,`CREATETIME`,`CREATOR`,`INTRODUCE`,`TARGET`,`CONTEXT`,`ITEMS`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`
+		SELECT `ID`,`NAME`,`CREATETIME`,`CREATOR`,`INTRODUCE`,`TARGET`,`CONTEXT`,`ITEMDESC`,`OBJECTIVE`,`TIME`,`STATE`
 		FROM LESSON WHERE ID = #id#
 	</select>
 	
@@ -58,9 +58,6 @@
 			<isNotEmpty property="name" prepend=",">
 				`NAME` = #name#
 			</isNotEmpty>
-			<isNotEmpty property="techIds" prepend=",">
-				`TECHIDS` = #techIds#
-			</isNotEmpty>
 			<isNotEmpty property="introduce" prepend=",">
 				`INTRODUCE` = #introduce#
 			</isNotEmpty>
@@ -69,9 +66,6 @@
 			</isNotEmpty>
 			<isNotEmpty property="context" prepend=",">
 				`CONTEXT` = #context#
-			</isNotEmpty>
-			<isNotEmpty property="items" prepend=",">
-				`ITEMS` = #items#
 			</isNotEmpty>
 			<isNotEmpty property="itemDesc" prepend=",">
 				`ITEMDESC` = #itemDesc#
@@ -86,6 +80,12 @@
 				`TIME` = #time#
 			</isNotEmpty>
 		</dynamic>
+		
+		WHERE ID =#id#
+	</update>
+	
+	<update id="updateState" parameterClass="map">
+		UPDATE LESSON SET `STATE` = #cstate# WHERE ID =#id#
 	</update>
 	
 </sqlMap>

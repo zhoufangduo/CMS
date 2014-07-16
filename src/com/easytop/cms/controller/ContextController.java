@@ -46,7 +46,7 @@ public class ContextController extends BaseController {
 	private ContextService ctxtService;
 	
 	public ContextController(){
-		super("technology/context/");
+		super("lesson/context/");
 	}
 	
 	@RequestMapping("list")
@@ -80,24 +80,7 @@ public class ContextController extends BaseController {
 			
 			if (uploadFile instanceof MultipartFile ) {
 				
-				MultipartFile file = (MultipartFile) uploadFile;
-				
-				String fileName = FileUtil.writeTechFile(file, file.getOriginalFilename());
-				
-				boolean converType = getConverType(FileUtil.getFileFormat(fileName));
-				
-				if (converType) {
-					
-					String context = converterPdf(request, fileName);
-					
-					params.put("context", context);
-					
-					params.put("source", file.getOriginalFilename());
-				}else {
-					
-					params.put("context", fileName);
-					params.put("source", file.getOriginalFilename());
-				}
+				uploadConverFile(uploadFile, params, request);
 			}
 			
 			params.put("creator", getUser().getName());
@@ -143,24 +126,28 @@ public class ContextController extends BaseController {
 		
 		Context context = ctxtService.viewByTechId(params);
 		
-		model.addAttribute("context", context);
-		
-		String suffix = FileUtil.getFileFormat(context.getSource());
-		
-		if (context != null && getConverType(suffix)) {
+		if (context != null) {
 			
-			return getContext("play");
-		}
-		else if ("5".equals(context.getType())) {
-			return getContext("media");
-		}
-		else if ("18".equals(context.getType())) {
-			return getContext("all");
+			model.addAttribute("context", context);
+			
+			String suffix = FileUtil.getFileFormat(context.getSource());
+			
+			if (context != null && getConverType(suffix)) {
+				
+				return getContext("play");
+			}
+			else if ("5".equals(context.getType())) {
+				return getContext("media");
+			}
+			else if ("18".equals(context.getType())) {
+				return getContext("all");
+			}
+			
+			if ("10".equals(context.getType())) {
+				model.addAttribute("papers", paperService.list(params));
+			}
 		}
 		
-		if ("10".equals(context.getType())) {
-			model.addAttribute("papers", paperService.list(params));
-		}
 		
 		return getContext("html");
 		
@@ -203,6 +190,31 @@ public class ContextController extends BaseController {
 		
 	}
 	
+	@RequestMapping("downloadSource")
+	public void downloadSource(@RequestParam Map<String, String> params,
+			HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+		
+		Context context = ctxtService.viewByTechId(params);
+		
+		try {
+			
+			if (context != null) {
+				
+				String newFileName = context.getSource();
+				
+				String fileName = context.getNewFileName();
+				
+				FileUtil.downloadTechFile(response, fileName, newFileName);
+			}
+			
+		} catch (Exception e) {
+			logger.warn(e.getMessage(), e);
+		}
+		
+	}
+	
+	
+	
 	@RequestMapping("deleteById")
 	public String deleteById(final ModelMap model, @RequestParam Map<String, String> params){
 		
@@ -213,6 +225,83 @@ public class ContextController extends BaseController {
 		}
 		
 		return list(model, params);
+	}
+	
+	@RequestMapping("view")
+	public String view(final ModelMap model, @RequestParam Map<String, String> params){
+		
+		String id = params.get("id");
+		
+		if (StringUtils.isNotEmpty(id)) {
+			Context context = ctxtService.viewById(params);
+			
+			model.put("context", context);
+		}
+		
+		return getContext(VIEW);
+	}
+	
+	@RequestMapping("update")
+	public void update(@RequestParam("fileName") Object uploadFile,
+			final ModelMap model,@RequestParam Map<String, String> params,
+			HttpServletRequest request, HttpServletResponse response){
+		
+		this.setWebContext(request, response);
+		
+		String result  = "true";
+		
+		try {
+			
+			if (uploadFile instanceof MultipartFile ) {
+				
+				uploadConverFile(uploadFile, params, request);
+			}
+			
+			ctxtService.update(params);
+			
+		} catch (Exception e) {
+			logger.warn(e.getMessage(), e);
+			result = "false";
+		}
+		
+		write("{\"result\":\""+result+"\"}");
+	}
+	
+	
+	@RequestMapping("hidden")
+	public String hidden(final ModelMap model, @RequestParam Map<String, String> params){
+		
+		if (StringUtils.isNotEmpty(params.get("id"))) {
+			ctxtService.hidden(params);
+		}
+		
+		return list(model, params);
+	}
+	
+
+	
+	private void uploadConverFile(Object uploadFile,
+			Map<String, String> params, HttpServletRequest request) {
+		MultipartFile file = (MultipartFile) uploadFile;
+		
+		String fileName = FileUtil.writeTechFile(file, file.getOriginalFilename());
+		
+		params.put("newFileName", new File(fileName).getName());
+		
+		boolean converType = getConverType(FileUtil.getFileFormat(fileName));
+		
+		if (converType) {
+			
+			String context = converterPdf(request, fileName);
+			
+			params.put("context", context);
+			
+			params.put("source", file.getOriginalFilename());
+		}else {
+			
+			params.put("context", fileName);
+			params.put("source", file.getOriginalFilename());
+		}
 	}
 
 }

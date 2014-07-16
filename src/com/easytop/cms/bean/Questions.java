@@ -14,6 +14,8 @@ public class Questions {
 
 	private String reply;
 
+	private int score;
+
 	public String getId() {
 		return id;
 	}
@@ -60,6 +62,14 @@ public class Questions {
 
 	public void setReply(String reply) {
 		this.reply = reply;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 }

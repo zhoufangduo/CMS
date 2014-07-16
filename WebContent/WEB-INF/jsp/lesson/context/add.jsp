@@ -64,7 +64,7 @@
 		
 	</style>
 	<script type="text/javascript">
-		function toAdd(type, id){
+		function toAdd(type,id){
 			init();
 			if(config[type].showType == "file"){
 				$("#"+config[type].showType).fadeIn("slow");
@@ -156,9 +156,14 @@
 <body>
 	<div class="row-fluid">
 	  <div align="center" style="font-size: 16px;font-weight:bold;margin-bottom: -15px;margin-top: 20px;">课时内容类型:</div>
+	  <c:if test="${requestScope.templates.size() == 0}">
+	  	<div style="margin-top: 30px;text-align: center;">
+	   		请先创建客户类别模版
+	  	</div>
+  	  </c:if>
       <ul class="thumbnails">
 		<c:forEach items="${requestScope.templates}" var="templ" varStatus="st">
-	        <li class="thumbnail" onclick="toAdd('${templ.type}',${templ.id})">
+	        <li class="thumbnail" onclick="toAdd('${templ.type}','${templ.id}')">
 	            <div>
 	              <img src="" id="img${st.index + 1}">
 	              <div class="caption" style="text-align: center;padding-top: 10px;">
@@ -172,11 +177,10 @@
 		</c:forEach>
      </ul>
    </div>
-   
    <div id="formContext" style="display: none;"  class="tile" style="border-radius: 1px;">
    		
 	   	<form id="file" action="<%=request.getContextPath()%>/context/add" method="POST" enctype="multipart/form-data" >
-	   	   <input type="hidden" name="techId" value="${param.techId}">
+	   	   <input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	   <input type="hidden" name="tempId" value="">
 		   <table style="width: 100%; height: 100%;" border="0">
 	   	   	   <tr>
@@ -204,7 +208,7 @@
 	   	   		<tr>
 	   	   			<td colspan="2">
 	   	   					<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   	   			   style="margin:15px 10px;width: 100px;">
 	   	   	   			   	&nbsp;&nbsp;&nbsp;
 	   	   	   			    <input type="button" value="返&nbsp;回" class="btn btn-default"
 	   	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
@@ -214,7 +218,7 @@
 	   	</form>		
 	   	
 	   	<form id="6" action="<%=request.getContextPath()%>/context/add" method="POST" >
-	   	   <input type="hidden" name="techId" value="${param.techId}">
+	   	   <input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	   <input type="hidden" name="tempId" value="">
 	   	   <input type="file" name="fileName" style="display: none;"/>
 		   <table style="width: 100%; height: 100%;" border="0">   	  
@@ -239,7 +243,7 @@
 		   	<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -250,7 +254,7 @@
    	 </form>
    	 
 	 <form id="8" action="<%=request.getContextPath()%>/context/add" method="POST" >
-	 	<input type="hidden" name="techId" value="${param.techId}">
+	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">   
@@ -277,7 +281,7 @@
    	   		 <tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -288,7 +292,7 @@
    	 </form>
    	 
    	 <form id="9" action="<%=request.getContextPath()%>/context/add" method="POST" >
-   	 	<input type="hidden" name="techId" value="${param.techId}">
+   	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -315,7 +319,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -326,7 +330,7 @@
    	 </form>
    	 
    	 <form id="10" action="<%=request.getContextPath()%>/context/add" method="POST" >
-   	 	<input type="hidden" name="techId" value="${param.techId}">
+   	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -353,7 +357,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -364,7 +368,7 @@
    	 </form>
    	 
    	 <form id="11" action="<%=request.getContextPath()%>/context/add" method="POST" >
-   	 	<input type="hidden" name="techId" value="${param.techId}">
+   	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -388,7 +392,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -399,7 +403,7 @@
    	 </form>
    	 
    	 <form id="12" action="<%=request.getContextPath()%>/context/add" method="POST" >
-   	 	<input type="hidden" name="techId" value="${param.techId}">
+   	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -426,7 +430,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -437,7 +441,7 @@
    	 </form>
    	 
    	 <form id="13" action="<%=request.getContextPath()%>/context/add" method="POST" >
-   	 	<input type="hidden" name="techId" value="${param.techId}">
+   	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -464,7 +468,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -475,7 +479,7 @@
    	 </form>
 	 
 	 <form id="14" action="<%=request.getContextPath()%>/context/add" method="POST" >
-	 	<input type="hidden" name="techId" value="${param.techId}">
+	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -500,7 +504,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -511,7 +515,7 @@
    	 </form>
    	 
    	 <form id="15" action="<%=request.getContextPath()%>/context/add" method="POST" >
-   	 	<input type="hidden" name="techId" value="${param.techId}">
+   	 	<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	   	<input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -535,7 +539,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px;width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px;width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"
@@ -546,7 +550,7 @@
    	 </form>
 	 
 	<form id="17" action="<%=request.getContextPath()%>/context/add" method="POST" >
-		<input type="hidden" name="techId" value="${param.techId}">
+		<input type="hidden" name="lessonId" value="${param.lessonId}">
 	   	<input type="hidden" name="tempId" value="">
 	    <input type="file" name="fileName" style="display: none;"/>
 		<table style="width: 100%; height: 100%;" border="0">  
@@ -568,7 +572,7 @@
    	   		<tr>
    	   			<td colspan="2">
 	   				<input type="submit" value="保&nbsp;存" class="btn btn-primary"
-	   	   			   style="margin:15px 10px; width: 100px;"  onclick="toBack()">
+	   	   			   style="margin:15px 10px; width: 100px;">
  	   	   			   
  	   	   			&nbsp;&nbsp;&nbsp;
  	   	   			<input type="button" value="返&nbsp;回" class="btn btn-default"

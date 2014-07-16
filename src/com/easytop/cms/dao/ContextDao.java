@@ -28,4 +28,17 @@ public class ContextDao extends BaseDaoSupport{
 		return getById("easytop.cms.context.viewByTechId", params);
 	}
 
+	public Context viewById(Map<String, String> params) {
+		
+		return getById("easytop.cms.context.viewByTechId", params);
+	}
+
+	public void update(Map<String, String> params) {
+		update("easytop.cms.context.update", params);
+	}
+
+	public void hidden(Map<String, String> params) {
+		update("easytop.cms.context.update", params);
+	}
+
 }

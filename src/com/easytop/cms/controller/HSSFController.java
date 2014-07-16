@@ -8,7 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
-public class HSSFConstroler extends BaseController {
+public class HSSFController extends BaseController {
 	
 	protected int firstRow;
 	
@@ -16,7 +16,7 @@ public class HSSFConstroler extends BaseController {
 	
 	protected HSSFSheet sheet;
 	
-	public HSSFConstroler(String dirPath){
+	public HSSFController(String dirPath){
 		super(dirPath);
 	}
 	

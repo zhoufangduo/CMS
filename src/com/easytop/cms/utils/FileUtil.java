@@ -108,20 +108,28 @@ public abstract class FileUtil {
 		byte[]data = getFileData(newFile);
 		
 		response.reset();  
+		
+		try {
+			fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");  
 		response.addHeader("Content-Length", "" + data.length);  
 		response.setContentType("application/octet-stream;charset=UTF-8");  
+		
 		OutputStream outputStream = null;
 		try {
 			outputStream = new BufferedOutputStream(response.getOutputStream());  
 			outputStream.write(data);
-			outputStream.flush();  
 		} catch (IOException e) {
 			e.printStackTrace();
 		}  finally{
 			
 			try {
 				outputStream.close();  
+				outputStream.flush();  
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
@@ -147,12 +155,6 @@ public abstract class FileUtil {
 	
 	public static void downloadTemplate(HttpServletResponse response,String newFileName,String fileName){
 		File newFile = new File(PathTools.getTemplatePath(fileName)); 
-		
-		try {
-			newFileName = new String(newFileName.getBytes("UTF-8"), "ISO-8859-1");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} 
 		
 		writeToResponse(response, newFileName, newFile);
 	}

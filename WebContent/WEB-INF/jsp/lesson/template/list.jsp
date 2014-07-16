@@ -52,7 +52,7 @@
 		}
 		
 		function toBack(){
-			window.location = "<%=request.getContextPath()%>/technology/list";
+			window.location = "<%=request.getContextPath()%>/lesson/list";
 		}
 	</script>
 </head>
@@ -66,7 +66,7 @@
 				<td colspan="4"  class="toolBar">
 					<input type="button" class="btn btn-sm btn-info" value="添&nbsp;加" onclick="toAdd()">
 					&nbsp;&nbsp;
-					<input type="button" class="btn btn-sm btn-info" value="返&nbsp;回" onclick="toBack()">
+					<input type="button" class="btn btn-sm btn-info" value="返回课程" onclick="toBack()">
 				</td>
 			</tr>
 	    </table>

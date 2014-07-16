@@ -30,4 +30,8 @@ public class QuestionsService {
 		qstionsDao.deleteById(params);
 	}
 
+	public void addUserAnswer(List<Map<String, String>> list, Map<String, String> newParams) {
+		qstionsDao.addUserAnswer(list);
+		qstionsDao.addUserScoreTotal(newParams);
+	}
 }

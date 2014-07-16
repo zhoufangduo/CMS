@@ -18,8 +18,8 @@
 	</style>
 	<script type="text/javascript">
 		$(function(){
-			$("#"+config["${context.tempId}"].fileType).show();
-			$("div").filter("[id!="+config["${context.tempId}"].fileType+"]").remove();
+			$("#"+config["${context.type}"].fileType).show();
+			$("div").filter("[id!="+config["${context.type}"].fileType+"]").remove();
 		});
 	</script>
 </head>

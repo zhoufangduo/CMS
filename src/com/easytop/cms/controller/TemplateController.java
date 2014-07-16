@@ -28,7 +28,7 @@ public class TemplateController extends BaseController {
 	
 	
 	public TemplateController(){
-		super("technology/template/");
+		super("lesson/template/");
 	}
 	
 	@RequestMapping("toAdd")

@@ -26,7 +26,7 @@ import com.easytop.cms.web.Page;
 
 @Controller
 @RequestMapping("/user/*")
-public class UserController extends HSSFConstroler {
+public class UserController extends HSSFController {
 
 	private static Logger logger = Logger.getLogger(UserController.class);
 

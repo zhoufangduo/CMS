@@ -58,7 +58,7 @@
 		
 		function toBack(){
 			parent.menuFrame.location = "../resource/blank_menu.jsp";
-			parent.mainFrame.location = "<%=request.getContextPath()%>/context/list?techId=${param.techId}";
+			parent.mainFrame.location = "<%=request.getContextPath()%>/context/list?lessonId=${param.lessonId}";
 			parent.hideMenu();
 		}
 		
@@ -73,13 +73,17 @@
 	</div>
 	<ul>
 		<c:forEach items="${requestScope.contexts}" var="context" varStatus="st">
-			<li title="${context.name}" onclick="toPlay('${context.id}','${context.name}')">
-				${context.name}
-			</li>
-			<c:if test="${context.id == param.id}">
-				<script type="text/javascript">
-					$("#active").html("当前活动项:&nbsp;${context.name}");
-				</script>
+		
+			<c:if test="${(context.hidden == 1 && context.creator == sessionScope.user.name)
+		            		|| context.hidden == 0}">
+				<li title="${context.name}" onclick="toPlay('${context.id}','${context.name}')">
+					${context.name}
+				</li>
+				<c:if test="${context.id == param.id}">
+					<script type="text/javascript">
+						$("#active").html("当前活动项:&nbsp;${context.name}");
+					</script>
+				</c:if>
 			</c:if>
 		</c:forEach>
 	</ul>

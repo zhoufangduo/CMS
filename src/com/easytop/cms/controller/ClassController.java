@@ -111,11 +111,24 @@ public class ClassController extends BaseController {
 	}
 
 	@RequestMapping("update")
-	public void update(final ModelMap model,@RequestParam Map<String, String> params) {
-		if (params.size() > 0) {
-			classService.update(params);
-			classService.deleteLesson(params.get("id"));
-			classService.addLesson(params.get("id"), params.get("lessons"));
+	public void update(@RequestParam Map<String, String> params,
+			HttpServletRequest request ,HttpServletResponse response) {
+		
+		this.setWebContext(request, response);
+		
+		try {
+			
+			if (params.size() > 0) {
+				classService.update(params);
+				classService.deleteLesson(params.get("id"));
+				classService.addLesson(params.get("id"), params.get("lessons"));
+				
+				write(TRUE);
+			}
+		} catch (Exception e) {
+			logger.warn(e.getMessage(), e);
 		}
+		
+		write(FALSE);
 	}
 }

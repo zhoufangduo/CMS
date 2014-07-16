@@ -3,10 +3,13 @@ package com.easytop.cms.web.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import net.solosky.maplefetion.bean.Presence;
+
 import org.apache.commons.lang.StringUtils;
 import org.artofsolving.jodconverter.office.DefaultOfficeManagerConfiguration;
 import org.artofsolving.jodconverter.office.OfficeManager;
 
+import com.easytop.cms.utils.FetionSender;
 import com.easytop.cms.utils.PropertyUtil;
 
 public final class AppListener implements ServletContextListener {
@@ -17,6 +20,29 @@ public final class AppListener implements ServletContextListener {
 	
 	public void contextInitialized(ServletContextEvent event) {
 		
+		initOffice(event);
+		
+		initFetionSender(event);
+		
+	}
+
+	private void initFetionSender(ServletContextEvent event) {
+		boolean enable = PropertyUtil.getBoolean("fetion.enable", false);
+		if (enable) {
+			event.getServletContext().setAttribute("fetionSender", newFectionSender());
+		}
+		
+	}
+
+	private FetionSender newFectionSender() {
+		
+		FetionSender sender = new FetionSender();
+		sender.login(Presence.ONLINE);
+		
+		return sender;
+	}
+
+	private void initOffice(ServletContextEvent event) {
 		final String office_home = PropertyUtil.get(OFFICE_HOME);
 		
 		final int port[] = {PropertyUtil.getInt(OFFICE_PORT,8100)};
@@ -32,7 +58,6 @@ public final class AppListener implements ServletContextListener {
 			
 			event.getServletContext().setAttribute("officeManager", officeManager);
 		}
-		
 	}
 	
 	/**
@@ -67,6 +92,15 @@ public final class AppListener implements ServletContextListener {
 		if (officeManager != null) {
 			officeManager.stop();
 		}
+		
+		FetionSender sender = (FetionSender)event.getServletContext().getAttribute("fetionSender");
+		
+		if (sender != null) {
+			try {
+				sender.exit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
 }

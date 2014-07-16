@@ -34,5 +34,17 @@ public class ContextService {
 	
 		return ctxDao.viewByTechId(params);
 	}
+
+	public Context viewById(Map<String, String> params) {
+		return ctxDao.viewById(params);
+	}
+
+	public void update(Map<String, String> params) {
+		ctxDao.update(params);
+	}
+
+	public void hidden(Map<String, String> params) {
+		ctxDao.hidden(params);
+	}
 	
 }

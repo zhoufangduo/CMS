@@ -41,35 +41,40 @@
 		}
 		
 		function toAdd(){
-			var url = "<%=request.getContextPath()%>/context/toAdd?techId=${param.techId}&d="+new Date().getTime();
+			var url = "<%=request.getContextPath()%>/context/toAdd?lessonId=${param.lessonId}&d="+new Date().getTime();
 			$('<div id="basic-modal-content"><iframe class="window" style="width:828px;"  id="addClazz" src="'+ url +'"></div>').modal(option);
 		}
 		
 		function deleteById(id){
 			if(window.confirm("你确定删除内容?")){
-				var url = "<%=request.getContextPath()%>/context/deleteById?techId=${param.techId}&id=" + id ;
+				var url = "<%=request.getContextPath()%>/context/deleteById?lessonId=${param.lessonId}&id=" + id ;
 				window.location = url;
 			}
 		}
 		
 		function toBack(){
-			window.location = "<%=request.getContextPath()%>/technology/list";
+			window.location = "<%=request.getContextPath()%>/lesson/list";
 		}
 		
 		function toPlay(){
 			parent.showMenu();
-			parent.menuFrame.location = "<%=request.getContextPath()%>/context/menu?techId=${param.techId}";
-			window.location = "<%=request.getContextPath()%>/context/play?techId=${param.id}";
+			parent.menuFrame.location = "<%=request.getContextPath()%>/context/menu?lessonId=${param.lessonId}";
+			window.location = "<%=request.getContextPath()%>/context/play?lessonId=${param.id}";
 		}
 		
 		function playAccept(id){
 			parent.showMenu();
-			parent.menuFrame.location = "<%=request.getContextPath()%>/context/menu?techId=${param.techId}&id="+id;
+			parent.menuFrame.location = "<%=request.getContextPath()%>/context/menu?lessonId=${param.lessonId}&id="+id;
 			window.location = "<%=request.getContextPath()%>/context/play?id="+id;
 		}
 		
-		function downloadFile(fileName,id){
-			window.location ="<%=request.getContextPath()%>/context/downloadFile?fileName="+fileName+"&id="+id;
+		function downloadFile(id){
+			window.location ="<%=request.getContextPath()%>/context/downloadSource?id="+id;
+		}
+		
+		function toView(id){
+			var url = "<%=request.getContextPath()%>/context/view?id="+ id +"&d="+new Date().getTime();
+			$('<div id="basic-modal-content"><iframe class="window" style="width:828px;"  id="addClazz" src="'+ url +'"></div>').modal(option);
 		}
 		
 	</script>
@@ -103,28 +108,46 @@
                 <th class="tlabel" width="8%">序列</th>
                 <th class="tlabel">名称</th>
                 <th class="tlabel">类型</th>
-                <th class="tlabel">创建者</th>
-                <th class="tlabel">创建时间</th>
-                <th class="tlabel">操作</th>
+                <th class="tlabel" width="10%">创建者</th>
+                <th class="tlabel" >创建时间</th>
+                <th class="tlabel" width="8%">是否隐藏</th>
+                <th class="tlabel" width="18%">操作</th>
              </tr>
             </thead>
             <tbody>
             	<c:forEach items="${requestScope.contexts}" var="context" varStatus="st">
-            		<tr>
-            			<td class="tlabel">${st.index + 1}</td>
-            			<td class="tlabel">${context.name}</td>
-            			<td class="tlabel">${context.tempName}</td>
-            			<td class="tlabel">${context.creator}</td>
-            			<td class="tlabel">${context.createTime}</td>
-            			<td class="tlabel">
-            				<a href="javascript:deleteById('${context.id}')">删除</a>&nbsp;
-            				<a href="javascript:playAccept('${context.id}')">开课</a>&nbsp;
-            				<c:if test="${context.source != null && context.source != ''}">
-            					<a href="javascript:downloadFile('${context.source}','${context.id}')">下载源文件</a>&nbsp;
-            				</c:if>
-            				<a href="">修改</a>
-            			</td>
-            		</tr>
+	            	<c:if test="${(context.hidden == 1 && context.creator == sessionScope.user.name)
+	            		|| context.hidden == 0}">
+	            		<tr id="${context.name}">
+	            			<td class="tlabel">${st.index + 1}</td>
+	            			<td class="tlabel">${context.name}</td>
+	            			<td class="tlabel">${context.tempName}</td>
+	            			<td class="tlabel">${context.creator}</td>
+	            			<td class="tlabel">${context.createTime}</td>
+	            			<td class="tlabel">
+	            				<c:if test="${context.hidden == 0}">
+	            					否
+	            				</c:if>
+	            				<c:if test="${context.hidden == 1}">
+	            					是
+	            				</c:if>
+							</td>
+	            			<td class="tlabel">
+	            				<a href="javascript:deleteById('${context.id}')">删除</a>&nbsp;
+	            				<a href="javascript:playAccept('${context.id}')">开课</a>&nbsp;
+	            				<c:if test="${context.source != null && context.source != ''}">
+	            					<a href="javascript:downloadFile('${context.id}')">下载源文件</a>&nbsp;
+	            				</c:if>
+	            				<a href="javascript:toView('${context.id}')">修改</a>
+	            			
+	            				<c:if test="${context.hidden == 0 && context.creator == sessionScope.user.name}">
+		            				<a href="<%=request.getContextPath()%>/context/hidden?hidden=1&id=${context.id}&lessonId=${param.lessonId}">
+		            					隐藏
+		            				</a>
+	            				</c:if>
+	            			</td>
+	            		</tr>
+	            	</c:if>
             	</c:forEach>
             </tbody>
         </table>

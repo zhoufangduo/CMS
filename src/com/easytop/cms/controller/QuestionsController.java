@@ -1,5 +1,6 @@
 package com.easytop.cms.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ import com.easytop.cms.utils.FileUtil;
 
 @Controller
 @RequestMapping("/questions/*")
-public class QuestionsController extends HSSFConstroler {
+public class QuestionsController extends HSSFController {
 	
 	private static Logger logger = Logger.getLogger(QuestionsController.class);
 
@@ -122,6 +123,51 @@ public class QuestionsController extends HSSFConstroler {
 		return list(model, params);
 	}
 	
+	@RequestMapping("submit")
+	public void submit(@RequestParam Map<String, String> params,
+			HttpServletRequest request, HttpServletResponse response){
+		
+		setWebContext(request, response);
+		
+		int score = 0;
+		
+		List<Questions> questions = qstionsService.list(params);
+		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+		for(Questions qtion : questions){
+			if (qtion != null) {
+				
+				String value = params.get(qtion.getId());
+				
+				if("2".equals(qtion.getType())){
+					String[]values = request.getParameterValues(qtion.getId());
+					value = StringUtils.join(values, ";");
+				}
+				
+				if (qtion.getReply().equals(value)) {
+					score += qtion.getScore();
+				}
+				
+				Map<String, String> newParams = new HashMap<String, String>();
+				newParams.put("questionsId", qtion.getId());
+				newParams.put("answer", value);
+				newParams.put("username", getUser().getUsername());
+				
+				list.add(newParams);
+			}
+		}
+		
+		
+		Map<String, String> newParams = new HashMap<String, String>();
+		
+		newParams.put("paperId", params.get("paperId"));
+		newParams.put("total", String.valueOf(score));
+		newParams.put("username", getUser().getUsername());
+		
+		qstionsService.addUserAnswer(list, newParams);
+
+	}
+	
+	
 	@RequestMapping("download")
 	public void downloadTempl(HttpServletRequest request, HttpServletResponse response){
 		FileUtil.downloadTemplate(response, "问题问卷.xls", "questions.xls");
@@ -169,11 +215,13 @@ public class QuestionsController extends HSSFConstroler {
 			type = "3";
 		}
 		newParams.put("type", type);
-		
-		newParams.put("answer", getValue(row, 2));
-		newParams.put("reply", getValue(row, 3));
+		newParams.put("score", getValue(row, 2));
+		newParams.put("answer", getValue(row, 3));
+		newParams.put("reply", getValue(row, 4));
 		newParams.put("paperId", params.get("paperId"));
 		delEndSemicolon(newParams);
 		return newParams;
 	}
+	
+	
 }

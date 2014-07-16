@@ -157,11 +157,11 @@
 		<c:forEach items="${requestScope.questions}" var="qstions" varStatus="st">
 			<div style="text-align: left;">
 				${st.index + 1}. ${qstions.context}
+				<span style="margin-left: 30px;">[&nbsp;分数:${qstions.score}&nbsp;
 				<c:if test="${qstions.type != 3}">
-					<span style="margin-left: 30px;">
-						[答案: ${qstions.reply}]&nbsp;
-					</span>
+					,答案: ${qstions.reply}&nbsp;
 				</c:if>
+				]</span>
 				<span style="margin-left: 20px;">
 					[<a href="javascript:deleteById('${qstions.id}')">删除</a>]&nbsp;
 				</span>

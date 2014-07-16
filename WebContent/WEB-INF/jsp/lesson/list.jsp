@@ -61,7 +61,7 @@
 		}
 		
 		function viewTech(id){
-			window.location = "<%=request.getContextPath()%>/lesson/viewTechs?id="+id;
+			window.location = "<%=request.getContextPath()%>/context/list?lessonId="+id;
 		}
 		
 	</script>
@@ -111,7 +111,7 @@
                <th class="tlabel" width="8%">授课次数</th>
                <th class="tlabel">课程介绍</th>
                <th class="tlabel" width="12%">周期</th>
-               <th class="tlabel">操作</th>
+               <th class="tlabel" width="12%">操作</th>
              </tr>
           </thead>
           <tbody>
@@ -143,25 +143,27 @@
           			</td>
           			<td class="tlabel">
           				<c:if test="${lesson.state == '1'}">
-          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=2">
-          					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;
+          					<a href="<%=request.getContextPath()%>/lesson/state?id=${lesson.id}&cstate=2">
+          					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;&nbsp;
           					
           					<a href="javascript:deleteById('${lesson.id}','${lesson.name}')">
-          					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;
+          					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;&nbsp;
           				</c:if>
           				<c:if test="${lesson.state == '2'}">
-          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=3">
-          					<span class="fui-lock"></span>&nbsp;冻结</a>&nbsp;
+          					<a href="<%=request.getContextPath()%>/lesson/state?id=${lesson.id}&cstate=3">
+          					<span class="fui-lock"></span>&nbsp;冻结</a>&nbsp;&nbsp;
           				</c:if>
           				<c:if test="${lesson.state == '3'}">
-          					<a href="<%=request.getContextPath()%>/lesson/update?id=${lesson.id}&state=2">
-          					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;
+          					<a href="<%=request.getContextPath()%>/lesson/state?id=${lesson.id}&cstate=2">
+          					<span class="fui-play"></span>&nbsp;激活</a>&nbsp;&nbsp;
           					
           					<a href="javascript:deleteById('${lesson.id}','${lesson.name}')">
-          					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;
+          					<span class="fui-cross"></span>&nbsp;删除</a>&nbsp;&nbsp;
           				</c:if>
-          				<a href="javascript:view('${lesson.id}')"><span class="fui-new"></span>&nbsp;查看</a>
-          				<a href="javascript:viewTech('${lesson.id}')"><span class="fui-list"></span>&nbsp;课时</a>
+          				<a href="javascript:view('${lesson.id}')"><span class="fui-new"></span>&nbsp;查看</a>&nbsp;&nbsp;
+          				<c:if test="${lesson.state == '2'}">
+          					<a href="javascript:viewTech('${lesson.id}')"><span class="fui-list"></span>&nbsp;课时</a>
+          				</c:if>
           			</td>
           		</tr>
           	</c:forEach>

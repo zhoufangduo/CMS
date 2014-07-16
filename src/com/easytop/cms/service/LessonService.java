@@ -41,4 +41,8 @@ public class LessonService {
 		lessonDao.update(params);
 	}
 
+	public void updateState(Map<String, String> params) {
+		lessonDao.updateState(params);
+	}
+
 }

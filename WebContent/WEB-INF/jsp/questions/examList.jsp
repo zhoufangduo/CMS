@@ -81,11 +81,11 @@
 			for(var i = 0; i < selects.length; i ++){
 				if(type == 1){
 					html += '<label class="radio">'+
-						'<input type="radio" name="name$'+id+'" value="'+(i+1)+'" data-toggle="radio">'+selects[i]+'</label>';
+						'<input type="radio" name="'+id+'" value="'+(selects[i])+'" data-toggle="radio">'+selects[i]+'</label>';
 						
 				}else if(type == 2){
 					html += '<label class="checkbox">'+
-						'<input type="checkbox" name="name$'+id+'" value="'+(i+1)+'" data-toggle="checkbox">'+selects[i]+'</label>';
+						'<input type="checkbox" name="'+id+'" value="'+(selects[i])+'" data-toggle="checkbox">'+selects[i]+'</label>';
 				}
 			}
 			
@@ -112,6 +112,10 @@
 			    endDate= new Date(year,month,day,hours,minutes,seconds);
 			    intervalId = window.setInterval(loop, 1000);
 			}
+			
+			$("#subBtn").show();
+			$("#quests").show();
+			$("#startBtn").hide();
 		}
 		
 		function loop(){
@@ -124,7 +128,7 @@
 		    if(parseDate(now) >= parseDate(endDate)){
 		    	window.clearInterval(intervalId);
 		    	$("#time").html("00:00:00");
-		    	alert("交卷");
+		    	$("form").submit();
 		    }
 		}
 		
@@ -141,62 +145,77 @@
 		    return dateStr;
 		}
 		
+		$(function(){
+			document.oncontextmenu = function(){
+				return false;
+			};
+		});
 	</script>
 </head>
-<body>
-	<table border="0" width="100%">
-		<thead>
-			<tr class="tableBar" style="border: none;">
-				<td class="title">
-					<span class="fui-play"></span>&nbsp;考试卷模版
-				</td>
-				<td class="toolBar" colspan="2">
-					<input type="button" class="btn btn-sm btn-info" value="开&nbsp;始" onclick="toStart()">
-					&nbsp;&nbsp;
-					<input type="button" class="btn btn-sm btn-info" value="返&nbsp;回" onclick="toBack()">
-				</td>
-			</tr>
-			<tr>
-				<th colspan="3"><h6  align="center">${paper.name}考试卷</h6></th>
-			</tr>
-			<tr>
-				<th class="rowTex">考员姓名:<input type="text" class="qtsText" value="${sessionScope.user.name}"/></th>
-				<th class="rowTex">班级:<input type="text" class="qtsText" value="${sessionScope.user.className}"/></th>
-				<th class="rowTex">考试剩余时长:&nbsp;
-				<span id="time">
-					<c:choose>
-						<c:when test="${paper.time == '00:00:00'}">不限</c:when>
-						<c:otherwise>${paper.time}</c:otherwise>
-					</c:choose>
-				</span></th>
-			</tr>
-		</thead>
-	</table>
-	<div style="text-align: left;margin-top: 30px;padding-left: 30px;">
-		<c:forEach items="${requestScope.questions}" var="qstions" varStatus="st">
-			<div style="text-align: left;">
-				${st.index + 1}. ${qstions.context}
-				<p/>
-				<div class="form-group">
-					<c:if test="${qstions.type != 3}">
-						<span id="${st.index + 1}">
-							<script type="text/javascript">
-								showSelect(
-										'${st.index + 1}',
-										'${qstions.answer}',
-										'${qstions.type}',
-										'${qstions.id}');
-							</script>
+<body >
+	<form action="<%=request.getContextPath()%>/questions/submit" method="post">
+		<input type="hidden" name="paperId" value="${param.paperId}">
+		<table border="0" width="100%">
+			<thead>
+				<tr class="tableBar" style="border: none;">
+					<td class="title">
+						<span class="fui-play"></span>&nbsp;考试卷模版
+					</td>
+					<td class="toolBar" colspan="2">
+						<span id="subBtn" style="display: none;">
+							<input type="submit"  class="btn btn-sm btn-info" value="交&nbsp;卷">
+							&nbsp;&nbsp;
 						</span>
-					</c:if>
-					<c:if test="${qstions.type == 3}">
-						回答 :&nbsp; 
-						<textarea rows="1" class="anText" ></textarea>
-					</c:if>
+						<span  id="startBtn">
+							<input type="button" class="btn btn-sm btn-info" value="开&nbsp;始" onclick="toStart()">
+							&nbsp;&nbsp;
+						</span>
+						<input type="button" class="btn btn-sm btn-info" value="返&nbsp;回" onclick="toBack()">
+					</td>
+				</tr>
+				<tr>
+					<th colspan="3"><h6  align="center">${paper.name}考试卷</h6></th>
+				</tr>
+				<tr>
+					<th class="rowTex">考员姓名:<input type="text" class="qtsText" value="${sessionScope.user.name}"/></th>
+					<th class="rowTex">班级:<input type="text" class="qtsText" value="${sessionScope.user.className}"/></th>
+					<th class="rowTex">考试剩余时长:&nbsp;
+					<span id="time">
+						<c:choose>
+							<c:when test="${paper.time == '00:00:00'}">不限</c:when>
+							<c:otherwise>${paper.time}</c:otherwise>
+						</c:choose>
+					</span></th>
+				</tr>
+			</thead>
+		</table>
+		<div style="text-align: left;margin-top: 30px;padding-left: 30px;display: none;" id="quests">
+			<c:forEach items="${requestScope.questions}" var="qstions" varStatus="st">
+				<div style="text-align: left;">
+					${st.index + 1}. ${qstions.context}
+					<span style="margin-left: 30px;">[&nbsp;分数:${qstions.score}&nbsp;]</span>
+					<p/>
+					<div class="form-group">
+						<c:if test="${qstions.type != 3}">
+							<span id="${st.index + 1}">
+								<script type="text/javascript">
+									showSelect(
+											'${st.index + 1}',
+											'${qstions.answer}',
+											'${qstions.type}',
+											'${qstions.id}');
+								</script>
+							</span>
+						</c:if>
+						<c:if test="${qstions.type == 3}">
+							回答 :&nbsp; 
+							<textarea rows="1" class="anText" name="${qstions.id}"></textarea>
+						</c:if>
+					</div>
+					<br/>
 				</div>
-				<br/>
-			</div>
-		</c:forEach>
-	</div>
+			</c:forEach>
+		</div>
+	</form>
 </body>
 </html>

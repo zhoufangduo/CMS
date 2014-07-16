@@ -145,3 +145,53 @@ HTML,BODY{
 	text-align: right;
 	margin-right: 10px;
 }
+
+.table-bordered{
+	text-align: center;
+	font-size:16px;
+	font-weight: bold;
+	margin-top: 3px;
+}
+
+.table-bordered tr td{
+	text-align: center;
+	white-space:nowrap;	
+	text-overflow:ellipsis;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.table-bordered tr td:HOVER{
+	background-color: #FFFFCC;
+}
+
+.table-bordered tr th{
+	text-align: center;
+	font-size:14px;
+	height:20px;
+	background-color: #ECF0F1;
+}
+
+.wenked{
+	color: red;
+}
+
+.event{
+	font-size: 13px;
+	color: black;
+	font-weight: normal;
+}
+
+.now{
+	background-color: #3498DB;
+	color:white;
+	padding: 3px;
+	border-radius:3px;
+}
+.last{
+	color: #BDC3C7;
+}
+
+.next{
+	color: #BDC3C7;
+}

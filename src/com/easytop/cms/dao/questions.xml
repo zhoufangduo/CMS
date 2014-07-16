@@ -6,12 +6,12 @@
 	<typeAlias alias="questions" type="com.easytop.cms.bean.Questions"/>
 	
 	<insert id="add" parameterClass="map">
-		INSERT INTO QUESTIONS(`CONTEXT`,`TYPE`,`ANSWER`,`REPLY`,`PAPERID`)
-		VALUES(#context#,#type#,#answer#,#reply#,#paperId#)
+		INSERT INTO QUESTIONS(`CONTEXT`,`TYPE`,`ANSWER`,`REPLY`,`PAPERID`,`SCORE`)
+		VALUES(#context#,#type#,#answer#,#reply#,#paperId#,#score#)
 	</insert>
 	
 	<select id="list" parameterClass="map" resultClass="questions">
-		SELECT `ID`,`CONTEXT`,`TYPE`,`ANSWER`,`REPLY`,`PAPERID` FROM QUESTIONS
+		SELECT `ID`,`CONTEXT`,`TYPE`,`ANSWER`,`REPLY`,`PAPERID`,`SCORE` FROM QUESTIONS
 		WHERE `PAPERID` = #paperId#
 		ORDER BY ID DESC;
 	</select>
@@ -19,4 +19,18 @@
 	<delete id="deleteById" parameterClass="map">
 		DELETE FROM QUESTIONS WHERE ID = #id#
 	</delete>
+	
+	
+	<delete id="batchAdd" parameterClass="list">
+     	INSERT INTO USER_ANSWER(`USERNAME`,`QUESTIONSID`,`ANSWER`,`CREATETIME`) VALUES
+	    <iterate conjunction=",">
+	       (#[].username#,#[].questionsId#,#[].answer#,NOW())
+	    </iterate>
+    </delete>
+    
+    <insert id="addAnswerTotal" parameterClass="map">
+    	INSERT INTO PAPER_TOTAL(`PAPERID`,`USERNAME`,`CREATETIME`,`TOTAL`)
+    	VALUES(#paperId#,#username#,NOW(),#total#)
+    </insert>
+	
 </sqlMap>
