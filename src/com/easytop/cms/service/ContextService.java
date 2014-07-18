@@ -46,5 +46,8 @@ public class ContextService {
 	public void hidden(Map<String, String> params) {
 		ctxDao.hidden(params);
 	}
-	
+
+	public void updateSort(Map<String, String> params) {
+		ctxDao.updateSort(params);
+	}
 }

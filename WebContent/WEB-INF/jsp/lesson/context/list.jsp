@@ -22,6 +22,7 @@
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/bootstrap/js/google-code-prettify/prettify.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resource/simplemodal/js/jquery.simplemodal.js"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/application.js" type="text/javascript"></script>
+	<script src="<%=request.getContextPath()%>/resource/table/jquery.tablednd.js" type="text/javascript"></script>
 	<link href="<%=request.getContextPath()%>/resource/css/all.css" rel="stylesheet">
 	<script type="text/javascript">
 		var option = {
@@ -59,7 +60,7 @@
 		function toPlay(){
 			parent.showMenu();
 			parent.menuFrame.location = "<%=request.getContextPath()%>/context/menu?lessonId=${param.lessonId}";
-			window.location = "<%=request.getContextPath()%>/context/play?lessonId=${param.id}";
+			window.location = "<%=request.getContextPath()%>/context/play?lessonId=${param.lessonId}";
 		}
 		
 		function playAccept(id){
@@ -76,6 +77,32 @@
 			var url = "<%=request.getContextPath()%>/context/view?id="+ id +"&d="+new Date().getTime();
 			$('<div id="basic-modal-content"><iframe class="window" style="width:828px;"  id="addClazz" src="'+ url +'"></div>').modal(option);
 		}
+		
+		$(function(){
+			$("#table").tableDnD({
+				onDrop: function(table, row) {
+			      var rows = $(table).find("tbody").find("tr");
+			      
+			      var data = "";
+			      for(var i = 0; i < rows.length; i ++){
+			    	var id = $(rows[i]).attr("id");
+			    	data += id+"="+ (i +1)+"&";
+			      }
+			      
+			      $.ajax({
+			    	   type: "POST",
+			    	   url: "<%=request.getContextPath()%>/context/sort",
+			    	   data: data,
+			    	   error: function(XMLHttpRequest, textStatus, errorThrown){
+			    		   alert("状态:" + textStatus + ",信息:" + errorThrown);
+			    	   },
+			    	   success: function(msg){
+			    	      
+			    	   }
+			      });
+			    }
+			});
+		});
 		
 	</script>
 </head>
@@ -102,7 +129,7 @@
 			</tr>
 	    </table>
 	    <br/>
-		<table class="table table-hover" border="0" style="table-layout: fixed;overflow: hidden;">
+		<table class="table table-hover" id="table" border="0" style="table-layout: fixed;overflow: hidden;">
             <thead>
               <tr>
                 <th class="tlabel" width="8%">序列</th>
@@ -118,7 +145,7 @@
             	<c:forEach items="${requestScope.contexts}" var="context" varStatus="st">
 	            	<c:if test="${(context.hidden == 1 && context.creator == sessionScope.user.name)
 	            		|| context.hidden == 0}">
-	            		<tr id="${context.name}">
+	            		<tr id="${context.id}">
 	            			<td class="tlabel">${st.index + 1}</td>
 	            			<td class="tlabel">${context.name}</td>
 	            			<td class="tlabel">${context.tempName}</td>

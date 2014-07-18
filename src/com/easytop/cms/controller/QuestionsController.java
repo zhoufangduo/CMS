@@ -124,8 +124,8 @@ public class QuestionsController extends HSSFController {
 	}
 	
 	@RequestMapping("submit")
-	public void submit(@RequestParam Map<String, String> params,
-			HttpServletRequest request, HttpServletResponse response){
+	public String submit(final ModelMap model,@RequestParam Map<String, String> params,
+			HttpServletRequest request){
 		
 		setWebContext(request, response);
 		
@@ -164,10 +164,24 @@ public class QuestionsController extends HSSFController {
 		newParams.put("username", getUser().getUsername());
 		
 		qstionsService.addUserAnswer(list, newParams);
-
+		
+		
+		return examResult(model, params.get("paperId"));
 	}
 	
 	
+	public String examResult(final ModelMap model, String paperId) {
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("paperId", paperId);
+		params.put("username", getUser().getUsername());
+		
+		/*List<Questions> questions = qstionsService.examResult(params);
+		model.addAttribute("questions", questions);*/
+		
+		return getContext("examResult");
+	}
+
 	@RequestMapping("download")
 	public void downloadTempl(HttpServletRequest request, HttpServletResponse response){
 		FileUtil.downloadTemplate(response, "问题问卷.xls", "questions.xls");

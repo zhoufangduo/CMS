@@ -31,4 +31,8 @@ public class QuestionsDao  extends BaseDaoSupport{
 		insert("easytop.cms.questions.addAnswerTotal", params);
 	}
 
+	public List<Questions> examResult(Map<String, String> params) {
+		return list("easytop.cms.questions.examResult", params);
+	}
+
 }

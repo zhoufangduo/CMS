@@ -32,5 +32,11 @@
     	INSERT INTO PAPER_TOTAL(`PAPERID`,`USERNAME`,`CREATETIME`,`TOTAL`)
     	VALUES(#paperId#,#username#,NOW(),#total#)
     </insert>
+    
+    <select id="examResult"  parameterClass="map"  resultClass="questions" >
+    	SELECT Q.`ID`,Q.`CONTEXT`,Q.`TYPE`,Q.`ANSWER`,Q.`SCORE`,US.`USERNAME`, US.`ANSWER` AS userAnser, US.CREATETIME FROM 
+    	 QUESTIONS Q LEFT OUTER JOIN USER_ANSWER US ON Q.ID = US.QUESTIONSID
+		WHERE Q.PAPERID = #paperId# AND Q.USERNAME=#username#
+    </select>
 	
 </sqlMap>

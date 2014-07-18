@@ -10,11 +10,17 @@ public class Questions {
 
 	private String answer;
 
+	private String userAnser;
+
 	private String paperId;
 
 	private String reply;
 
 	private int score;
+
+	private String createTime;
+
+	private String username;
 
 	public String getId() {
 		return id;
@@ -70,6 +76,30 @@ public class Questions {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public String getUserAnser() {
+		return userAnser;
+	}
+
+	public void setUserAnser(String userAnser) {
+		this.userAnser = userAnser;
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

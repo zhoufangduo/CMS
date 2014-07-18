@@ -34,4 +34,8 @@ public class QuestionsService {
 		qstionsDao.addUserAnswer(list);
 		qstionsDao.addUserScoreTotal(newParams);
 	}
+
+	public List<Questions> examResult(Map<String, String> params) {
+		return qstionsDao.examResult(params);
+	}
 }

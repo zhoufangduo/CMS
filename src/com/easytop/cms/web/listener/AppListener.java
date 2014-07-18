@@ -18,11 +18,18 @@ public final class AppListener implements ServletContextListener {
 	
 	private static String OFFICE_PORT = "officePort";
 	
-	public void contextInitialized(ServletContextEvent event) {
+	public void contextInitialized(final ServletContextEvent event) {
 		
-		initOffice(event);
-		
-		initFetionSender(event);
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				initOffice(event);
+				
+				initFetionSender(event);
+				
+			}
+		}).start();
 		
 	}
 

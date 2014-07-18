@@ -22,7 +22,7 @@ form{
 .pub_footer dl {
     border-top: 1px solid #CCCCCC;
     overflow: hidden;
-    padding: 0 0 3px;
+    padding: 0 0 0px;
 }
 .pub_footer dd a {
     color: #333333;

@@ -159,7 +159,7 @@
 			<thead>
 				<tr class="tableBar" style="border: none;">
 					<td class="title">
-						<span class="fui-play"></span>&nbsp;考试卷模版
+						<span class="fui-play"></span>&nbsp;考试卷
 					</td>
 					<td class="toolBar" colspan="2">
 						<span id="subBtn" style="display: none;">

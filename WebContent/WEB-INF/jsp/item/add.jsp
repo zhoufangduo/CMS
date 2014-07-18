@@ -60,6 +60,11 @@
 				}
 			});
 		});
+		
+		function selectFileType(obj){
+			$("#filePath").html("&nbsp;&nbsp;"+$(obj).val());
+		}
+		
 	</script>
 </head>
 <body>
@@ -80,8 +85,14 @@
 						<div class="form-group">项目源码</div>
 					</td>
 					<td width="35%">
-						<div class="form-group">
-							<input type="file" name="uploadFile"  placeholder="请输入选择上传源码压缩包 " />
+						<div class="form-group" style="text-align: left;">
+							<input type="button" class="btn btn-sm btn-success" value="上传文件" 
+		   	   				onclick="$('#uploadFile').click()" >
+		   	   				
+							<input type="file" name="uploadFile" id="uploadFile" style="display: none;"   placeholder="请输入选择上传源码压缩包 "
+							onchange="selectFileType(this)" />
+							
+			   	   			<span id="filePath"></span>
 						</div>
 					</td>
 				</tr>

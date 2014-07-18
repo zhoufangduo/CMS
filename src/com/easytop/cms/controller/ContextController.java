@@ -278,6 +278,20 @@ public class ContextController extends BaseController {
 		return list(model, params);
 	}
 	
+	@RequestMapping("sort")
+	public void sort(@RequestParam Map<String, String> params,
+			HttpServletRequest request, HttpServletResponse response){
+		
+		this.setWebContext(request, response);
+		
+		try {
+			ctxtService.updateSort(params);
+			write(TRUE);
+		} catch (Exception e) {
+			logger.warn(e.getMessage(), e);
+			write(FALSE);
+		}
+	}
 
 	
 	private void uploadConverFile(Object uploadFile,
