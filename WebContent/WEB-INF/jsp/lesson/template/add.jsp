@@ -12,14 +12,10 @@
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-radio.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resource/flat-ui/js/flatui-radio.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-switch.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resource/flat-ui/js/bootstrap-select.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.tagsinput.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.placeholder.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/js/jquery.stacktable.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/resource/flat-ui/bootstrap/js/google-code-prettify/prettify.js" type="text/javascript"></script>
-<script src="<%=request.getContextPath()%>/resource/flat-ui/js/application.js" type="text/javascript"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resource/validate/jquery.validate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resource/validate/validate_form.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resource/validate/messages_zh.js"></script>
@@ -27,31 +23,23 @@
 <link href="<%=request.getContextPath()%>/resource/css/all.css" rel="stylesheet">
 <script type="text/javascript">
 	$(function(){
-		///$("#type").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
-		
 		var validator = $("#addTemplForm").validate({
 			success:success,
 			ignore: "",
-			errorPlacement: showErrorTab,
+			errorPlacement: showErrorPlacement,
 			rules:{
 				"name":{
+					required: true
+				},
+				"type":{
 					required: true
 				}
 			},
 			messages:{
-				"name": "课时名称不能为空!"
+				"name": "课时名称不能为空!",
+				"type": "类型不能为空"
 			},
 			submitHandler: function(form) {
-				
-				var types = $("[name=type]").filter("input:checked");
-				var values = "";
-				for(var i = 0; i < types.length; i ++){
-					values += $(types[i]).val() + ";";
-				}
-				
-				values = values.substr(0, values.length - 1);
-				$("[name=type]").val(values);
-				
 				
 				$(form).ajaxSubmit({
 					dataType	: "json",

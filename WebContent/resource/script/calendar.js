@@ -203,11 +203,8 @@ function toNexMonth(){
 }
 
 $(function(){
-	
 	show();
-	
 	$("td").bind("click",function(e){
-		
-		alert($(e.target).val());
+		var date = $(e.target).val();
 	});
 });

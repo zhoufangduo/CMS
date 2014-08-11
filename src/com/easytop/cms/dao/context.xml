@@ -5,14 +5,34 @@
 	<typeAlias alias="context" type="com.easytop.cms.bean.Context"/>
 
 	<insert id="add" parameterClass="map">
-		INSERT INTO LESSON_CONTEXT(`LESSONID`, `TEMPID`, `NAME`, `CONTEXT`,`SOURCE`,`NEWFILENAME`, `CREATETIME`, `CREATOR`)
-		 VALUES(#lessonId#, #tempId#, #name#, #context#,#source#,#newFileName#, NOW(), #creator#)
+		INSERT INTO LESSON_CONTEXT(`LESSONID`, `TEMPID`, `NAME`, `CONTEXT`,`SOURCE`,`NEWFILENAME`, `CREATETIME`, `CREATOR`, `SORT`)
+		 VALUES(#lessonId#, #tempId#, #name#, #context#,#source#,#newFileName#, NOW(), #creator#,#sort#)
 	</insert>
+	
+	<select id="getMaxSort" parameterClass="map" resultClass="int">
+		SELECT MAX(`SORT`) FROM LESSON_CONTEXT WHERE `LESSONID` = #lessonId#
+	</select>
+	
+	<select id="getMenu" parameterClass="map" resultClass="context">
+		SELECT C.`ID`, C.`LESSONID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`,C.`NEWFILENAME`, C.`CREATETIME`, C.`CREATOR`,C.`HIDDEN`,
+		T.`TYPE`, T.`NAME` AS TEMPNAME FROM LESSON_CONTEXT C  LEFT OUTER JOIN LESSON_TEMPLATE T ON C.`TEMPID` = T.`ID`
+		WHERE `LESSONID` = #lessonId# ORDER BY C.`SORT`
+	</select>
 	
 	<select id="list" parameterClass="map" resultClass="context">
 		SELECT C.`ID`, C.`LESSONID`, C.`TEMPID`, C.`NAME`, C.`CONTEXT`,C.`SOURCE`,C.`NEWFILENAME`, C.`CREATETIME`, C.`CREATOR`,C.`HIDDEN`,
 		T.`TYPE`, T.`NAME` AS TEMPNAME FROM LESSON_CONTEXT C  LEFT OUTER JOIN LESSON_TEMPLATE T ON C.`TEMPID` = T.`ID`
 		WHERE `LESSONID` = #lessonId# ORDER BY C.`SORT`
+		<dynamic prepend="LIMIT">
+			<isNotEmpty property="start" prepend="," >
+				#start#,#pageSize#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getTotal" parameterClass="map" resultClass="int">
+		select count(*) FROM LESSON_CONTEXT C  LEFT OUTER JOIN LESSON_TEMPLATE T ON C.`TEMPID` = T.`ID`
+		WHERE `LESSONID` = #lessonId# 
 	</select>
 	
 	<delete id="deleteById" parameterClass="map">

@@ -97,7 +97,7 @@
 			    		   alert("状态:" + textStatus + ",信息:" + errorThrown);
 			    	   },
 			    	   success: function(msg){
-			    	      
+			    	      window.location.reload();
 			    	   }
 			      });
 			    }
@@ -176,6 +176,13 @@
 	            		</tr>
 	            	</c:if>
             	</c:forEach>
+            	<tr>
+              		<td colspan="7">
+              			<div class="pageBar">
+				        	 <e:page page="${page}" url="../context/list"  params="lessonId=${param.lessonId}"></e:page>
+				        </div>
+              		</td>
+              	</tr>
             </tbody>
         </table>
 	</form>

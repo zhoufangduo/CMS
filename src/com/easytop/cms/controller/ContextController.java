@@ -1,6 +1,7 @@
 package com.easytop.cms.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.easytop.cms.bean.Context;
+import com.easytop.cms.constant.ConstantList;
 import com.easytop.cms.service.ContextService;
 import com.easytop.cms.service.ItemService;
 import com.easytop.cms.service.PaperService;
@@ -26,6 +29,7 @@ import com.easytop.cms.utils.FileUtil;
 import com.easytop.cms.utils.PathTools;
 import com.easytop.cms.utils.PropertyUtil;
 import com.easytop.cms.utils.converter.OfficeConverterUtils;
+import com.easytop.cms.web.Page;
 
 @Controller
 @RequestMapping("context")
@@ -51,6 +55,8 @@ public class ContextController extends BaseController {
 	
 	@RequestMapping("list")
 	public String list(final ModelMap model, @RequestParam Map<String, String> params){
+		
+		model.addAttribute("page", new Page(ctxtService.getTotal(params), params)) ;
 		
 		List<Context> contexts = ctxtService.list(params);
 		
@@ -95,11 +101,16 @@ public class ContextController extends BaseController {
 		write("{\"result\":\""+result+"\"}");
 	}
 
-	private boolean getConverType(String type) {
+	private boolean getConverType(String type, boolean isPlay) {
 		
 		String converFormat = PropertyUtil.get("converFormat");
 		
-		if (converFormat.equals(type)) {
+		if (converFormat.equals("."+type)) {
+			
+			if (isPlay) {
+				return true;
+			}
+			
 			return false;
 		}
 		
@@ -132,31 +143,34 @@ public class ContextController extends BaseController {
 			
 			String suffix = FileUtil.getFileFormat(context.getSource());
 			
-			if (context != null && getConverType(suffix)) {
+			if (context != null && getConverType(suffix, true)) {
 				
 				return getContext("play");
 			}
-			else if ("5".equals(context.getType())) {
+			
+			else if (ConstantList.LCTYPE_MEDIA.equals(context.getType())) {
 				return getContext("media");
 			}
-			else if ("18".equals(context.getType())) {
+			
+			else if (ConstantList.LCTYPE_ALL.equals(context.getType())) {
 				return getContext("all");
 			}
 			
-			if ("10".equals(context.getType())) {
+			if (ConstantList.LCTYPE_PAPERS.equals(context.getType())) {
 				model.addAttribute("papers", paperService.list(params));
 			}
+			
 		}
 		
-		
 		return getContext("html");
-		
 	}
 	
 	@RequestMapping("menu")
 	public String toMenu(final ModelMap model, @RequestParam Map<String, String> params){
 		
-		list(model, params);
+		List<Context> contexts = ctxtService.list(params);
+		
+		model.addAttribute("contexts", contexts);
 		
 		return getContext("menu");
 	}
@@ -175,6 +189,7 @@ public class ContextController extends BaseController {
 			if (StringUtils.isNotEmpty(fileName)) {
 				
 				String newFileName = context.getSource();
+				
 				if (StringUtils.isNotEmpty(newFileName)) {
 					newFileName = new String(newFileName.getBytes("UTF-8"), "ISO-8859-1");
 				}else {
@@ -298,11 +313,13 @@ public class ContextController extends BaseController {
 			Map<String, String> params, HttpServletRequest request) {
 		MultipartFile file = (MultipartFile) uploadFile;
 		
-		String fileName = FileUtil.writeTechFile(file, file.getOriginalFilename());
+		String originalFilename = file.getOriginalFilename();
+		
+		String fileName = FileUtil.writeTechFile(file, originalFilename);
 		
 		params.put("newFileName", new File(fileName).getName());
 		
-		boolean converType = getConverType(FileUtil.getFileFormat(fileName));
+		boolean converType = getConverType(FileUtil.getFileFormat(fileName), false);
 		
 		if (converType) {
 			
@@ -310,12 +327,28 @@ public class ContextController extends BaseController {
 			
 			params.put("context", context);
 			
-			params.put("source", file.getOriginalFilename());
-		}else {
+		}else if (".java".equalsIgnoreCase(
+			FileUtil.getFileType(originalFilename))) {
+			try {
+				
+				String javaCode = FileUtils.readFileToString(new File(PathTools.getTechPath(fileName)),"UTF-8");
+				javaCode = replaceChart(javaCode);
+				params.put("context", javaCode);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
+		}else {
 			params.put("context", fileName);
-			params.put("source", file.getOriginalFilename());
 		}
+		
+		params.put("source", originalFilename);
+	}
+
+	private String replaceChart(String javaCode) {
+		javaCode = javaCode.replace("<", "&lt;");
+		javaCode = javaCode.replace(">", "&gt;");
+		return javaCode;
 	}
 
 }

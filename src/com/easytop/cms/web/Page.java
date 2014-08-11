@@ -35,7 +35,9 @@ public class Page {
 	}
 
 	public Page(int total, Map<String, String> params) {
+		
 		this(total, params.get("page.pageNo"), params.get("page.pageSize"));
+		
 		params.put("start", String.valueOf(this.start));
 		params.put("pageSize", String.valueOf(this.pageSize));
 	}

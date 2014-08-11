@@ -6,10 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.orm.ibatis.SqlMapClientCallback;
 import org.springframework.stereotype.Repository;
 
 import com.easytop.cms.bean.Context;
+import com.easytop.cms.web.QueryMapUtils;
 import com.ibatis.sqlmap.client.SqlMapExecutor;
 
 @SuppressWarnings("deprecation")
@@ -22,7 +24,7 @@ public class ContextDao extends BaseDaoSupport{
 
 	public List<Context> list(Map<String, String> params) {
 		
-		return list("easytop.cms.context.list", params);
+		return list("easytop.cms.context.list", QueryMapUtils.getCastParams(params));
 	}
 
 	public void deleteById(Map<String, String> params) {
@@ -66,5 +68,13 @@ public class ContextDao extends BaseDaoSupport{
 			     return null;  
 			 } 
 		});
+	}
+
+	public int getMaxSort(Map<String, String> params) {
+		return (Integer) ObjectUtils.defaultIfNull(getTotal("easytop.cms.context.getMaxSort", params), 0);
+	}
+
+	public int getTotal(Map<String, String> params) {
+		return getTotal("easytop.cms.context.getTotal", params);
 	}
 }

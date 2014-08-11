@@ -18,6 +18,9 @@ public class ContextService {
 	private ContextDao ctxDao;
 
 	public void add(Map<String, String> params) {
+		
+		int sort = ctxDao.getMaxSort(params);
+		params.put("sort", String.valueOf(sort + 1));
 		ctxDao.add(params);
 	}
 
@@ -49,5 +52,9 @@ public class ContextService {
 
 	public void updateSort(Map<String, String> params) {
 		ctxDao.updateSort(params);
+	}
+
+	public int getTotal(Map<String, String> params) {
+		return ctxDao.getTotal(params);
 	}
 }

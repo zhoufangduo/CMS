@@ -24,6 +24,37 @@
 	<script src="<%=request.getContextPath()%>/resource/simplemodal/js/jquery.simplemodal.js"></script>
 	<script src="<%=request.getContextPath()%>/resource/flat-ui/js/application.js" type="text/javascript"></script>
 	<link href="<%=request.getContextPath()%>/resource/css/all.css" rel="stylesheet">
+	<style type="text/css">
+		.time{
+			border-radius:6px;
+    		border: 2px solid #BDC3C7;
+		}
+		html,body{
+			margin: auto;
+		}
+		
+		.qtsText{
+			border-left: none;
+			border-right:none;
+			border-top:none;
+			border-bottom: solid black 1px;
+			width: 180px;
+			padding-left: 10px;
+			background-color: white;
+		} 
+		
+		.anText{
+			border: none;
+			border-bottom: solid black 1px;
+			width: 70%;
+			padding-left: 10px;
+			font-size: 13px;
+		} 
+		
+		.rowTex{
+			text-align: center;
+		}		
+	</style>
 	<script type="text/javascript">
 		function showSelect(obj,value,type,id){
 			var selects = value.split(";");
@@ -80,31 +111,31 @@
 		</thead>
 	</table>
 	<div style="text-align: left;margin-top: 30px;padding-left: 30px;display: none;" id="quests">
-			<c:forEach items="${requestScope.questions}" var="qstions" varStatus="st">
-				<div style="text-align: left;">
-					${st.index + 1}. ${qstions.context}
-					<span style="margin-left: 30px;">[&nbsp;分数:${qstions.score}&nbsp;]</span>
-					<p/>
-					<div class="form-group">
-						<c:if test="${qstions.type != 3}">
-							<span id="${st.index + 1}">
-								<script type="text/javascript">
-									showSelect(
-											'${st.index + 1}',
-											'${qstions.answer}',
-											'${qstions.type}',
-											'${qstions.id}');
-								</script>
-							</span>
-						</c:if>
-						<c:if test="${qstions.type == 3}">
-							回答 :&nbsp; 
-							<textarea rows="1" class="anText" name="${qstions.id}"></textarea>
-						</c:if>
-					</div>
-					<br/>
+		<c:forEach items="${requestScope.questions}" var="qstions" varStatus="st">
+			<div style="text-align: left;">
+				${st.index + 1}. ${qstions.context}
+				<span style="margin-left: 30px;">[&nbsp;分数:${qstions.score}&nbsp;]</span>
+				<p/>
+				<div class="form-group">
+					<c:if test="${qstions.type != 3}">
+						<span id="${st.index + 1}">
+							<script type="text/javascript">
+								showSelect(
+										'${st.index + 1}',
+										'${qstions.answer}',
+										'${qstions.type}',
+										'${qstions.id}');
+							</script>
+						</span>
+					</c:if>
+					<c:if test="${qstions.type == 3}">
+						回答 :&nbsp; 
+						<textarea rows="1" class="anText" name="${qstions.id}">${qstions.context}</textarea>
+					</c:if>
 				</div>
-			</c:forEach>
-		</div>
+				<br/>
+			</div>
+		</c:forEach>
+	</div>
 </body>
 </html>

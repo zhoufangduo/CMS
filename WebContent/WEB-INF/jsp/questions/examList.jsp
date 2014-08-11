@@ -28,17 +28,18 @@
 			border-radius:6px;
     		border: 2px solid #BDC3C7;
 		}
-	</style>
-	<style type="text/css">
 		html,body{
 			margin: auto;
 		}
 		
 		.qtsText{
-			border: none;
+			border-left: none;
+			border-right:none;
+			border-top:none;
 			border-bottom: solid black 1px;
 			width: 180px;
 			padding-left: 10px;
+			background-color: white;
 		} 
 		
 		.anText{
@@ -53,6 +54,7 @@
 			text-align: center;
 		}		
 	</style>
+	
 	<script type="text/javascript">
 		var option = {
 				opacity:20,
@@ -146,9 +148,9 @@
 		}
 		
 		$(function(){
-			document.oncontextmenu = function(){
+			/* document.oncontextmenu = function(){
 				return false;
-			};
+			}; */
 		});
 	</script>
 </head>

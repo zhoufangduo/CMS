@@ -132,10 +132,10 @@ public class PaginableTag extends TagSupport {
 			
 			addURL(buffer);
 			
-			buffer.append("action += '?page.pageNo =' +pageNo;\n");
+			buffer.append("action += '?page.pageNo='+pageNo;\n");
 			buffer.append("action += '&page.pageSize=").append(pageSize).append("'\n");
 			if (StringUtils.isNotEmpty(params)) {
-				buffer.append("action += '&params=").append(params).append("'\n");
+				buffer.append("action += '&").append(params).append("'\n");
 			}
 			
 			buffer.append("window.location = action;\n");

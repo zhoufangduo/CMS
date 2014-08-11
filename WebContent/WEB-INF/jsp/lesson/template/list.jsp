@@ -110,13 +110,6 @@
             			</td>
             		</tr>
             	</c:forEach>
-            	<tr>
-	           		<td colspan="8">
-	           			<div class="pageBar">
-		        	 		<e:page page="${page}" formId="queryForm"></e:page>
-		       			 </div>
-	           		</td>
-	           	</tr>
             </tbody>
 	     </table>
 	</form>
